@@ -1,7 +1,7 @@
+import { GoogleAuthProvider, getAuth, signInWithCredential } from '@react-native-firebase/auth';
 import {
   GoogleOneTapSignIn,
 } from "@react-native-google-signin/google-signin";
-import { GoogleAuthProvider, getAuth, signInWithCredential } from '@react-native-firebase/auth';
 
 const useLoginWithGoogle = () => {
 
@@ -15,13 +15,15 @@ const useLoginWithGoogle = () => {
       const signInResponse = await GoogleOneTapSignIn.signIn();
       if (signInResponse.type === 'success') {
         console.log('Google Sign In successful:', signInResponse);
+        const googleCredential = GoogleAuthProvider.credential(signInResponse.data.idToken);
+        await signInWithCredential(getAuth(), googleCredential);
         return signInResponse.data;
       } else if (signInResponse.type === 'noSavedCredentialFound') {
         const createResponse = await GoogleOneTapSignIn.createAccount();
         if (createResponse.type === 'success') {
           console.log('Account created successfully:', createResponse);
           const googleCredential = GoogleAuthProvider.credential(createResponse.data.idToken);
-          signInWithCredential(getAuth(), googleCredential);
+          await signInWithCredential(getAuth(), googleCredential);
           return createResponse.data;
         }
       }
@@ -31,7 +33,7 @@ const useLoginWithGoogle = () => {
     }
   };
 
-  const signOut = async (): Promise<void> => {
+  const revokeAccess = async (): Promise<void> => {
     try {
       await GoogleOneTapSignIn.revokeAccess("");
     } catch (error) {
@@ -42,7 +44,7 @@ const useLoginWithGoogle = () => {
 
   return {
     signIn,
-    signOut,
+    revokeAccess,
   };
 
 }
