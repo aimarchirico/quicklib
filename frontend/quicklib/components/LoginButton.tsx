@@ -1,28 +1,26 @@
+import type { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import { getAuth, signOut } from '@react-native-firebase/auth';
 import React, { useState } from 'react';
 import { ActivityIndicator, Button, View } from 'react-native';
-import useLoginWithGoogle from '../hooks/useLoginWithGoogle';
+import useLoginWithGoogle from '../hooks/useLoginWithGoogle'; 
 
-const LoginButton = () => {
-  const { signIn, signOut } = useLoginWithGoogle();
+type Props = {
+  user: FirebaseAuthTypes.User | null;
+};
+
+const LoginButton = ({ user }: Props) => {
   const [loading, setLoading] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const { signIn, revokeAccess } = useLoginWithGoogle();
 
-  const handleSignIn = async () => {
+  const handlePress = async () => {
+    const auth = getAuth();
     setLoading(true);
     try {
-      await signIn();
-      setLoggedIn(true);
-    } catch (e) {
-      // handle error if needed
-    }
-    setLoading(false);
-  };
-
-  const handleSignOut = async () => {
-    setLoading(true);
-    try {
-      await signOut();
-      setLoggedIn(false);
+      if (user) {
+        await signOut(auth);
+      } else {
+        await signIn()
+      }
     } catch (e) {
       // handle error if needed
     }
@@ -35,11 +33,10 @@ const LoginButton = () => {
 
   return (
     <View>
-      {loggedIn ? (
-        <Button title="Sign Out" onPress={handleSignOut} />
-      ) : (
-        <Button title="Sign In with Google" onPress={handleSignIn} />
-      )}
+      <Button
+        title={user ? 'Sign out' : 'Sign in'}
+        onPress={handlePress}
+      />
     </View>
   );
 };
