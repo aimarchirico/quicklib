@@ -1,7 +1,7 @@
 services:
   kotlinapp:
     container_name: kotlinapp
-    image: chirico/kotlinapp:latest
+    image: aimarchirico/kotlinapp:latest
     build:
         context: .
         dockerfile: Dockerfile
