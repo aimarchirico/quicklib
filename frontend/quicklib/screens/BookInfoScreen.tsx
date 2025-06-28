@@ -1,9 +1,10 @@
 import { bookApi } from '@/api/ApiClient';
 import { BookResponse } from '@/api/generated';
+import SafeAreaWrapper from '@/components/SafeAreaWrapper';
 import { Colors } from '@/globals/colors';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Button, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Button, StyleSheet, Text } from 'react-native';
 
 const BookInfoScreen = () => {
   const { id } = useLocalSearchParams();
@@ -29,15 +30,23 @@ const BookInfoScreen = () => {
   }, [id]);
 
   if (loading) {
-    return <ActivityIndicator size="large" color={Colors.brand.green} />;
+    return (
+      <SafeAreaWrapper>
+        <ActivityIndicator size="large" color={Colors.brand.green} />
+      </SafeAreaWrapper>
+    );
   }
 
   if (!book) {
-    return <Text style={styles.error}>Book not found</Text>;
+    return (
+      <SafeAreaWrapper>
+        <Text style={styles.error}>Book not found</Text>
+      </SafeAreaWrapper>
+    );
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaWrapper style={styles.container}>
       <Text style={styles.title}>{book.title}</Text>
       <Text style={styles.author}>{book.author}</Text>
       <Button 
@@ -45,7 +54,7 @@ const BookInfoScreen = () => {
         onPress={() => router.push({ pathname: './book/bookInfo', params: { id: book.id } })} 
         color={Colors.brand.green} 
       />
-    </View>
+    </SafeAreaWrapper>
   );
 };
 
