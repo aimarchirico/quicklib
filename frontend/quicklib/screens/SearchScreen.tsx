@@ -1,8 +1,9 @@
 import BookList from '@/components/BookList';
+import SafeAreaWrapper from '@/components/SafeAreaWrapper';
 import { Colors } from '@/globals/colors';
 import { useBooks } from '@/hooks/useBooks';
 import React, { useState } from 'react';
-import { ActivityIndicator, StyleSheet, TextInput, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, TextInput } from 'react-native';
 
 const SearchScreen = () => {
   const { books, loading } = useBooks();
@@ -17,7 +18,7 @@ const SearchScreen = () => {
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaWrapper style={styles.container}>
       <TextInput
         style={styles.searchInput}
         placeholder="Search by title, author, series, or language"
@@ -30,7 +31,7 @@ const SearchScreen = () => {
       ) : (
         <BookList books={filteredBooks} />
       )}
-    </View>
+    </SafeAreaWrapper>
   );
 };
 
