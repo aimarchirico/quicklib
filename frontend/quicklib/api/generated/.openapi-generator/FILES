@@ -1,6 +1,5 @@
 .gitignore
 .npmignore
-.openapi-generator-ignore
 api.ts
 base.ts
 common.ts
@@ -10,6 +9,5 @@ docs/BookRequest.md
 docs/BookResponse.md
 docs/TestAuthControllerApi.md
 docs/UserControllerApi.md
-docs/UserResponse.md
 git_push.sh
 index.ts
