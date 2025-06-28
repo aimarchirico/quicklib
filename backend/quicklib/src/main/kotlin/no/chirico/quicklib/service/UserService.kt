@@ -16,11 +16,10 @@ class UserService(
     private fun getFirebaseUid(): String =
         SecurityContextHolder.getContext().authentication.principal as String
 
-    fun getOrCreateUser(): UserResponse {
+    fun getOrCreateUserEntity(): UserEntity {
         val firebaseUid = getFirebaseUid()
-        val entity = userRepository.findByFirebaseUid(firebaseUid)
+        return userRepository.findByFirebaseUid(firebaseUid)
             ?: userRepository.save(UserEntity(firebaseUid = firebaseUid))
-        return userMapper.toDto(entity)
     }
 
     fun deleteUser(): Boolean {
@@ -31,4 +30,6 @@ class UserService(
         } ?: false
     }
     
+
+
 }
