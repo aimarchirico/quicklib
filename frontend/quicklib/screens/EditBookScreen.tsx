@@ -1,11 +1,12 @@
+import SafeAreaWrapper from '@/components/SafeAreaWrapper';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 
 const EditBookScreen = () => {
   return (
-    <View style={styles.container}>
+    <SafeAreaWrapper style={styles.container}>
       <Text style={styles.text}>Edit Book Screen</Text>
-    </View>
+    </SafeAreaWrapper>
   );
 };
 
