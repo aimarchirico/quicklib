@@ -1,11 +1,12 @@
 import { bookApi } from '@/api/ApiClient';
 import { BookRequest, BookRequestCollectionEnum } from '@/api/generated';
+import SafeAreaWrapper from '@/components/SafeAreaWrapper';
 import { Colors } from '@/globals/colors';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { router } from 'expo-router';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Button, StyleSheet, Text, TextInput } from 'react-native';
 import { z } from 'zod';
 
 const schema = z.object({
@@ -35,8 +36,18 @@ const AddBookScreen = () => {
     }
   };
 
+  useEffect(() => {
+    bookApi.getBookById(2)
+      .then(response => {
+        console.log('Book fetched successfully:', response.data);
+      }).catch(error => {
+        console.error('Error fetching book:', error);
+      })
+  }, []);
+
+
   return (
-    <View style={styles.container}>
+    <SafeAreaWrapper style={styles.container}>
       <Text style={styles.label}>Title</Text>
       <Controller
         control={control}
@@ -83,7 +94,7 @@ const AddBookScreen = () => {
       {errors.language && <Text style={styles.error}>{errors.language.message}</Text>}
 
       <Button title="Add Book" onPress={handleSubmit(onSubmit)} color={Colors.brand.green} />
-    </View>
+    </SafeAreaWrapper>
   );
 };
 
