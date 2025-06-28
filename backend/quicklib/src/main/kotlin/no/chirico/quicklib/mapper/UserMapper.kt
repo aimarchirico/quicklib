@@ -8,9 +8,7 @@ import org.mapstruct.MappingTarget
 
 @Mapper(componentModel = "spring")
 interface UserMapper {
-
     fun toEntity(request: UserRequest): UserEntity
     fun toDto(entity: UserEntity): UserResponse
-
     fun updateEntity(request: UserRequest, @MappingTarget entity: UserEntity)
 }
