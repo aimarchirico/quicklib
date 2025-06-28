@@ -1,7 +1,7 @@
+import { getAuth, signOut } from "@react-native-firebase/auth";
 import React, { useState } from "react";
 import { ActivityIndicator, Button, View } from "react-native";
 import useLoginWithGoogle from "../hooks/useLoginWithGoogle";
-import { getAuth, signOut } from "@react-native-firebase/auth";
 
 const RevokeAccessButton = () => {
   const { revokeAccess } = useLoginWithGoogle();

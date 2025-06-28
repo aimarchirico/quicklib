@@ -2,7 +2,7 @@ import type { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { getAuth, signOut } from '@react-native-firebase/auth';
 import React, { useState } from 'react';
 import { ActivityIndicator, Button, View } from 'react-native';
-import useLoginWithGoogle from '../hooks/useLoginWithGoogle'; 
+import useLoginWithGoogle from '../hooks/useLoginWithGoogle';
 
 type Props = {
   user: FirebaseAuthTypes.User | null;
