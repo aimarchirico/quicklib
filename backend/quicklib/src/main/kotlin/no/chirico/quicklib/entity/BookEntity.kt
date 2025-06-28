@@ -13,7 +13,7 @@ data class BookEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    val user: UserEntity,
+    val user: UserEntity? = null,
 
     val title: String,
     val author: String,
@@ -25,7 +25,7 @@ data class BookEntity(
     @Enumerated(EnumType.STRING)
     val collection: BookCollection,
 
-    val timestamp: Instant = Instant.now()
+    val timestamp: Instant? = Instant.now()
 )
 
 enum class BookCollection {
