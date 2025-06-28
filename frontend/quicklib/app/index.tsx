@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import LoginButton from "../components/LoginButton";
 import RevokeAccessButton from "../components/RevokeAccessButton";
+import TestAuthButton from "@/components/TestAuthButton";
 
 export default function Index() {
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
@@ -22,6 +23,7 @@ export default function Index() {
       }}
     >
       <Text>Edit app/index.tsx to edit this screen.</Text>
+      <TestAuthButton/>
       <LoginButton user={user} />
       <RevokeAccessButton />
       {user && (
