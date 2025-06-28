@@ -1,25 +1,34 @@
 import { BookResponseCollectionEnum } from '@/api/generated';
 import BookList from '@/components/BookList';
+import SafeAreaWrapper from '@/components/SafeAreaWrapper';
 import { Colors } from '@/globals/colors';
 import { useBooks } from '@/hooks/useBooks';
 import React from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text } from 'react-native';
 
 const WishlistScreen = () => {
   const { books, loading, error } = useBooks(BookResponseCollectionEnum.Wishlist);
 
   if (loading) {
-    return <ActivityIndicator size="large" color={Colors.brand.green} />;
+    return (
+      <SafeAreaWrapper>
+        <ActivityIndicator size="large" color={Colors.brand.green} />
+      </SafeAreaWrapper>
+    );
   }
 
   if (error) {
-    return <Text style={styles.error}>{error}</Text>;
+    return (
+      <SafeAreaWrapper>
+        <Text style={styles.error}>{error}</Text>
+      </SafeAreaWrapper>
+    );
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaWrapper style={styles.container}>
       <BookList books={books} />
-    </View>
+    </SafeAreaWrapper>
   );
 };
 
