@@ -1,0 +1,55 @@
+package no.chirico.quicklib.service
+
+import no.chirico.quicklib.dto.BookRequest
+import no.chirico.quicklib.dto.BookResponse
+import no.chirico.quicklib.entity.BookEntity
+import no.chirico.quicklib.entity.UserEntity
+import no.chirico.quicklib.mapper.BookMapper
+import no.chirico.quicklib.repository.BookRepository
+import org.springframework.stereotype.Service
+import org.springframework.security.core.context.SecurityContextHolder
+import no.chirico.quicklib.repository.UserRepository
+import java.time.Instant
+
+@Service
+class BookService(
+    private val bookRepository: BookRepository,
+    private val userRepository: UserRepository,
+    private val bookMapper: BookMapper
+) {
+    private fun getCurrentUser(): UserEntity {
+        val firebaseUid = SecurityContextHolder.getContext().authentication.principal as String
+        return userRepository.findByFirebaseUid(firebaseUid)
+            ?: throw IllegalStateException("User not found for current authentication")
+    }
+
+    private fun validateBookOwnership(id: Long): BookEntity? {
+        val user = getCurrentUser()
+        val entity = bookRepository.findById(id).orElse(null)
+        return if (entity != null && entity.user == user) entity else null
+    }
+
+    fun getAllBooksForCurrentUser(): List<BookResponse> =
+        bookRepository.findAllByUser(getCurrentUser()).map { bookMapper.toDto(it) }
+
+    fun getBookById(id: Long): BookResponse? =
+        validateBookOwnership(id)?.let { bookMapper.toDto(it) }
+
+    fun addBook(request: BookRequest): BookResponse {
+        val user = getCurrentUser()
+        val entity = bookMapper.toEntity(request).copy(user = user, timestamp = Instant.now())
+        return bookMapper.toDto(bookRepository.save(entity))
+    }
+
+    fun updateBook(id: Long, request: BookRequest): BookResponse? {
+        val entity = validateBookOwnership(id) ?: return null
+        bookMapper.updateEntity(request, entity)
+        return bookMapper.toDto(bookRepository.save(entity))
+    }
+
+    fun deleteBook(id: Long): Boolean {
+        val entity = validateBookOwnership(id) ?: return false
+        bookRepository.delete(entity)
+        return true
+    }
+}
