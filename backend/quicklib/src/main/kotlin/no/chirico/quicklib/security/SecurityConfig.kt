@@ -19,7 +19,7 @@ class SecurityConfig(
             .csrf { it.disable() }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .authorizeHttpRequests {
-                it.requestMatchers("/api/users/**", "/api/test-auth/**").authenticated()
+                it.requestMatchers("/api/user/**", "/api/books/**", "/api/test-auth/**").authenticated()
                 it.anyRequest().permitAll()
             }
             .addFilterBefore(firebaseAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
