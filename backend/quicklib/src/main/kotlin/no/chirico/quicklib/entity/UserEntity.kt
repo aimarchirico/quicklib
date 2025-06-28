@@ -8,6 +8,6 @@ class UserEntity(
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   val id: Long? = null,
-  var name: String,
-  var email: String
+  @Column(unique = true, nullable = false)
+  var firebaseUid: String
 )
