@@ -3,14 +3,11 @@ package no.chirico.quicklib.entity
 import jakarta.persistence.*
 import java.time.Instant
 import no.chirico.quicklib.entity.UserEntity
+import org.hibernate.annotations.CreationTimestamp
 
 @Entity
 @Table(name = "books")
 data class BookEntity(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null,
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     val user: UserEntity? = null,
@@ -23,10 +20,16 @@ data class BookEntity(
     val isbn: String? = null,
     
     @Enumerated(EnumType.STRING)
-    val collection: BookCollection,
+    val collection: BookCollection
+) {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long? = null
 
-    val timestamp: Instant? = Instant.now()
-)
+    @Column(nullable = false, updatable = false)
+    @CreationTimestamp
+    val createdAt: Instant = Instant.now()
+}
 
 enum class BookCollection {
     LIBRARY, WISHLIST
