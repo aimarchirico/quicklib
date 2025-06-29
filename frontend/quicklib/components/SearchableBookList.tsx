@@ -2,15 +2,17 @@ import { BookResponse } from '@/api/generated';
 import { Colors } from '@/globals/colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import React, { useMemo, useState } from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
+import { RefreshControl, StyleSheet, TextInput, View } from 'react-native';
 import BookList from './BookList';
 
 interface SearchableBookListProps {
   books: BookResponse[];
+  onRefresh?: () => Promise<void>;
+  refreshing?: boolean;
   title?: string; 
 }
 
-const SearchableBookList: React.FC<SearchableBookListProps> = ({ books }) => {
+const SearchableBookList: React.FC<SearchableBookListProps> = ({ books, onRefresh, refreshing }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const colorScheme = useColorScheme();
   const styles = useMemo(() => makeStyles(colorScheme), [colorScheme]);
@@ -32,7 +34,9 @@ const SearchableBookList: React.FC<SearchableBookListProps> = ({ books }) => {
         value={searchQuery}
         onChangeText={setSearchQuery}
       />
-      <BookList books={filteredBooks} />
+      <BookList books={filteredBooks} refreshControl={
+        onRefresh ? <RefreshControl refreshing={!!refreshing} onRefresh={onRefresh} /> as any : undefined
+      } />
     </View>
   );
 };
