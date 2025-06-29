@@ -1,4 +1,5 @@
-import { GoogleAuthProvider, getAuth, signInWithCredential } from '@react-native-firebase/auth';
+import { userApi } from '@/api/ApiClient';
+import { GoogleAuthProvider, signOut as firebaseSignOut, getAuth, signInWithCredential } from '@react-native-firebase/auth';
 import {
   GoogleOneTapSignIn,
 } from "@react-native-google-signin/google-signin";
@@ -32,19 +33,42 @@ const useLoginWithGoogle = () => {
       throw error;
     }
   };
-
-  const revokeAccess = async (): Promise<void> => {
+  
+  const signOut = async (): Promise<void> => {
     try {
-      await GoogleOneTapSignIn.revokeAccess("");
+      const auth = getAuth();
+      await firebaseSignOut(auth);
+      await GoogleOneTapSignIn.signOut();
     } catch (error) {
       console.error("Sign out error:", error);
       throw error;
     }
   };
 
+  const deleteAccount = async (): Promise<void> => {
+    try {
+      // 1. First revoke Google One Tap access
+      await GoogleOneTapSignIn.revokeAccess("");
+      
+      // 2. Delete user from backend 
+      await userApi.deleteUser()
+      
+      // 3. Delete Firebase auth user
+      const auth = getAuth();
+      const currentUser = auth.currentUser;
+      if (currentUser) {
+        await currentUser.delete();
+      }
+    } catch (error) {
+      console.error("Delete account error:", error);
+      throw error;
+    }
+  };
+
   return {
     signIn,
-    revokeAccess,
+    signOut,
+    deleteAccount,
   };
 
 }
