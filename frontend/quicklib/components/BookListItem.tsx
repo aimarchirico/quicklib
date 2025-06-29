@@ -44,7 +44,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   container: {
     padding: 16,
     marginVertical: 5,
-    borderRadius: 15,
+    borderRadius: 20,
     backgroundColor: Colors[colorScheme ?? 'light'].card,
   },
   title: {

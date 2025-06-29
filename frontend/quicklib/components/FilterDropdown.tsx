@@ -142,7 +142,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   },
   dropdownContent: {
     backgroundColor: Colors[colorScheme ?? 'light'].card,
-    borderRadius: 15,
+    borderRadius: 20,
     width: '100%',
     padding: 16,
   },
@@ -158,7 +158,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 8,
     marginVertical: 4,
-    borderRadius: 15,
+    borderRadius: 20,
   },
   selectedOption: {
     backgroundColor: Colors.brand.green,

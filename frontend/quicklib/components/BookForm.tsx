@@ -355,7 +355,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     backgroundColor: Colors[colorScheme ?? 'light'].card,
     color: Colors[colorScheme ?? 'light'].text,
     padding: 20,
-    borderRadius: 15,
+    borderRadius: 20,
     marginBottom: 15,
     fontSize: 14,
     fontFamily: FontFamily.regular,
@@ -371,7 +371,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     backgroundColor: Colors[colorScheme ?? 'light'].card,
     color: Colors[colorScheme ?? 'light'].text,
     padding: 20,
-    borderRadius: 15,
+    borderRadius: 20,
     flex: 1,
     fontSize: 14,
   },
@@ -387,7 +387,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   },
   collectionCardBg: {
     backgroundColor: Colors[colorScheme ?? 'light'].card,
-    borderRadius: 15,
+    borderRadius: 20,
     marginBottom: 15,
   },
   collectionContainer: {
@@ -399,7 +399,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     padding: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 15,
+    borderRadius: 20,
     backgroundColor: 'transparent', // Remove card color from individual buttons
   },
   collectionButtonActive: {
@@ -423,7 +423,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   saveButton: {
     backgroundColor: Colors.brand.red,
     paddingVertical: 16,
-    borderRadius: 15,
+    borderRadius: 20,
     alignItems: 'center',
     marginTop: 24,
     marginBottom: 8,

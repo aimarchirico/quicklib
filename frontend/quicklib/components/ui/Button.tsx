@@ -3,12 +3,12 @@ import { FontFamily } from '@/globals/fonts';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import React, { ReactNode, useMemo } from 'react';
 import {
-  ActivityIndicator,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  TouchableOpacityProps,
-  View
+    ActivityIndicator,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    TouchableOpacityProps,
+    View
 } from 'react-native';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'danger';
@@ -115,7 +115,7 @@ const Button: React.FC<ButtonProps> = ({
 
 const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   button: {
-    borderRadius: 15,
+    borderRadius: 20,
     padding: 20,
     justifyContent: 'center',
     alignItems: 'center',

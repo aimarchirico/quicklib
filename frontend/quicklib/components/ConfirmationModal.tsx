@@ -120,7 +120,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   modalView: {
     width: '80%',
     backgroundColor: Colors[colorScheme ?? 'light'].card,
-    borderRadius: 15,
+    borderRadius: 20,
     padding: 24,
     alignItems: 'center',
   },
@@ -139,7 +139,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   },
   input: {
     width: '100%',
-    borderRadius: 15,
+    borderRadius: 20,
     padding: 12,
     marginBottom: 8,
     fontSize: 16,

@@ -246,7 +246,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   badgeContainer: {
     alignSelf: 'flex-end',
     paddingVertical: 6,
-    borderRadius: 15,
+    borderRadius: 20,
     marginBottom: 16,
     elevation: 2,
   },
@@ -257,7 +257,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   },
   card: {
     backgroundColor: Colors[colorScheme ?? 'light'].card,
-    borderRadius: 15,
+    borderRadius: 20,
     padding: 20,
     marginBottom: 24,
   },

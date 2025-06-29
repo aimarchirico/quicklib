@@ -49,9 +49,9 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   searchInput: {
     backgroundColor: Colors[colorScheme ?? 'light'].card,
     color: Colors[colorScheme ?? 'light'].text,
-    padding: 12,
+    padding: 15,
     marginVertical: 16,
-    borderRadius: 15,
+    borderRadius: 20,
     fontSize: 16,
   },
 });

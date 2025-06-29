@@ -167,7 +167,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   card: {
     padding: 16,
     backgroundColor: Colors[colorScheme ?? 'light'].card,
-    borderRadius: 15,
+    borderRadius: 20,
   },
   userEmail: {
     fontSize: 16,
