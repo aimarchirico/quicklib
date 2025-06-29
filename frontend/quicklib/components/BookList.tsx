@@ -3,13 +3,14 @@ import BookListItem from '@/components/BookListItem';
 import { Colors } from '@/globals/colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import React, { useMemo } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList, StyleSheet, RefreshControlProps } from 'react-native';
 
 interface BookListProps {
   books: BookResponse[];
+  refreshControl?: React.ReactElement<RefreshControlProps>;
 }
 
-const BookList: React.FC<BookListProps> = ({ books }) => {
+const BookList: React.FC<BookListProps> = ({ books, refreshControl }) => {
   const colorScheme = useColorScheme();
   const styles = useMemo(() => makeStyles(colorScheme), [colorScheme]);
   
@@ -21,6 +22,7 @@ const BookList: React.FC<BookListProps> = ({ books }) => {
       style={styles.list}
       contentContainerStyle={styles.contentContainer}
       showsVerticalScrollIndicator={false}
+      refreshControl={refreshControl}
     />
   );
 };
