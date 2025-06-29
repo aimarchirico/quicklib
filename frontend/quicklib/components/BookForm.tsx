@@ -5,10 +5,12 @@ import { ScreenWrapper } from '@/components/ScreenWrapper';
 import Header from '@/components/ui/Header';
 import { Colors } from '@/globals/colors';
 import { FontFamily } from '@/globals/fonts';
+import { useBooks } from '@/hooks/useBooks';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { isbnService } from '@/services/ISBNService';
 import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'expo-router';
 import React, { useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -52,6 +54,8 @@ const BookForm = ({
   const [modalTitle, setModalTitle] = useState('');
   const [modalMessage, setModalMessage] = useState('');
   const [modalConfirmText, setModalConfirmText] = useState('OK');
+  const { books } = useBooks();
+  const router = useRouter();
   
   // Create styles based on the current color scheme
   const styles = useMemo(() => makeStyles(colorScheme), [colorScheme]);
@@ -79,6 +83,13 @@ const BookForm = ({
     setValue('isbn', isbn);
     setIsLoadingIsbn(true);
     try {
+      // Check if book with this ISBN already exists
+      const existingBook = books.find(b => b.isbn === isbn);
+      if (existingBook) {
+        // If found, navigate to BookInfoScreen for that book
+        router.push({ pathname: '/(tabs)/(books)/bookInfo', params: { id: existingBook.id } });
+        return;
+      }
       const bookData = await isbnService.getBookByISBN(isbn);
       if (bookData) {
         setValue('title', bookData.title);
@@ -248,7 +259,7 @@ const BookForm = ({
                         style={styles.input}
                         onBlur={onBlur}
                         onChangeText={(text) => onChange(text ? Number(text) : undefined)}
-                        value={value !== undefined ? String(value) : ''}
+                        value={value !== undefined && value != null ? String(value) : ''}
                         placeholder="1, 2, 3, etc."
                         placeholderTextColor={Colors[colorScheme ?? 'light'].icon}
                         keyboardType="numeric"
