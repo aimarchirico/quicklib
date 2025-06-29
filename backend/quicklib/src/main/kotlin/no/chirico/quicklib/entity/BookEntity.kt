@@ -4,12 +4,15 @@ import jakarta.persistence.*
 import java.time.Instant
 import no.chirico.quicklib.entity.UserEntity
 import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 
 @Entity
 @Table(name = "books")
 data class BookEntity(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     var user: UserEntity? = null,
 
     var title: String,
