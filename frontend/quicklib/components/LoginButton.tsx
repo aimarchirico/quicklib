@@ -1,44 +1,67 @@
-import type { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import { getAuth, signOut } from '@react-native-firebase/auth';
-import React, { useState } from 'react';
-import { ActivityIndicator, Button, View } from 'react-native';
+import { useColorScheme } from '@/hooks/useColorScheme';
+import { getAuth, onAuthStateChanged } from '@react-native-firebase/auth';
+import { useRouter } from 'expo-router';
+import React, { useEffect, useMemo, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 import useLoginWithGoogle from '../hooks/useLoginWithGoogle';
+import Button from './ui/Button';
 
-type Props = {
-  user: FirebaseAuthTypes.User | null;
-};
+type Props = {};
 
-const LoginButton = ({ user }: Props) => {
+const LoginButton = () => {
   const [loading, setLoading] = useState(false);
-  const { signIn, revokeAccess } = useLoginWithGoogle();
+  const [user, setUser] = useState<any>(null);
+  const { signIn, signOut } = useLoginWithGoogle();
+  const colorScheme = useColorScheme();
+  const router = useRouter();
+  // Create styles based on the current color scheme
+  const styles = useMemo(() => makeStyles(colorScheme), [colorScheme]);
+  
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return unsubscribe;
+  }, []);
 
   const handlePress = async () => {
-    const auth = getAuth();
     setLoading(true);
     try {
       if (user) {
-        await signOut(auth);
+        await signOut();
+        router.replace('/login');
       } else {
-        await signIn()
+        await signIn();
+        
+        const auth = getAuth();
+        if (auth.currentUser) {
+          router.replace('/(tabs)');
+        }
       }
     } catch (e) {
-      // handle error if needed
+      console.error('Authentication error:', e);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
-  if (loading) {
-    return <ActivityIndicator />;
-  }
-
   return (
-    <View>
+    <View style={styles.container}>
       <Button
         title={user ? 'Sign out' : 'Sign in'}
         onPress={handlePress}
+        variant={user ? 'danger' : 'primary'}
+        loading={loading}
       />
     </View>
   );
 };
+
+const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
+  container: {
+    margin: 8,
+  },
+});
 
 export default LoginButton;
