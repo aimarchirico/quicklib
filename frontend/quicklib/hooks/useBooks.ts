@@ -53,6 +53,10 @@ export const useBooks = (filters?: BooksFilter) => {
   // Fetch a single book by id
   const fetch = useCallback(
     async (id: number) => {
+      // Try to find the book in the already loaded list first
+      const found = books.find(b => b.id === id);
+      console.log('Fetching book with ID:', id, 'Found in cache:', !!found);
+      if (found) return found;
       setLoading(true);
       setError(null);
       try {
@@ -65,7 +69,7 @@ export const useBooks = (filters?: BooksFilter) => {
         setLoading(false);
       }
     },
-    [],
+    [books],
   );
 
   // Add a new book
@@ -104,10 +108,29 @@ export const useBooks = (filters?: BooksFilter) => {
     [],
   );
 
+  // Delete a book
+  const remove = useCallback(
+    async (id: number) => {
+      setLoading(true);
+      setError(null);
+      try {
+        await bookApi.deleteBook(id);
+        // Optionally refetch books after deletion
+        await fetchAll();
+      } catch (e: any) {
+        setError(e.message || 'Error deleting book');
+        throw e;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [fetchAll],
+  );
+
   // Initial fetch
   useEffect(() => {
     fetchAll();
   }, [fetchAll]);
 
-  return { books, loading, error, refetch: fetchAll, fetchAll, fetch, add, update };
+  return { books, loading, error, refetch: fetchAll, fetchAll, fetch, add, update, remove };
 };
