@@ -18,6 +18,7 @@ data class BookRequest(
 
 data class BookResponse(
     val id: Long,
+    val createdAt: Instant,
     val title: String,
     val author: String,
     val series: String?,
@@ -25,5 +26,4 @@ data class BookResponse(
     val language: String,
     val isbn: String?,
     val collection: BookCollection,
-    val timestamp: Instant,
 )
