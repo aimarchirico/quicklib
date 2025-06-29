@@ -6,7 +6,7 @@ import Header from '@/components/ui/Header';
 import { Colors } from '@/globals/colors';
 import { BooksFilter, useBooks } from '@/hooks/useBooks';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { useLocalSearchParams } from 'expo-router';
+import { useFocusEffect, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Dimensions, StyleSheet, Text, View } from 'react-native';
 
@@ -53,7 +53,8 @@ const BooksScreen = () => {
     }
   }, [paramFilter, paramValue]);
 
-  const { books, loading, error } = useBooks(filterObject);
+  const { books, loading, error, refetch } = useBooks(filterObject);
+  const [refreshing, setRefreshing] = useState(false);
   
   const styles = useMemo(() => makeStyles(colorScheme), [colorScheme]);
   
@@ -128,6 +129,12 @@ const BooksScreen = () => {
     setIsDropdownVisible(false);
   };
 
+  useFocusEffect(
+    React.useCallback(() => {
+      refetch();
+    }, [refetch])
+  );
+
   if (loading) {
     return (
       <ScreenWrapper style={styles.container}>
@@ -177,7 +184,15 @@ const BooksScreen = () => {
           buttonRef: filterButtonRef
         }}
       />
-      <SearchableBookList books={books} />
+      <SearchableBookList 
+        books={books} 
+        onRefresh={async () => {
+          setRefreshing(true);
+          await refetch();
+          setRefreshing(false);
+        }}
+        refreshing={refreshing}
+      />
       
       {/* Filter Dropdown */}
       <FilterDropdown 
