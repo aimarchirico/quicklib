@@ -37,7 +37,6 @@ const BookForm = ({
   isEditing,
   onSubmit,
   headerTitle,
-  submitButtonText
 }: BookFormProps) => {
   const { control, handleSubmit, formState: { errors }, setValue, reset } = useForm<BookRequest>({
     resolver: zodResolver(schema),

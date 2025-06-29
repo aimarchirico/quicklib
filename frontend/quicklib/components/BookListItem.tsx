@@ -1,7 +1,9 @@
 import { BookResponse } from '@/api/generated';
 import { Colors } from '@/globals/colors';
-import { Link } from 'expo-router';
-import React from 'react';
+import { FontFamily } from '@/globals/fonts';
+import { useColorScheme } from '@/hooks/useColorScheme';
+import { useRouter } from 'expo-router';
+import React, { useMemo } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface BookListItemProps {
@@ -9,32 +11,52 @@ interface BookListItemProps {
 }
 
 const BookListItem: React.FC<BookListItemProps> = ({ book }) => {
+  const colorScheme = useColorScheme();
+  const router = useRouter();
+  
+  // Create styles based on the current color scheme
+  const styles = useMemo(() => makeStyles(colorScheme), [colorScheme]);
+  
+  const handlePress = () => {
+    router.push({
+      pathname: "/(tabs)/(books)/bookInfo",
+      params: { id: book.id }
+    });
+  };
+  
   return (
-    <Link href={{ pathname: './(tabs)/add', params: { id: book.id } }} asChild>
-      <TouchableOpacity style={styles.container}>
-        <View>
-          <Text style={styles.title}>{book.title}</Text>
-          <Text style={styles.author}>{book.author}</Text>
-        </View>
-      </TouchableOpacity>
-    </Link>
+    <TouchableOpacity style={styles.container} onPress={handlePress}>
+      <View>
+        <Text
+          style={styles.title}
+          numberOfLines={1}
+          ellipsizeMode="tail"
+        >
+          {book.title}
+        </Text>
+        <Text style={styles.author}>{book.author}</Text>
+      </View>
+    </TouchableOpacity>
   );
 };
 
-const styles = StyleSheet.create({
+const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   container: {
     padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#333',
+    marginVertical: 5,
+    borderRadius: 15,
+    backgroundColor: Colors[colorScheme ?? 'light'].card,
   },
   title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: Colors.dark.text,
+    fontSize: 16,
+    fontFamily: FontFamily.bold,
+    color: Colors[colorScheme ?? 'light'].text,
   },
   author: {
     fontSize: 14,
-    color: Colors.dark.icon,
+    marginTop: 4,
+    fontFamily: FontFamily.regular,
+    color: Colors[colorScheme ?? 'light'].icon,
   },
 });
 
