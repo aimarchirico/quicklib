@@ -10,17 +10,17 @@ import org.hibernate.annotations.CreationTimestamp
 data class BookEntity(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    val user: UserEntity? = null,
+    var user: UserEntity? = null,
 
-    val title: String,
-    val author: String,
-    val series: String? = null,
-    val sequenceNumber: Int? = null,
-    val language: String,
-    val isbn: String? = null,
+    var title: String,
+    var author: String,
+    var series: String? = null,
+    var sequenceNumber: Int? = null,
+    var language: String,
+    var isbn: String? = null,
     
     @Enumerated(EnumType.STRING)
-    val collection: BookCollection
+    var collection: BookCollection
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

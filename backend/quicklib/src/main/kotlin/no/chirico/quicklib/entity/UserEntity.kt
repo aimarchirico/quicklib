@@ -8,7 +8,7 @@ import org.hibernate.annotations.CreationTimestamp
 @Table(name = "users")
 class UserEntity(
   @Column(unique = true, nullable = false)
-  var firebaseUid: String
+  val firebaseUid: String
 ) {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
