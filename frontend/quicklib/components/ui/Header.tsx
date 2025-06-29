@@ -1,0 +1,118 @@
+import { Colors } from '@/globals/colors';
+import { FontFamily } from '@/globals/fonts';
+import { useColorScheme } from '@/hooks/useColorScheme';
+import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import React, { useMemo } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+
+interface HeaderRightButton {
+  icon: keyof typeof Ionicons.glyphMap;
+  onPress: () => void;
+  buttonRef?: React.RefObject<View | null>;
+}
+
+interface HeaderProps {
+  title: string;
+  showBackButton?: boolean;
+  onBackPress?: () => void;
+  RightComponent?: React.ReactNode;
+  rightButton?: HeaderRightButton;
+}
+
+const Header: React.FC<HeaderProps> = ({ 
+  title, 
+  showBackButton = false, 
+  onBackPress, 
+  RightComponent,
+  rightButton
+}) => {
+  const router = useRouter();
+  const colorScheme = useColorScheme();
+  const styles = useMemo(() => makeStyles(colorScheme), [colorScheme]);
+
+  const handleBackPress = () => {
+    if (onBackPress) {
+      onBackPress();
+    } else {
+      router.back();
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.leftSection}>
+        {showBackButton && (
+          <TouchableOpacity 
+            onPress={handleBackPress} 
+            style={styles.backButton}
+          >
+            <Ionicons 
+              name="arrow-back" 
+              size={24} 
+              color={Colors.brand.red} 
+            />
+          </TouchableOpacity>
+        )}
+        <Text style={styles.title} numberOfLines={1}>{title}</Text>
+      </View>
+      {(RightComponent || rightButton) && (
+        <View style={styles.rightSection}>
+          {RightComponent}
+          {rightButton && (
+            <TouchableOpacity 
+              onPress={rightButton.onPress} 
+              style={styles.iconButton}
+              ref={rightButton.buttonRef}
+            >
+              <Ionicons 
+                name={rightButton.icon} 
+                size={24} 
+                color={Colors.brand.red} 
+              />
+            </TouchableOpacity>
+          )}
+        </View>
+      )}
+    </View>
+  );
+};
+
+const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 12,
+    backgroundColor: Colors[colorScheme ?? 'light'].background,
+  },
+  leftSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    paddingRight: 8,
+  },
+  backButton: {
+    padding: 8,
+    marginRight: 8,
+    borderRadius: 30,
+    backgroundColor: Colors[colorScheme ?? 'light'].card,
+  },
+  title: {
+    fontSize: 24,
+    fontFamily: FontFamily.bold,
+    color: Colors[colorScheme ?? 'light'].text,
+    flex: 1,
+  },
+  rightSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  iconButton: {
+    padding: 8,
+    borderRadius: 30,
+    backgroundColor: Colors[colorScheme ?? 'light'].card,
+  },
+});
+
+export default Header;
