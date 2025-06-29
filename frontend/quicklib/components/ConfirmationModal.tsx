@@ -133,7 +133,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   },
   message: {
     fontSize: 16,
-    marginBottom: 24,
+    marginBottom: 10,
     textAlign: 'left',
     color: Colors[colorScheme ?? 'light'].text,
   },
@@ -150,11 +150,12 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-    marginTop: 16,
+    gap: 12,
+    marginHorizontal: 0, 
+    paddingHorizontal: 0, 
   },
   button: {
     flex: 1,
-    marginHorizontal: 6,
     paddingVertical: 15,
   },
   error: {
