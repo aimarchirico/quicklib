@@ -4,12 +4,14 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useMemo } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface HeaderRightButton {
   icon: keyof typeof Ionicons.glyphMap;
   onPress: () => void;
   buttonRef?: React.RefObject<View | null>;
+  loading?: boolean;
+  disabled?: boolean;
 }
 
 interface HeaderProps {
@@ -64,12 +66,17 @@ const Header: React.FC<HeaderProps> = ({
               onPress={rightButton.onPress} 
               style={styles.iconButton}
               ref={rightButton.buttonRef}
+              disabled={rightButton.disabled || rightButton.loading}
             >
-              <Ionicons 
-                name={rightButton.icon} 
-                size={24} 
-                color={Colors.brand.red} 
-              />
+              {rightButton.loading ? (
+                <ActivityIndicator size={24} color={Colors.brand.red} />
+              ) : (
+                <Ionicons 
+                  name={rightButton.icon} 
+                  size={24} 
+                  color={Colors.brand.red} 
+                />
+              )}
             </TouchableOpacity>
           )}
         </View>
