@@ -8,7 +8,7 @@ import { useBooks } from '@/hooks/useBooks';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import useLoginWithGoogle from '@/hooks/useLoginWithGoogle';
 import { getAuth } from '@react-native-firebase/auth';
-import { useRouter } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import React, { useMemo, useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
 
@@ -20,12 +20,12 @@ const SettingsScreen = () => {
   const user = auth.currentUser;
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const router = useRouter();
-  const { books, loading } = useBooks();
+  const { books, loading, refetch } = useBooks();
 
   const libraryCount = books.filter(b => b.collection === 'LIBRARY').length;
   const wishlistCount = books.filter(b => b.collection === 'WISHLIST').length;
 
-  const handleLogout = async () => {
+  const handleSignout = async () => {
     try {
       console.log('Attempting to sign out from settings');
       await signOut();
@@ -36,7 +36,7 @@ const SettingsScreen = () => {
         router.replace('/login');
       }, 100);
     } catch (error) {
-      Alert.alert('Error', 'Failed to log out');
+      Alert.alert('Error', 'Failed to sign out');
       console.error(error);
     }
   };
@@ -60,6 +60,12 @@ const SettingsScreen = () => {
       console.error(error);
     }
   };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      refetch();
+    }, [refetch])
+  );
 
   return (
     <ScreenWrapper style={styles.container}>
@@ -103,9 +109,9 @@ const SettingsScreen = () => {
         </ScrollView>
 
           <Button 
-            title="Log Out" 
+            title="Sign Out" 
             variant="primary" 
-            onPress={handleLogout}
+            onPress={handleSignout}
             fullWidth
           />
           <Button 
