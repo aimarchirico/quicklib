@@ -9,8 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 
 @Service
 class UserService(
-    private val userRepository: UserRepository,
-    val userMapper: UserMapper
+    private val userRepository: UserRepository
 ) {
 
     private fun getFirebaseUid(): String =
