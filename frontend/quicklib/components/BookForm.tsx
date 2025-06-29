@@ -136,6 +136,8 @@ const BookForm = ({
             rightButton={{
               icon: 'save-outline',
               onPress: handleHeaderSave,
+              loading: isSubmitting,
+              disabled: isSubmitting,
             }}
           />
           <KeyboardAvoidingView
