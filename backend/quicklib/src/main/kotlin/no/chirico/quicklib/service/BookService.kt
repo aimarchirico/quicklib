@@ -28,7 +28,7 @@ class BookService(
 
     fun addBook(request: BookRequest): BookResponse {
         val user = userService.getOrCreateUserEntity()
-        val entity = bookMapper.toEntity(request).copy(user = user, timestamp = Instant.now())
+        val entity = bookMapper.toEntity(request).copy(user = user)
         return bookMapper.toDto(bookRepository.save(entity))
     }
 
