@@ -75,9 +75,9 @@ const EditBookScreen = () => {
     author: book.author,
     language: book.language,
     collection: book.collection,
-    series: book.series,
+    series: book.series ?? '',
     sequenceNumber: book.sequenceNumber,
-    isbn: book.isbn
+    isbn: book.isbn ?? '',
   };
 
   return (
@@ -86,7 +86,6 @@ const EditBookScreen = () => {
       isEditing={true}
       onSubmit={handleSubmit}
       headerTitle="Edit Book"
-      submitButtonText="Save Changes"
     />
   );
 };
