@@ -53,10 +53,6 @@ export const useBooks = (filters?: BooksFilter) => {
   // Fetch a single book by id
   const fetch = useCallback(
     async (id: number) => {
-      // Try to find the book in the already loaded list first
-      const found = books.find(b => b.id === id);
-      console.log('Fetching book with ID:', id, 'Found in cache:', !!found);
-      if (found) return found;
       setLoading(true);
       setError(null);
       try {
@@ -79,7 +75,6 @@ export const useBooks = (filters?: BooksFilter) => {
       setError(null);
       try {
         const response = await bookApi.addBook(data);
-        await fetchAll();
         return response.data;
       } catch (e: any) {
         setError(e.message || 'Error adding book');
@@ -98,7 +93,6 @@ export const useBooks = (filters?: BooksFilter) => {
       setError(null);
       try {
         const response = await bookApi.updateBook(id, data);
-        await fetchAll();
         return response.data;
       } catch (e: any) {
         setError(e.message || 'Error updating book');
@@ -117,7 +111,6 @@ export const useBooks = (filters?: BooksFilter) => {
       setError(null);
       try {
         await bookApi.deleteBook(id);
-        await fetchAll();
       } catch (e: any) {
         setError(e.message || 'Error deleting book');
         throw e;
