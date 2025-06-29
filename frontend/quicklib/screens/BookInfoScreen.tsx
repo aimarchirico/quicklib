@@ -1,4 +1,5 @@
 import { BookResponse } from '@/api/generated';
+import ConfirmationModal from '@/components/ConfirmationModal';
 import { ScreenWrapper } from '@/components/ScreenWrapper';
 import Header from '@/components/ui/Header';
 import { Colors } from '@/globals/colors';
@@ -13,9 +14,11 @@ import { ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View
 const BookInfoScreen = () => {
   const { id } = useLocalSearchParams();
   const router = useRouter();
-  const { fetch } = useBooks();
+  const { fetch, remove } = useBooks();
   const [book, setBook] = useState<BookResponse | null>(null);
   const [loading, setLoading] = useState(true);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const colorScheme = useColorScheme();
   
   const styles = useMemo(() => makeStyles(colorScheme), [colorScheme]);
@@ -87,10 +90,22 @@ const BookInfoScreen = () => {
       <Header
         title={book.title}
         showBackButton={true}
-        rightButton={{
-          icon: 'create-outline',
-          onPress: () => router.push({ pathname: '/(tabs)/(books)/editBook', params: { id: book.id } })
-        }}
+        RightComponent={
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <TouchableOpacity
+              onPress={() => setDeleteModalVisible(true)}
+              style={{ marginRight: 8, padding: 8, borderRadius: 30, backgroundColor: Colors[colorScheme ?? 'light'].card }}
+            >
+              <Ionicons name="trash-outline" size={24} color={Colors.brand.red} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => router.push({ pathname: '/(tabs)/(books)/editBook', params: { id: book.id } })}
+              style={{ padding: 8, borderRadius: 30, backgroundColor: Colors[colorScheme ?? 'light'].card }}
+            >
+              <Ionicons name="create-outline" size={24} color={Colors.brand.red} />
+            </TouchableOpacity>
+          </View>
+        }
       />
       <View style={styles.contentContainer}>
         <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
@@ -178,6 +193,25 @@ const BookInfoScreen = () => {
           </View>
         </ScrollView>
       </View>
+      <ConfirmationModal
+        visible={deleteModalVisible}
+        onClose={() => setDeleteModalVisible(false)}
+        onConfirm={async () => {
+          setDeleting(true);
+          try {
+            await remove(book.id);
+            setDeleteModalVisible(false);
+            router.replace('/(tabs)/(books)');
+          } catch (e) {
+            // Optionally show error modal
+          } finally {
+            setDeleting(false);
+          }
+        }}
+        title="Delete Book"
+        message="Are you sure you want to delete this book? This action cannot be undone."
+        confirmText={deleting ? 'Deleting...' : 'Delete'}
+      />
     </ScreenWrapper>
   );
 };
