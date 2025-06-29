@@ -21,7 +21,6 @@ const AddBookScreen = () => {
       isEditing={false}
       onSubmit={handleSubmit}
       headerTitle="Add Book"
-      submitButtonText="Add Book"
     />
   );
 };

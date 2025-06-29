@@ -31,7 +31,6 @@ interface BookFormProps {
   isEditing: boolean;
   onSubmit: (data: BookRequest) => Promise<void>;
   headerTitle: string;
-  submitButtonText: string;
 }
 
 const BookForm = ({
@@ -178,7 +177,7 @@ const BookForm = ({
                       <TouchableOpacity
                         style={styles.scanButton}
                         onPress={toggleScanner}
-                        disabled={isEditing}
+                        // removed disabled={isEditing} to allow scanning in edit mode
                       >
                         <Ionicons name="barcode-outline" size={24} color={Colors.brand.red} />
                       </TouchableOpacity>
@@ -420,7 +419,23 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     marginBottom: 10,
     fontSize: 16,
     fontFamily: FontFamily.regular,
-  }
+  },
+  saveButton: {
+    backgroundColor: Colors.brand.red,
+    paddingVertical: 16,
+    borderRadius: 15,
+    alignItems: 'center',
+    marginTop: 24,
+    marginBottom: 8,
+  },
+  saveButtonDisabled: {
+    opacity: 0.6,
+  },
+  saveButtonText: {
+    color: 'white',
+    fontFamily: FontFamily.bold,
+    fontSize: 16,
+  },
 });
 
 export default BookForm;
