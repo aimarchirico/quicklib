@@ -79,6 +79,7 @@ export const useBooks = (filters?: BooksFilter) => {
       setError(null);
       try {
         const response = await bookApi.addBook(data);
+        await fetchAll();
         return response.data;
       } catch (e: any) {
         setError(e.message || 'Error adding book');
@@ -97,6 +98,7 @@ export const useBooks = (filters?: BooksFilter) => {
       setError(null);
       try {
         const response = await bookApi.updateBook(id, data);
+        await fetchAll();
         return response.data;
       } catch (e: any) {
         setError(e.message || 'Error updating book');
@@ -115,7 +117,6 @@ export const useBooks = (filters?: BooksFilter) => {
       setError(null);
       try {
         await bookApi.deleteBook(id);
-        // Optionally refetch books after deletion
         await fetchAll();
       } catch (e: any) {
         setError(e.message || 'Error deleting book');
