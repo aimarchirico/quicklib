@@ -2,20 +2,21 @@ export const Colors = {
   light: {
     text: '#11181C',
     background: '#fff',
+    card: '#F5F5F5',
     tint: '#007AFF',
     icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: '#007AFF',
+    border: '#E0E0E0',
   },
   dark: {
     text: '#ECEDEE',
     background: '#151718',
+    card: '#1E1F20',
     tint: '#007AFF',
     icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: '#007AFF',
+    border: '#2A2D2E',
   },
   brand: {
-    green: '#00E676',
+    green: '#1abc9c',
+    red: '#e74c3c',
   }
 };
