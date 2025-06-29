@@ -1,33 +1,40 @@
-import { getAuth, signOut } from "@react-native-firebase/auth";
-import React, { useState } from "react";
-import { ActivityIndicator, Button, View } from "react-native";
+import { useColorScheme } from "@/hooks/useColorScheme";
+import React, { useMemo, useState } from "react";
+import { StyleSheet, View } from "react-native";
 import useLoginWithGoogle from "../hooks/useLoginWithGoogle";
+import CustomButton from "./ui/Button";
 
 const RevokeAccessButton = () => {
-  const { revokeAccess } = useLoginWithGoogle();
+  const { deleteAccount, signOut } = useLoginWithGoogle();
   const [loading, setLoading] = useState(false);
+  const colorScheme = useColorScheme();
+  const styles = useMemo(() => makeStyles(colorScheme), [colorScheme]);
 
-  const handleRevoke = async () => {
-    const auth = getAuth();
+  const handleDeleteAccount = async () => {
     setLoading(true);
     try {
-      await signOut(auth);
-      await revokeAccess();
+      await deleteAccount();
     } catch (e) {
-      // handle error if needed
     }
     setLoading(false);
   };
 
-  if (loading) {
-    return <ActivityIndicator />;
-  }
-
   return (
-    <View style={{ marginTop: 8 }}>
-      <Button title="Revoke Access" onPress={handleRevoke} />
+    <View style={styles.container}>
+      <CustomButton 
+        title="Delete Account" 
+        onPress={handleDeleteAccount} 
+        variant="danger"
+        loading={loading}
+      />
     </View>
   );
 };
+
+const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
+  container: {
+    marginTop: 8,
+  },
+});
 
 export default RevokeAccessButton;
