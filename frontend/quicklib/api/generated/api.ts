@@ -97,6 +97,12 @@ export interface BookResponse {
      * @type {string}
      * @memberof BookResponse
      */
+    'createdAt': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BookResponse
+     */
     'title': string;
     /**
      * 
@@ -134,12 +140,6 @@ export interface BookResponse {
      * @memberof BookResponse
      */
     'collection': BookResponseCollectionEnum;
-    /**
-     * 
-     * @type {string}
-     * @memberof BookResponse
-     */
-    'timestamp': string;
 }
 
 export const BookResponseCollectionEnum = {

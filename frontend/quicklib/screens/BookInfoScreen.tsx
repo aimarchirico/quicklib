@@ -73,9 +73,9 @@ const BookInfoScreen = () => {
     );
   }
 
-  // Format the timestamp for display
-  const formattedDate = book.timestamp 
-    ? new Date(book.timestamp).toLocaleDateString(undefined, {
+  // Format the createdAt for display
+  const formattedDate = book.createdAt 
+    ? new Date(book.createdAt).toLocaleDateString(undefined, {
         year: 'numeric',
         month: 'long',
         day: 'numeric',

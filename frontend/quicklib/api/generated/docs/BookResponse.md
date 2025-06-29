@@ -6,6 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **number** |  | [default to undefined]
+**createdAt** | **string** |  | [default to undefined]
 **title** | **string** |  | [default to undefined]
 **author** | **string** |  | [default to undefined]
 **series** | **string** |  | [optional] [default to undefined]
@@ -13,7 +14,6 @@ Name | Type | Description | Notes
 **language** | **string** |  | [default to undefined]
 **isbn** | **string** |  | [optional] [default to undefined]
 **collection** | **string** |  | [default to undefined]
-**timestamp** | **string** |  | [default to undefined]
 
 ## Example
 
@@ -22,6 +22,7 @@ import { BookResponse } from './api';
 
 const instance: BookResponse = {
     id,
+    createdAt,
     title,
     author,
     series,
@@ -29,7 +30,6 @@ const instance: BookResponse = {
     language,
     isbn,
     collection,
-    timestamp,
 };
 ```
 
