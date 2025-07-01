@@ -10,10 +10,10 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { isbnService } from '@/services/ISBNService';
 import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'expo-router';
-import React, { useMemo, useState } from 'react';
+import { useFocusEffect, useRouter } from 'expo-router';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { BackHandler, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { z } from 'zod';
 
 const schema = z.object({
@@ -48,7 +48,6 @@ const BookForm = ({
   const colorScheme = useColorScheme();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isScannerVisible, setIsScannerVisible] = useState(false);
-  const [isLoadingIsbn, setIsLoadingIsbn] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [modalMessage, setModalMessage] = useState('');
@@ -72,6 +71,18 @@ const BookForm = ({
     setIsSubmitting(true);
     try {
       await onSubmit(data);
+      // If this is the add mode (not editing), reset form fields after successful submission
+      if (!isEditing) {
+        reset({
+          title: '',
+          author: '',
+          series: '',
+          sequenceNumber: undefined,
+          language: '',
+          isbn: '',
+          collection: BookRequestCollectionEnum.Unread,
+        });
+      }
     } catch (error) {
       showModal('Error', isEditing ? 'Failed to update book' : 'Failed to add book', 'Close', false);
     } finally {
@@ -81,8 +92,6 @@ const BookForm = ({
 
   const handleBarCodeScanned = async (isbn: string) => {
     setIsScannerVisible(false);
-    setValue('isbn', isbn);
-    setIsLoadingIsbn(true);
     try {
       // Check if book with this ISBN already exists
       const existingBook = books.find(b => b.isbn === isbn);
@@ -90,19 +99,12 @@ const BookForm = ({
         // If found, navigate to BookInfoScreen for that book
         router.push({ pathname: '/(tabs)/(books)/bookInfo', params: { id: existingBook.id } });
         return;
-      }        const bookData = await isbnService.getBookByISBN(isbn);
-      if (bookData) {
-        setValue('title', bookData.title);
-        setValue('author', bookData.author);
-        setValue('language', bookData.language);
-        showModal('Book Found', `Found "${bookData.title}" by ${bookData.author}. Please check the details and add any missing information.`, 'Close', false);
-      } else {
-        showModal('Book Not Found', 'Could not find book details for this ISBN. Please enter the details manually.', 'Close', false);
       }
+      
+      // If not found, navigate to add screen with ISBN prefilled
+      router.push({ pathname: '/(tabs)/add', params: { isbn } });
     } catch (error) {
-      console.error('Error fetching book details:', error);
-    } finally {
-      setIsLoadingIsbn(false);
+      console.error('Error handling barcode scan:', error);
     }
   };
 
@@ -112,6 +114,15 @@ const BookForm = ({
 
   // Handler for header save icon
   const handleHeaderSave = handleSubmit(handleFormSubmit);
+
+  // Close scanner when component loses focus
+  useFocusEffect(
+    React.useCallback(() => {
+      return () => {
+        setIsScannerVisible(false);
+      };
+    }, [])
+  );
 
   return (
     <>
@@ -140,57 +151,97 @@ const BookForm = ({
           <Header
             title={headerTitle}
             showBackButton={isEditing}
-            rightButton={{
-              icon: 'save-outline',
-              onPress: handleHeaderSave,
-              loading: isSubmitting,
-              disabled: isSubmitting,
-            }}
+            rightButtons={[
+              {
+                icon: 'barcode-outline',
+                onPress: toggleScanner,
+              },
+              {
+                icon: 'save-outline',
+                onPress: handleHeaderSave,
+                loading: isSubmitting,
+                disabled: isSubmitting,
+              }
+            ]}
           />
           <KeyboardAvoidingView
             behavior="height"
             style={styles.contentContainer}
             keyboardVerticalOffset={0}
           >
-            {isLoadingIsbn ? (
-              <View style={styles.loadingContainer}>
-                <Text style={styles.loadingText}>Looking up book details...</Text>
-              </View>
-            ) : (
-              <ScrollView 
-                style={styles.scrollView} 
-                contentContainerStyle={styles.scrollViewContent}
-                showsVerticalScrollIndicator={false}
-                contentInsetAdjustmentBehavior="automatic"
-              >
+            <ScrollView 
+              style={styles.scrollView} 
+              contentContainerStyle={styles.scrollViewContent}
+              showsVerticalScrollIndicator={false}
+              contentInsetAdjustmentBehavior="automatic"
+            >
                 <View style={styles.formContainer}>
                   <View style={styles.isbnContainer}>
                     <Text style={styles.label}>ISBN</Text>
-                    <View style={styles.isbnInputContainer}>
-                      <Controller
-                        control={control}
-                        name="isbn"
-                        render={({ field: { onChange, onBlur, value } }) => (
-                          <TextInput
-                            style={styles.isbnInput}
-                            onBlur={onBlur}
-                            onChangeText={onChange}
-                            value={value}
-                            placeholder="Enter ISBN"
-                            placeholderTextColor={Colors[colorScheme ?? 'light'].icon}
-                            keyboardType="numeric"
-                          />
-                        )}
-                      />
-                      <TouchableOpacity
-                        style={styles.scanButton}
-                        onPress={toggleScanner}
-                        // removed disabled={isEditing} to allow scanning in edit mode
-                      >
-                        <Ionicons name="barcode-outline" size={24} color={Colors.brand.red} />
-                      </TouchableOpacity>
-                    </View>
+                    <Controller
+                      control={control}
+                      name="isbn"
+                      render={({ field: { onChange, onBlur, value } }) => (
+                        <TextInput
+                          style={styles.input}
+                          onBlur={onBlur}
+                          onChangeText={onChange}
+                          value={value}
+                          placeholder="Enter ISBN"
+                          placeholderTextColor={Colors[colorScheme ?? 'light'].icon}
+                          keyboardType="numeric"
+                        />
+                      )}
+                    />
                   </View>
+
+                  <Text style={styles.label}>Collection</Text>
+                  <Controller
+                    control={control}
+                    name="collection"
+                    render={({ field: { onChange, value } }) => (
+                      <View style={styles.collectionCardBg}>
+                        <View style={styles.collectionContainer}>
+                          <TouchableOpacity
+                            style={[
+                              styles.collectionButton,
+                              value === BookRequestCollectionEnum.Read && styles.collectionButtonActive,
+                            ]}
+                            onPress={() => onChange(BookRequestCollectionEnum.Read)}
+                          >
+                            <Text style={[
+                              styles.collectionButtonText,
+                              value === BookRequestCollectionEnum.Read && styles.collectionButtonTextActive,
+                            ]}>Read</Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            style={[
+                              styles.collectionButton,
+                              value === BookRequestCollectionEnum.Unread && styles.collectionButtonActive,
+                            ]}
+                            onPress={() => onChange(BookRequestCollectionEnum.Unread)}
+                          >
+                            <Text style={[
+                              styles.collectionButtonText,
+                              value === BookRequestCollectionEnum.Unread && styles.collectionButtonTextActive,
+                            ]}>Unread</Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            style={[
+                              styles.collectionButton,
+                              value === BookRequestCollectionEnum.Wishlist && styles.collectionButtonActive,
+                            ]}
+                            onPress={() => onChange(BookRequestCollectionEnum.Wishlist)}
+                          >
+                            <Text style={[
+                              styles.collectionButtonText,
+                              value === BookRequestCollectionEnum.Wishlist && styles.collectionButtonTextActive,
+                            ]}>Wishlist</Text>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    )}
+                  />
 
                   <Text style={styles.label}>Title</Text>
                   <Controller
@@ -276,56 +327,9 @@ const BookForm = ({
                     )}
                   />
 
-                  <Text style={styles.label}>Collection</Text>
-                  <Controller
-                    control={control}
-                    name="collection"
-                    render={({ field: { onChange, value } }) => (
-                      <View style={styles.collectionCardBg}>
-                        <View style={styles.collectionContainer}>
-                          <TouchableOpacity
-                            style={[
-                              styles.collectionButton,
-                              value === BookRequestCollectionEnum.Read && styles.collectionButtonActive,
-                            ]}
-                            onPress={() => onChange(BookRequestCollectionEnum.Read)}
-                          >
-                            <Text style={[
-                              styles.collectionButtonText,
-                              value === BookRequestCollectionEnum.Read && styles.collectionButtonTextActive,
-                            ]}>Read</Text>
-                          </TouchableOpacity>
-                          <TouchableOpacity
-                            style={[
-                              styles.collectionButton,
-                              value === BookRequestCollectionEnum.Unread && styles.collectionButtonActive,
-                            ]}
-                            onPress={() => onChange(BookRequestCollectionEnum.Unread)}
-                          >
-                            <Text style={[
-                              styles.collectionButtonText,
-                              value === BookRequestCollectionEnum.Unread && styles.collectionButtonTextActive,
-                            ]}>Unread</Text>
-                          </TouchableOpacity>
-                          <TouchableOpacity
-                            style={[
-                              styles.collectionButton,
-                              value === BookRequestCollectionEnum.Wishlist && styles.collectionButtonActive,
-                            ]}
-                            onPress={() => onChange(BookRequestCollectionEnum.Wishlist)}
-                          >
-                            <Text style={[
-                              styles.collectionButtonText,
-                              value === BookRequestCollectionEnum.Wishlist && styles.collectionButtonTextActive,
-                            ]}>Wishlist</Text>
-                          </TouchableOpacity>
-                        </View>
-                      </View>
-                    )}
-                  />
+                  
                 </View>
               </ScrollView>
-            )}
 
             
           </KeyboardAvoidingView>
@@ -344,16 +348,6 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  loadingText: {
-    color: Colors[colorScheme ?? 'light'].text,
-    fontSize: 16,
-    fontFamily: FontFamily.regular,
   },
   scrollView: {
     flex: 1,
@@ -382,28 +376,6 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   },
   isbnContainer: {
     marginBottom: 15,
-  },
-  isbnInputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  isbnInput: {
-    backgroundColor: Colors[colorScheme ?? 'light'].card,
-    color: Colors[colorScheme ?? 'light'].text,
-    padding: 20,
-    borderRadius: 20,
-    flex: 1,
-    fontSize: 14,
-  },
-  scanButton: {
-    backgroundColor: Colors[colorScheme ?? 'light'].card,
-    padding: 12,
-    borderRadius: 30,
-    marginLeft: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 60,
-    height: 60,
   },
   collectionCardBg: {
     backgroundColor: Colors[colorScheme ?? 'light'].card,
