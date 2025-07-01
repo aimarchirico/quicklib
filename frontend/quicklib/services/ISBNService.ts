@@ -39,7 +39,7 @@ class ISBNService {
         author: bookInfo.authors ? bookInfo.authors.join(', ') : 'Unknown',
         language: bookInfo.language || 'en',
         isbn: cleanISBN,
-        collection: BookRequestCollectionEnum.Library
+        collection: BookRequestCollectionEnum.Unread
       };
       
       return bookRequest;
