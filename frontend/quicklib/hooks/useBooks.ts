@@ -9,34 +9,38 @@ export interface BooksFilter {
   language?: string;
 }
 
-export const useBooks = (filters?: BooksFilter) => {
+// Utility function to convert empty strings to null in BookRequest
+const cleanBookData = (data: BookRequest): BookRequest => {
+  const cleanedData = { ...data };
+  Object.keys(cleanedData).forEach((key) => {
+    const typedKey = key as keyof BookRequest;
+    if (typeof cleanedData[typedKey] === 'string' && cleanedData[typedKey] === '') {
+      (cleanedData[typedKey] as any) = null;
+    }
+  });
+  
+  // If series is null or empty string, set sequenceNumber to null
+  if (!cleanedData.series) {
+    cleanedData.sequenceNumber = undefined;
+  }
+  
+  return cleanedData;
+};
+
+export const useBooks = () => {
   const [books, setBooks] = useState<BookResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch all books (with optional filters)
+  // Fetch all books (no filtering on API level)
   const fetchAll = useCallback(
-    async (customFilters?: BooksFilter) => {
+    async () => {
       try {
         setLoading(true);
         setError(null);
         const response = await bookApi.getAllBooks();
         let fetchedBooks = response.data;
-        const f = customFilters || filters;
-        if (f) {
-          if (f.collection) {
-            fetchedBooks = fetchedBooks.filter(book => book.collection === f.collection);
-          }
-          if (f.author) {
-            fetchedBooks = fetchedBooks.filter(book => book.author === f.author);
-          }
-          if (f.series) {
-            fetchedBooks = fetchedBooks.filter(book => book.series === f.series);
-          }
-          if (f.language) {
-            fetchedBooks = fetchedBooks.filter(book => book.language === f.language);
-          }
-        }
+        // Sort by creation date (newest first)
         fetchedBooks.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
         setBooks(fetchedBooks);
         return fetchedBooks;
@@ -47,23 +51,17 @@ export const useBooks = (filters?: BooksFilter) => {
         setLoading(false);
       }
     },
-    [filters],
+    [],
   );
 
   // Fetch a single book by id
   const fetch = useCallback(
     async (id: number) => {
-      setLoading(true);
-      setError(null);
-      try {
-        const response = await bookApi.getBookById(id);
-        return response.data;
-      } catch (e: any) {
-        setError(e.message || 'Error loading book');
-        throw e;
-      } finally {
-        setLoading(false);
+      const localBook = books.find(book => book.id === id);
+      if (localBook) {
+        return localBook;
       }
+      return null;
     },
     [books],
   );
@@ -74,7 +72,7 @@ export const useBooks = (filters?: BooksFilter) => {
       setLoading(true);
       setError(null);
       try {
-        const response = await bookApi.addBook(data);
+        const response = await bookApi.addBook(cleanBookData(data));
         await fetchAll();
         return response.data;
       } catch (e: any) {
@@ -93,7 +91,7 @@ export const useBooks = (filters?: BooksFilter) => {
       setLoading(true);
       setError(null);
       try {
-        const response = await bookApi.updateBook(id, data);
+        const response = await bookApi.updateBook(id, cleanBookData(data));
         await fetchAll();
         return response.data;
       } catch (e: any) {
