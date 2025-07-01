@@ -39,7 +39,7 @@ const EditBookScreen = () => {
     try {
       if (id) {
         await update(Number(id), data);
-        router.push({ pathname: '/(tabs)/(books)/bookInfo', params: { id } });
+        router.back();
       }
     } catch (error) {
       console.error('Error updating book:', error);
@@ -76,7 +76,7 @@ const EditBookScreen = () => {
     language: book.language,
     collection: book.collection,
     series: book.series ?? '',
-    sequenceNumber: book.sequenceNumber,
+    sequenceNumber: book.sequenceNumber ?? undefined,
     isbn: book.isbn ?? '',
   };
 
