@@ -74,7 +74,8 @@ export interface BookRequest {
 }
 
 export const BookRequestCollectionEnum = {
-    Library: 'LIBRARY',
+    Read: 'READ',
+    Unread: 'UNREAD',
     Wishlist: 'WISHLIST'
 } as const;
 
@@ -143,7 +144,8 @@ export interface BookResponse {
 }
 
 export const BookResponseCollectionEnum = {
-    Library: 'LIBRARY',
+    Read: 'READ',
+    Unread: 'UNREAD',
     Wishlist: 'WISHLIST'
 } as const;
 

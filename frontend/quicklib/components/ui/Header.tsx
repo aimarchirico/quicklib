@@ -69,7 +69,7 @@ const Header: React.FC<HeaderProps> = ({
               disabled={rightButton.disabled || rightButton.loading}
             >
               {rightButton.loading ? (
-                <ActivityIndicator size={24} color={Colors.brand.red} />
+                <ActivityIndicator size={24} color={Colors.brand.green} />
               ) : (
                 <Ionicons 
                   name={rightButton.icon} 
