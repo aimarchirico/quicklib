@@ -47,21 +47,16 @@ const LoginButton = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Button
+    <Button
         title={user ? 'Sign out' : 'Sign in'}
         onPress={handlePress}
         variant={user ? 'danger' : 'primary'}
         loading={loading}
       />
-    </View>
   );
 };
 
 const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
-  container: {
-    margin: 8,
-  },
 });
 
 export default LoginButton;
