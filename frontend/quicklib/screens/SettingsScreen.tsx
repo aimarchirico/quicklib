@@ -2,15 +2,15 @@ import ConfirmationModal from '@/components/ConfirmationModal';
 import { ScreenWrapper } from '@/components/ScreenWrapper';
 import Button from '@/components/ui/Button';
 import Header from '@/components/ui/Header';
+import { useBooksContext } from '@/context/BooksContext';
 import { Colors } from '@/globals/colors';
 import { FontFamily } from '@/globals/fonts';
-import { useBooks } from '@/hooks/useBooks';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import useLoginWithGoogle from '@/hooks/useLoginWithGoogle';
 import { getAuth } from '@react-native-firebase/auth';
-import { useFocusEffect, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import React, { useMemo, useState } from 'react';
-import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 const SettingsScreen = () => {
   const colorScheme = useColorScheme();
@@ -20,9 +20,10 @@ const SettingsScreen = () => {
   const user = auth.currentUser;
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const router = useRouter();
-  const { books, loading, refetch } = useBooks();
+  const { books, loading } = useBooksContext();
 
-  const libraryCount = books.filter(b => b.collection === 'LIBRARY').length;
+  const readCount = books.filter(b => b.collection === 'READ').length;
+  const unreadCount = books.filter(b => b.collection === 'UNREAD').length;
   const wishlistCount = books.filter(b => b.collection === 'WISHLIST').length;
 
   const handleSignout = async () => {
@@ -61,11 +62,16 @@ const SettingsScreen = () => {
     }
   };
 
-  useFocusEffect(
-    React.useCallback(() => {
-      refetch();
-    }, [refetch])
-  );
+  if (loading) {
+    return (
+      <ScreenWrapper style={styles.container}>
+        <Header title="Settings" />
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <ActivityIndicator size="large" color={Colors.brand.green} />
+        </View>
+      </ScreenWrapper>
+    );
+  }
 
   return (
     <ScreenWrapper style={styles.container}>
@@ -91,7 +97,10 @@ const SettingsScreen = () => {
             <Text style={styles.sectionTitle}>Stats</Text>
             <View style={styles.card}>
               <Text style={styles.statsText}>
-                {loading ? 'Loading...' : `Library: ${libraryCount} book${libraryCount === 1 ? '' : 's'}`}
+                {loading ? '' : `Read: ${readCount} book${readCount === 1 ? '' : 's'}`}
+              </Text>
+              <Text style={styles.statsText}>
+                {loading ? '' : `Unread: ${unreadCount} book${unreadCount === 1 ? '' : 's'}`}
               </Text>
               <Text style={styles.statsText}>
                 {loading ? '' : `Wishlist: ${wishlistCount} book${wishlistCount === 1 ? '' : 's'}`}
