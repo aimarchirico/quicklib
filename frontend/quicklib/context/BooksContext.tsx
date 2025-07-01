@@ -1,17 +1,29 @@
 import { BooksFilter, useBooks } from '@/hooks/useBooks';
-import React, { createContext, useContext, useMemo, useState } from 'react';
+import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
 
 interface BooksContextValue extends ReturnType<typeof useBooks> {
   filter: BooksFilter;
   setFilter: (filter: BooksFilter) => void;
+  resetFilters: () => void;
 }
 
 const BooksContext = createContext<BooksContextValue | undefined>(undefined);
 
 export const BooksProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [filter, setFilter] = useState<BooksFilter>({});
-  const booksHook = useBooks(filter);
-  const value = useMemo(() => ({ ...booksHook, filter, setFilter }), [booksHook, filter]);
+  const booksHook = useBooks();
+  
+  const resetFilters = useCallback(() => {
+    setFilter({});
+  }, []);
+  
+  const value = useMemo(() => ({ 
+    ...booksHook, 
+    filter, 
+    setFilter, 
+    resetFilters 
+  }), [booksHook, filter, resetFilters]);
+  
   return <BooksContext.Provider value={value}>{children}</BooksContext.Provider>;
 };
 
