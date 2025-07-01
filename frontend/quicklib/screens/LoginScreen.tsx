@@ -1,10 +1,10 @@
 import { ScreenWrapper } from '@/components/ScreenWrapper';
 import { Colors } from '@/globals/colors';
+import { FontFamily } from '@/globals/fonts';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import React, { useMemo } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import LoginButton from '../components/LoginButton';
-import { FontFamily } from '@/globals/fonts';
 
 type Props = {};
 
@@ -44,7 +44,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    width: '100%', 
   },
   logoContainer: {
     marginBottom: 24,
@@ -59,12 +59,15 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     fontFamily: FontFamily.bold,
     marginBottom: 8,
     color: Colors[colorScheme ?? 'light'].text,
+    width: '100%', 
+    textAlign: 'center', 
   },
   subtitle: {
     fontSize: 16,
     marginBottom: 40,
     textAlign: 'center',
     color: Colors[colorScheme ?? 'light'].icon,
+    width: '100%',
   },
   buttonContainer: {
     width: '100%',
