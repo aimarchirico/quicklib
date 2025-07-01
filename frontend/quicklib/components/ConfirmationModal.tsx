@@ -16,6 +16,7 @@ interface ConfirmationModalProps {
   confirmationPlaceholder?: string;
   confirmationErrorText?: string;
   showCancelButton?: boolean;
+  loading?: boolean;
 }
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
@@ -28,7 +29,8 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   confirmationValue,
   confirmationPlaceholder,
   confirmationErrorText = 'Please enter the correct value to confirm',
-  showCancelButton = true
+  showCancelButton = true,
+  loading = false
 }) => {
   const colorScheme = useColorScheme();
   const styles = useMemo(() => makeStyles(colorScheme), [colorScheme]);
@@ -102,6 +104,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
                 onPress={handleClose}
                 variant="tertiary"
                 style={styles.button}
+                disabled={loading}
               />
             )}
             <Button
@@ -109,6 +112,8 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
               onPress={handleConfirm}
               variant="danger"
               style={[styles.button, !showCancelButton && styles.singleButton]}
+              loading={loading}
+              disabled={loading}
             />
           </View>
         </View>
