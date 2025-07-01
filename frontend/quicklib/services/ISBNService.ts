@@ -36,8 +36,8 @@ class ISBNService {
       // Map the Google Books API response to our BookRequest model
       const bookRequest: BookRequest = {
         title: bookInfo.title || '',
-        author: bookInfo.authors ? bookInfo.authors.join(', ') : 'Unknown',
-        language: bookInfo.language || 'en',
+        author: bookInfo.authors ? bookInfo.authors.join(', ') : '',
+        language: bookInfo.language || '',
         isbn: cleanISBN,
         collection: BookRequestCollectionEnum.Unread
       };
