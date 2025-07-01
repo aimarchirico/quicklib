@@ -15,6 +15,7 @@ interface ConfirmationModalProps {
   confirmationValue?: string;
   confirmationPlaceholder?: string;
   confirmationErrorText?: string;
+  showCancelButton?: boolean;
 }
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
@@ -26,7 +27,8 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   confirmText,
   confirmationValue,
   confirmationPlaceholder,
-  confirmationErrorText = 'Please enter the correct value to confirm'
+  confirmationErrorText = 'Please enter the correct value to confirm',
+  showCancelButton = true
 }) => {
   const colorScheme = useColorScheme();
   const styles = useMemo(() => makeStyles(colorScheme), [colorScheme]);
@@ -90,18 +92,23 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
             </>
           )}
           
-          <View style={styles.buttonContainer}>
-            <Button
-              title="Cancel"
-              onPress={handleClose}
-              variant="tertiary"
-              style={styles.button}
-            />
+          <View style={[
+            styles.buttonContainer,
+            !showCancelButton && styles.singleButtonContainer
+          ]}>
+            {showCancelButton && (
+              <Button
+                title="Cancel"
+                onPress={handleClose}
+                variant="tertiary"
+                style={styles.button}
+              />
+            )}
             <Button
               title={confirmText}
               onPress={handleConfirm}
               variant="danger"
-              style={styles.button}
+              style={[styles.button, !showCancelButton && styles.singleButton]}
             />
           </View>
         </View>
@@ -154,9 +161,16 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     marginHorizontal: 0, 
     paddingHorizontal: 0, 
   },
+  singleButtonContainer: {
+    justifyContent: 'center',
+  },
   button: {
     flex: 1,
     paddingVertical: 15,
+  },
+  singleButton: {
+    flex: 1,
+    width: '100%',
   },
   error: {
     color: Colors.brand.red,
