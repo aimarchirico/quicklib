@@ -3,8 +3,9 @@ import FilterDropdown from '@/components/FilterDropdown';
 import { ScreenWrapper } from '@/components/ScreenWrapper';
 import SearchableBookList from '@/components/SearchableBookList';
 import Header from '@/components/ui/Header';
+import { useBooksContext } from '@/context/BooksContext';
 import { Colors } from '@/globals/colors';
-import { BooksFilter, useBooks } from '@/hooks/useBooks';
+import { BooksFilter } from '@/hooks/useBooks';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useFocusEffect, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
@@ -53,9 +54,14 @@ const BooksScreen = () => {
     }
   }, [paramFilter, paramValue]);
 
-  const { books, loading, error, refetch } = useBooks(filterObject);
+  const { books, loading, error, refetch, filter, setFilter } = useBooksContext();
   const [refreshing, setRefreshing] = useState(false);
   
+  // Update filter in context when filterObject changes
+  useEffect(() => {
+    setFilter(filterObject);
+  }, [JSON.stringify(filterObject)]);
+
   const styles = useMemo(() => makeStyles(colorScheme), [colorScheme]);
   
   // Generate appropriate title based on filter
@@ -64,14 +70,16 @@ const BooksScreen = () => {
     if (fromBookInfo === 'true' && paramFilter && paramValue) {
       switch (paramFilter) {
         case 'author':
-          return paramValue; // Just the author name
+          return paramValue; 
         case 'series':
-          return paramValue; // Just the series name
+          return paramValue;
         case 'language':
-          return paramValue; // Just the language
+          return paramValue; 
         case 'collection':
-          // Collection should still show Library or Wishlist
-          return paramValue === BookResponseCollectionEnum.Library ? 'Library' : 'Wishlist';
+          if (paramValue === BookResponseCollectionEnum.Read) return 'Read';
+          if (paramValue === BookResponseCollectionEnum.Unread) return 'Unread';
+          if (paramValue === BookResponseCollectionEnum.Wishlist) return 'Wishlist';
+          return 'Books';
         default:
           return 'Books';
       }
@@ -81,9 +89,12 @@ const BooksScreen = () => {
     let baseTitle = 'Books';
     
     // Add collection to title if filtered
-    if (collectionFilter === BookResponseCollectionEnum.Library || 
-        (paramFilter === 'collection' && paramValue === BookResponseCollectionEnum.Library)) {
-      baseTitle = 'Library';
+    if (collectionFilter === BookResponseCollectionEnum.Read || 
+        (paramFilter === 'collection' && paramValue === BookResponseCollectionEnum.Read)) {
+      baseTitle = 'Read';
+    } else if (collectionFilter === BookResponseCollectionEnum.Unread || 
+              (paramFilter === 'collection' && paramValue === BookResponseCollectionEnum.Unread)) {
+      baseTitle = 'Unread';
     } else if (collectionFilter === BookResponseCollectionEnum.Wishlist || 
               (paramFilter === 'collection' && paramValue === BookResponseCollectionEnum.Wishlist)) {
       baseTitle = 'Wishlist';
@@ -148,7 +159,7 @@ const BooksScreen = () => {
           }} 
         />
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color={Colors.brand.red} />
+          <ActivityIndicator size="large" color={Colors.brand.green} />
         </View>
       </ScreenWrapper>
     );

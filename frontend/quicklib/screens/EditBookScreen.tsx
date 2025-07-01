@@ -3,7 +3,7 @@ import BookForm from '@/components/BookForm';
 import { ScreenWrapper } from '@/components/ScreenWrapper';
 import Header from '@/components/ui/Header';
 import { Colors } from '@/globals/colors';
-import { useBooks } from '@/hooks/useBooks';
+import { useBooksContext } from '@/context/BooksContext';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
@@ -13,7 +13,7 @@ const EditBookScreen = () => {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const colorScheme = useColorScheme();
-  const { fetch, update } = useBooks();
+  const { fetch, update } = useBooksContext();
   const [book, setBook] = useState<BookResponse | null>(null);
   const [loading, setLoading] = useState(true);
 
