@@ -1,11 +1,65 @@
-import { BookRequest } from '@/api/generated';
+import { BookRequest, BookRequestCollectionEnum } from '@/api/generated';
 import BookForm from '@/components/BookForm';
-import { useBooks } from '@/hooks/useBooks';
-import { router } from 'expo-router';
-import React from 'react';
+import { ScreenWrapper } from '@/components/ScreenWrapper';
+import Header from '@/components/ui/Header';
+import { useBooksContext } from '@/context/BooksContext';
+import { Colors } from '@/globals/colors';
+import { FontFamily } from '@/globals/fonts';
+import { useColorScheme } from '@/hooks/useColorScheme';
+import { isbnService } from '@/services/ISBNService';
+import { router, useLocalSearchParams } from 'expo-router';
+import React, { useEffect, useMemo, useState } from 'react';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 
 const AddBookScreen = () => {
-  const { add } = useBooks();
+  const { isbn } = useLocalSearchParams<{ isbn?: string }>();
+  const { add } = useBooksContext();
+  const [initialData, setInitialData] = useState<BookRequest | undefined>();
+  const [isLoading, setIsLoading] = useState(false);
+  const colorScheme = useColorScheme();
+  const styles = useMemo(() => makeStyles(colorScheme), [colorScheme]);
+
+  // Fetch book details when ISBN is provided
+  useEffect(() => {
+    const fetchBookDetails = async () => {
+      if (!isbn) {
+        setInitialData(undefined);
+        return;
+      }
+
+      setIsLoading(true);
+      try {
+        const bookData = await isbnService.getBookByISBN(isbn);
+        if (bookData) {
+          setInitialData({
+            isbn,
+            title: bookData.title,
+            author: bookData.author,
+            language: bookData.language,
+            collection: BookRequestCollectionEnum.Unread,
+          } as BookRequest);
+        } else {
+          // If no book data found, just prefill ISBN
+          setInitialData({
+            isbn,
+            collection: BookRequestCollectionEnum.Unread,
+          } as BookRequest);
+        }
+      } catch (error) {
+        console.error('Error fetching book details:', error);
+        // On error, just prefill ISBN
+        setInitialData({
+          isbn,
+          collection: BookRequestCollectionEnum.Unread,
+        } as BookRequest);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchBookDetails();
+  }, [isbn]);
+  
   const handleSubmit = async (data: BookRequest) => {
     try {
       const result = await add(data);
