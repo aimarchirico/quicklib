@@ -20,6 +20,7 @@ interface HeaderProps {
   onBackPress?: () => void;
   RightComponent?: React.ReactNode;
   rightButton?: HeaderRightButton;
+  rightButtons?: HeaderRightButton[];
 }
 
 const Header: React.FC<HeaderProps> = ({ 
@@ -27,7 +28,8 @@ const Header: React.FC<HeaderProps> = ({
   showBackButton = false, 
   onBackPress, 
   RightComponent,
-  rightButton
+  rightButton,
+  rightButtons
 }) => {
   const router = useRouter();
   const colorScheme = useColorScheme();
@@ -58,9 +60,28 @@ const Header: React.FC<HeaderProps> = ({
         )}
         <Text style={styles.title} numberOfLines={1}>{title}</Text>
       </View>
-      {(RightComponent || rightButton) && (
+      {(RightComponent || rightButton || rightButtons) && (
         <View style={styles.rightSection}>
           {RightComponent}
+          {rightButtons && rightButtons.map((button, index) => (
+            <TouchableOpacity 
+              key={index}
+              onPress={button.onPress} 
+              style={[styles.iconButton, index > 0 && styles.iconButtonSpacing]}
+              ref={button.buttonRef}
+              disabled={button.disabled || button.loading}
+            >
+              {button.loading ? (
+                <ActivityIndicator size={24} color={Colors.brand.green} />
+              ) : (
+                <Ionicons 
+                  name={button.icon} 
+                  size={24} 
+                  color={Colors.brand.red} 
+                />
+              )}
+            </TouchableOpacity>
+          ))}
           {rightButton && (
             <TouchableOpacity 
               onPress={rightButton.onPress} 
@@ -119,6 +140,9 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     padding: 8,
     borderRadius: 30,
     backgroundColor: Colors[colorScheme ?? 'light'].card,
+  },
+  iconButtonSpacing: {
+    marginLeft: 8,
   },
 });
 
