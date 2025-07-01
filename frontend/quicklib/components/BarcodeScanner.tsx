@@ -4,7 +4,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { Ionicons } from '@expo/vector-icons';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import React, { useEffect, useMemo, useState } from 'react';
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, BackHandler, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface BarcodeScannerProps {
   onBarCodeScanned: (data: string) => void;
@@ -39,6 +39,18 @@ const BarcodeScanner: React.FC<BarcodeScannerProps> = ({ onBarCodeScanned, onClo
       }
     })();
   }, [permission]);
+
+  // Handle Android back button to close scanner instead of going back
+  useEffect(() => {
+    const backAction = () => {
+      onClose();
+      return true; // Prevent default back action
+    };
+
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+    return () => backHandler.remove();
+  }, [onClose]);
 
   const handleBarCodeScanned = (scanningResult: { data: string, type: string }) => {
     if (scanning) {
@@ -170,7 +182,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   },
   scanFrame: {
     width: 250,
-    height: 250,
+    height: 100,
     position: 'relative',
   },
   corner: {
@@ -225,13 +237,13 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     backgroundColor: 'rgba(0,0,0,0.6)',
-    padding: 10,
-    borderRadius: 5,
+    padding: 20,
+    borderRadius: 20,
   },
   button: {
     backgroundColor: Colors.brand.green,
     padding: 15,
-    borderRadius: 5,
+    borderRadius: 20,
     marginTop: 20,
     alignItems: 'center',
   },
