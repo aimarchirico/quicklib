@@ -95,12 +95,18 @@ const BookInfoScreen = () => {
             <TouchableOpacity
               onPress={() => setDeleteModalVisible(true)}
               style={{ marginRight: 8, padding: 8, borderRadius: 30, backgroundColor: Colors[colorScheme ?? 'light'].card }}
+              disabled={deleting}
             >
-              <Ionicons name="trash-outline" size={24} color={Colors.brand.red} />
+              {deleting ? (
+                <ActivityIndicator size={24} color={Colors.brand.green} />
+              ) : (
+                <Ionicons name="trash-outline" size={24} color={Colors.brand.red} />
+              )}
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => router.push({ pathname: '/(tabs)/(books)/editBook', params: { id: book.id } })}
               style={{ padding: 8, borderRadius: 30, backgroundColor: Colors[colorScheme ?? 'light'].card }}
+              disabled={deleting}
             >
               <Ionicons name="create-outline" size={24} color={Colors.brand.red} />
             </TouchableOpacity>
@@ -211,16 +217,18 @@ const BookInfoScreen = () => {
           try {
             await remove(book.id);
             setDeleteModalVisible(false);
-            router.replace('/(tabs)/(books)');
+            // Navigate to books screen and trigger refresh
+            router.push('/(tabs)/(books)');
           } catch (e) {
-            // Optionally show error modal
+            console.error('Error deleting book:', e);
           } finally {
             setDeleting(false);
           }
         }}
         title="Delete Book"
         message="Are you sure you want to delete this book? This action cannot be undone."
-        confirmText={deleting ? 'Deleting...' : 'Delete'}
+        confirmText={'Delete'}
+        loading={deleting}
       />
     </ScreenWrapper>
   );
