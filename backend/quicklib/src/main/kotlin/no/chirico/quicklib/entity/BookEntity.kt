@@ -35,5 +35,5 @@ data class BookEntity(
 }
 
 enum class BookCollection {
-    LIBRARY, WISHLIST
+    READ, UNREAD, WISHLIST
 }
