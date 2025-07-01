@@ -2,9 +2,9 @@ import { BookResponse } from '@/api/generated';
 import ConfirmationModal from '@/components/ConfirmationModal';
 import { ScreenWrapper } from '@/components/ScreenWrapper';
 import Header from '@/components/ui/Header';
+import { useBooksContext } from '@/context/BooksContext';
 import { Colors } from '@/globals/colors';
 import { FontFamily } from '@/globals/fonts';
-import { useBooks } from '@/hooks/useBooks';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -14,7 +14,7 @@ import { ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View
 const BookInfoScreen = () => {
   const { id } = useLocalSearchParams();
   const router = useRouter();
-  const { fetch, remove } = useBooks();
+  const { fetch, remove } = useBooksContext();
   const [book, setBook] = useState<BookResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
@@ -57,7 +57,7 @@ const BookInfoScreen = () => {
   if (loading) {
     return (
       <ScreenWrapper>
-        <Header title="Loading..." showBackButton={true} />
+        <Header title="" showBackButton={true} />
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={Colors.brand.green} />
         </View>
@@ -156,7 +156,13 @@ const BookInfoScreen = () => {
               onPress={() => navigateToFilteredBooks('collection', book.collection)}
             >
               <Ionicons 
-                name={book.collection === 'LIBRARY' ? "library-outline" : "heart-outline"} 
+                name={
+                  book.collection === 'READ'
+                    ? 'checkmark-done-outline'
+                    : book.collection === 'UNREAD'
+                    ? 'book-outline'
+                    : 'heart-outline'
+                }
                 size={20} 
                 color={Colors[colorScheme ?? 'light'].icon} 
               />
@@ -167,7 +173,11 @@ const BookInfoScreen = () => {
                   styles.clickable,
                   { color: Colors[colorScheme ?? 'light'].text }
                 ]}>
-                  {book.collection === 'LIBRARY' ? 'Library' : 'Wishlist'}
+                  {book.collection === 'READ'
+                    ? 'Read'
+                    : book.collection === 'UNREAD'
+                    ? 'Unread'
+                    : 'Wishlist'}
                 </Text>
               </View>
               <Ionicons name="chevron-forward" size={20} color={Colors[colorScheme ?? 'light'].icon} />
@@ -242,6 +252,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   scrollContent: {
     paddingVertical: 16,
     paddingBottom: 0,
+    alignContent: 'flex-end'
   },
   badgeContainer: {
     alignSelf: 'flex-end',
