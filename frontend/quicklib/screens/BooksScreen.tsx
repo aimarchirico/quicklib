@@ -1,51 +1,26 @@
 import { BookResponseCollectionEnum } from '@/api/generated';
+import BarcodeScanner from '@/components/BarcodeScanner';
 import FilterDropdown from '@/components/FilterDropdown';
 import { ScreenWrapper } from '@/components/ScreenWrapper';
 import SearchableBookList from '@/components/SearchableBookList';
 import Header from '@/components/ui/Header';
 import { useBooksContext } from '@/context/BooksContext';
 import { Colors } from '@/globals/colors';
-import { BooksFilter } from '@/hooks/useBooks';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { useFocusEffect, useLocalSearchParams } from 'expo-router';
+import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Dimensions, StyleSheet, Text, View } from 'react-native';
 
 const BooksScreen = () => {
   const { filter: paramFilter, value: paramValue, fromBookInfo } = 
     useLocalSearchParams<{ filter?: string; value?: string; fromBookInfo?: string }>();
+  const router = useRouter();
   const colorScheme = useColorScheme();
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const [isScannerVisible, setIsScannerVisible] = useState(false);
   const [collectionFilter, setCollectionFilter] = useState<BookResponseCollectionEnum | null>(null);
   const [filterButtonPosition, setFilterButtonPosition] = useState({ top: 0, right: 0, width: 0 });
   const filterButtonRef = useRef<View | null>(null);
-  
-  // Create filter object based on route params and collection filter
-  const filterObject: BooksFilter = useMemo(() => {
-    const baseFilter: BooksFilter = {};
-    
-    // Add collection filter if selected from filter dropdown
-    if (collectionFilter) {
-      baseFilter.collection = collectionFilter;
-    }
-    
-    if (!paramFilter || !paramValue) return baseFilter;
-    
-    // Add attribute filters from params
-    switch (paramFilter) {
-      case 'author':
-        return { ...baseFilter, author: paramValue };
-      case 'series':
-        return { ...baseFilter, series: paramValue };
-      case 'language':
-        return { ...baseFilter, language: paramValue };
-      case 'collection':
-        // If collection comes from route params, it takes precedence over the filter dropdown
-        return { ...baseFilter, collection: paramValue as BookResponseCollectionEnum };
-      default:
-        return baseFilter;
-    }
-  }, [paramFilter, paramValue, collectionFilter]);
 
   // Set initial collection filter based on route params if available
   useEffect(() => {
@@ -54,13 +29,54 @@ const BooksScreen = () => {
     }
   }, [paramFilter, paramValue]);
 
-  const { books, loading, error, refetch, filter, setFilter } = useBooksContext();
+  const { books: allBooks, loading, error, refetch, resetFilters } = useBooksContext();
   const [refreshing, setRefreshing] = useState(false);
   
-  // Update filter in context when filterObject changes
-  useEffect(() => {
-    setFilter(filterObject);
-  }, [JSON.stringify(filterObject)]);
+  // Capture resetFilters in a ref to avoid it being a dependency
+  const resetFiltersRef = React.useRef(resetFilters);
+  resetFiltersRef.current = resetFilters;
+  
+  // Apply client-side filtering to books
+  const filteredBooks = useMemo(() => {
+    let filtered = [...allBooks];
+    
+    // Apply collection filter from dropdown
+    if (collectionFilter) {
+      filtered = filtered.filter(book => book.collection === collectionFilter);
+    }
+    
+    // Apply attribute filters from params
+    if (paramFilter && paramValue) {
+      switch (paramFilter) {
+        case 'author':
+          filtered = filtered.filter(book => book.author === paramValue);
+          break;
+        case 'series':
+          filtered = filtered.filter(book => book.series === paramValue);
+          break;
+        case 'language':
+          filtered = filtered.filter(book => book.language === paramValue);
+          break;
+        case 'collection':
+          // If collection comes from route params, it takes precedence
+          filtered = filtered.filter(book => book.collection === paramValue as BookResponseCollectionEnum);
+          break;
+      }
+    }
+    
+    // Sort based on filter type
+    if (paramFilter === 'series' && paramValue) {
+      // When filtering by series, sort by sequence number (ascending)
+      return filtered.sort((a, b) => {
+        const seqA = a.sequenceNumber ?? Number.MAX_SAFE_INTEGER;
+        const seqB = b.sequenceNumber ?? Number.MAX_SAFE_INTEGER;
+        return seqA - seqB;
+      });
+    } else {
+      // Default sort by creation date (newest first)
+      return filtered.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    }
+  }, [allBooks, collectionFilter, paramFilter, paramValue]);
 
   const styles = useMemo(() => makeStyles(colorScheme), [colorScheme]);
   
@@ -140,10 +156,37 @@ const BooksScreen = () => {
     setIsDropdownVisible(false);
   };
 
+  const toggleScanner = () => {
+    setIsScannerVisible(!isScannerVisible);
+  };
+
+  const handleBarCodeScanned = async (isbn: string) => {
+    setIsScannerVisible(false);
+    try {
+      // Check if book with this ISBN already exists
+      const existingBook = allBooks.find(b => b.isbn === isbn);
+      if (existingBook) {
+        // If found, navigate to BookInfoScreen for that book
+        router.push({ pathname: '/(tabs)/(books)/bookInfo', params: { id: existingBook.id } });
+        return;
+      }
+      
+      // If not found, navigate to add screen with ISBN prefilled
+      router.push({ pathname: '/(tabs)/add', params: { isbn } });
+    } catch (error) {
+      console.error('Error handling barcode scan:', error);
+    }
+  };
+
+  // Close scanner when component loses focus
   useFocusEffect(
     React.useCallback(() => {
-      refetch();
-    }, [refetch])
+      // Don't reset any filters when just navigating to books tab
+      // Only close scanner if it was open
+      return () => {
+        setIsScannerVisible(false);
+      };
+    }, [])
   );
 
   if (loading) {
@@ -152,11 +195,17 @@ const BooksScreen = () => {
         <Header 
           title={title}
           showBackButton={!!(fromBookInfo === 'true')} // Show back button when navigated from BookInfo
-          rightButton={{
-            icon: 'filter-outline',
-            onPress: toggleFilterDropdown,
-            buttonRef: filterButtonRef
-          }} 
+          rightButtons={[
+            {
+              icon: 'barcode-outline',
+              onPress: toggleScanner,
+            },
+            {
+              icon: 'filter-outline',
+              onPress: toggleFilterDropdown,
+              buttonRef: filterButtonRef
+            }
+          ]}
         />
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={Colors.brand.green} />
@@ -171,11 +220,17 @@ const BooksScreen = () => {
         <Header 
           title={title}
           showBackButton={!!(fromBookInfo === 'true')} 
-          rightButton={{
-            icon: 'filter-outline',
-            onPress: toggleFilterDropdown,
-            buttonRef: filterButtonRef
-          }} 
+          rightButtons={[
+            {
+              icon: 'barcode-outline',
+              onPress: toggleScanner,
+            },
+            {
+              icon: 'filter-outline',
+              onPress: toggleFilterDropdown,
+              buttonRef: filterButtonRef
+            }
+          ]}
         />
         <Text style={styles.error}>
           {error}
@@ -185,35 +240,50 @@ const BooksScreen = () => {
   }
 
   return (
-    <ScreenWrapper style={styles.container}>
-      <Header 
-        title={title}
-        showBackButton={!!(fromBookInfo === 'true')} 
-        rightButton={{
-          icon: 'filter-outline',
-          onPress: toggleFilterDropdown,
-          buttonRef: filterButtonRef
-        }}
-      />
-      <SearchableBookList 
-        books={books} 
-        onRefresh={async () => {
-          setRefreshing(true);
-          await refetch();
-          setRefreshing(false);
-        }}
-        refreshing={refreshing}
-      />
-      
-      {/* Filter Dropdown */}
-      <FilterDropdown 
-        visible={isDropdownVisible}
-        collectionFilter={collectionFilter}
-        position={filterButtonPosition}
-        onClose={() => setIsDropdownVisible(false)}
-        onSelectFilter={applyCollectionFilter}
-      />
-    </ScreenWrapper>
+    <>
+      {isScannerVisible ? (
+        <BarcodeScanner
+          onBarCodeScanned={handleBarCodeScanned}
+          onClose={() => setIsScannerVisible(false)}
+        />
+      ) : (
+        <ScreenWrapper style={styles.container}>
+          <Header 
+            title={title}
+            showBackButton={!!(fromBookInfo === 'true')} 
+            rightButtons={[
+              {
+                icon: 'barcode-outline',
+                onPress: toggleScanner,
+              },
+              {
+                icon: 'filter-outline',
+                onPress: toggleFilterDropdown,
+                buttonRef: filterButtonRef
+              }
+            ]}
+          />
+          <SearchableBookList 
+            books={filteredBooks} 
+            onRefresh={async () => {
+              setRefreshing(true);
+              await refetch();
+              setRefreshing(false);
+            }}
+            refreshing={refreshing}
+          />
+          
+          {/* Filter Dropdown */}
+          <FilterDropdown 
+            visible={isDropdownVisible}
+            collectionFilter={collectionFilter}
+            position={filterButtonPosition}
+            onClose={() => setIsDropdownVisible(false)}
+            onSelectFilter={applyCollectionFilter}
+          />
+        </ScreenWrapper>
+      )}
+    </>
   );
 };
 
