@@ -75,25 +75,40 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
                 collectionFilter === null && styles.selectedOptionText
               ]}>All Books</Text>
             </TouchableOpacity>
-            
             <TouchableOpacity
               style={[
                 styles.filterOption,
-                collectionFilter === BookResponseCollectionEnum.Library && styles.selectedOption
+                collectionFilter === BookResponseCollectionEnum.Read && styles.selectedOption
               ]}
-              onPress={() => onSelectFilter(BookResponseCollectionEnum.Library)}
+              onPress={() => onSelectFilter(BookResponseCollectionEnum.Read)}
             >
               <Ionicons 
-                name="library-outline" 
+                name="checkmark-done-outline" 
                 size={24} 
-                color={collectionFilter === BookResponseCollectionEnum.Library ? Colors[colorScheme ?? 'light'].card : Colors.brand.red}
+                color={collectionFilter === BookResponseCollectionEnum.Read ? Colors[colorScheme ?? 'light'].card : Colors.brand.red}
               />
               <Text style={[
                 styles.filterOptionText,
-                collectionFilter === BookResponseCollectionEnum.Library && styles.selectedOptionText
-              ]}>Library</Text>
+                collectionFilter === BookResponseCollectionEnum.Read && styles.selectedOptionText
+              ]}>Read</Text>
             </TouchableOpacity>
-            
+            <TouchableOpacity
+              style={[
+                styles.filterOption,
+                collectionFilter === BookResponseCollectionEnum.Unread && styles.selectedOption
+              ]}
+              onPress={() => onSelectFilter(BookResponseCollectionEnum.Unread)}
+            >
+              <Ionicons 
+                name="book-outline" 
+                size={24} 
+                color={collectionFilter === BookResponseCollectionEnum.Unread ? Colors[colorScheme ?? 'light'].card : Colors.brand.red}
+              />
+              <Text style={[
+                styles.filterOptionText,
+                collectionFilter === BookResponseCollectionEnum.Unread && styles.selectedOptionText
+              ]}>Unread</Text>
+            </TouchableOpacity>
             <TouchableOpacity
               style={[
                 styles.filterOption,
