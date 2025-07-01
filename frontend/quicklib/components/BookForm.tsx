@@ -3,9 +3,9 @@ import BarcodeScanner from '@/components/BarcodeScanner';
 import ConfirmationModal from '@/components/ConfirmationModal';
 import { ScreenWrapper } from '@/components/ScreenWrapper';
 import Header from '@/components/ui/Header';
+import { useBooksContext } from '@/context/BooksContext';
 import { Colors } from '@/globals/colors';
 import { FontFamily } from '@/globals/fonts';
-import { useBooks } from '@/hooks/useBooks';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { isbnService } from '@/services/ISBNService';
 import { Ionicons } from '@expo/vector-icons';
@@ -42,7 +42,7 @@ const BookForm = ({
   const { control, handleSubmit, formState: { errors }, setValue, reset } = useForm<BookRequest>({
     resolver: zodResolver(schema),
     defaultValues: initialData || {
-      collection: BookRequestCollectionEnum.Library,
+      collection: BookRequestCollectionEnum.Unread,
     },
   });
   const colorScheme = useColorScheme();
@@ -53,16 +53,18 @@ const BookForm = ({
   const [modalTitle, setModalTitle] = useState('');
   const [modalMessage, setModalMessage] = useState('');
   const [modalConfirmText, setModalConfirmText] = useState('OK');
-  const { books } = useBooks();
+  const [showCancelButton, setShowCancelButton] = useState(true);
+  const { books } = useBooksContext();
   const router = useRouter();
   
   // Create styles based on the current color scheme
   const styles = useMemo(() => makeStyles(colorScheme), [colorScheme]);
 
-  const showModal = (title: string, message: string, confirmText = 'OK') => {
+  const showModal = (title: string, message: string, confirmText = 'OK', showCancelButton = true) => {
     setModalTitle(title);
     setModalMessage(message);
     setModalConfirmText(confirmText);
+    setShowCancelButton(showCancelButton);
     setModalVisible(true);
   };
 
@@ -71,7 +73,7 @@ const BookForm = ({
     try {
       await onSubmit(data);
     } catch (error) {
-      showModal('Error', isEditing ? 'Failed to update book' : 'Failed to add book');
+      showModal('Error', isEditing ? 'Failed to update book' : 'Failed to add book', 'Close', false);
     } finally {
       setIsSubmitting(false);
     }
@@ -88,15 +90,14 @@ const BookForm = ({
         // If found, navigate to BookInfoScreen for that book
         router.push({ pathname: '/(tabs)/(books)/bookInfo', params: { id: existingBook.id } });
         return;
-      }
-      const bookData = await isbnService.getBookByISBN(isbn);
+      }        const bookData = await isbnService.getBookByISBN(isbn);
       if (bookData) {
         setValue('title', bookData.title);
         setValue('author', bookData.author);
         setValue('language', bookData.language);
-        showModal('Book Found', `Found "${bookData.title}" by ${bookData.author}. Please check the details and add any missing information.`);
+        showModal('Book Found', `Found "${bookData.title}" by ${bookData.author}. Please check the details and add any missing information.`, 'Close', false);
       } else {
-        showModal('Book Not Found', 'Could not find book details for this ISBN. Please enter the details manually.');
+        showModal('Book Not Found', 'Could not find book details for this ISBN. Please enter the details manually.', 'Close', false);
       }
     } catch (error) {
       console.error('Error fetching book details:', error);
@@ -116,11 +117,18 @@ const BookForm = ({
     <>
       <ConfirmationModal
         visible={modalVisible}
-        onClose={() => setModalVisible(false)}
-        onConfirm={() => setModalVisible(false)}
+        onClose={() => {
+          setModalVisible(false);
+          setShowCancelButton(true); 
+        }}
+        onConfirm={() => {
+          setModalVisible(false);
+          setShowCancelButton(true); 
+        }}
         title={modalTitle}
         message={modalMessage}
         confirmText={modalConfirmText}
+        showCancelButton={showCancelButton}
       />
       {isScannerVisible ? (
         <BarcodeScanner
@@ -278,14 +286,26 @@ const BookForm = ({
                           <TouchableOpacity
                             style={[
                               styles.collectionButton,
-                              value === BookRequestCollectionEnum.Library && styles.collectionButtonActive,
+                              value === BookRequestCollectionEnum.Read && styles.collectionButtonActive,
                             ]}
-                            onPress={() => onChange(BookRequestCollectionEnum.Library)}
+                            onPress={() => onChange(BookRequestCollectionEnum.Read)}
                           >
                             <Text style={[
                               styles.collectionButtonText,
-                              value === BookRequestCollectionEnum.Library && styles.collectionButtonTextActive,
-                            ]}>Library</Text>
+                              value === BookRequestCollectionEnum.Read && styles.collectionButtonTextActive,
+                            ]}>Read</Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            style={[
+                              styles.collectionButton,
+                              value === BookRequestCollectionEnum.Unread && styles.collectionButtonActive,
+                            ]}
+                            onPress={() => onChange(BookRequestCollectionEnum.Unread)}
+                          >
+                            <Text style={[
+                              styles.collectionButtonText,
+                              value === BookRequestCollectionEnum.Unread && styles.collectionButtonTextActive,
+                            ]}>Unread</Text>
                           </TouchableOpacity>
                           <TouchableOpacity
                             style={[
