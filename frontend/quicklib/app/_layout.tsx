@@ -5,6 +5,7 @@ import { useFonts } from 'expo-font';
 import { Slot, SplashScreen } from 'expo-router';
 import React, { useEffect } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { BooksProvider } from '@/context/BooksContext';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -33,11 +34,13 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
-      <Slot screenOptions={{ 
-        contentStyle: { 
-          backgroundColor: Colors[colorScheme ?? 'light'].card,
-        } 
-      }} />
+      <BooksProvider>
+        <Slot screenOptions={{ 
+          contentStyle: { 
+            backgroundColor: Colors[colorScheme ?? 'light'].card,
+          } 
+        }} />
+      </BooksProvider>
     </SafeAreaProvider>
   );
 }
