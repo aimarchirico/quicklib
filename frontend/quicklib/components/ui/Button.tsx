@@ -116,11 +116,11 @@ const Button: React.FC<ButtonProps> = ({
 const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   button: {
     borderRadius: 20,
-    padding: 20,
+    paddingVertical: 20,
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 5,
-    minWidth: 120, 
+    minWidth: '80%', 
   },
   fullWidth: {
     width: '100%',
