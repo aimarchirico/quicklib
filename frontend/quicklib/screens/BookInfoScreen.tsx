@@ -6,6 +6,7 @@ import { useBooksContext } from '@/context/BooksContext';
 import { Colors } from '@/globals/colors';
 import { FontFamily } from '@/globals/fonts';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { getLanguageDisplayName } from '@/utils/languageUtils';
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -152,7 +153,7 @@ const BookInfoScreen = () => {
               <Ionicons name="globe-outline" size={20} color={Colors[colorScheme ?? 'light'].icon} />
               <View style={styles.infoTextContainer}>
                 <Text style={styles.infoLabel}>Language</Text>
-                <Text style={[styles.infoValue, styles.clickable]}>{book.language}</Text>
+                <Text style={[styles.infoValue, styles.clickable]}>{getLanguageDisplayName(book.language)}</Text>
               </View>
               <Ionicons name="chevron-forward" size={20} color={Colors[colorScheme ?? 'light'].icon} />
             </TouchableOpacity>
