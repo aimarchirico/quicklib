@@ -2,7 +2,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { getAuth, onAuthStateChanged } from '@react-native-firebase/auth';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useMemo, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import useLoginWithGoogle from '../hooks/useLoginWithGoogle';
 import Button from './ui/Button';
 
@@ -34,10 +34,15 @@ const LoginButton = () => {
       } else {
         await signIn();
         
-        const auth = getAuth();
-        if (auth.currentUser) {
-          router.replace('/(tabs)');
-        }
+        // Wait a bit for auth state to propagate
+        setTimeout(() => {
+          const auth = getAuth();
+          if (auth.currentUser) {
+            router.replace('/(tabs)' as any);
+          } else {
+            console.error('Sign in appeared to succeed but no user found');
+          }
+        }, 500);
       }
     } catch (e) {
       console.error('Authentication error:', e);
