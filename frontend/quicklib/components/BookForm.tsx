@@ -1,13 +1,14 @@
 import { BookRequest, BookRequestCollectionEnum } from '@/api/generated';
 import BarcodeScanner from '@/components/BarcodeScanner';
 import ConfirmationModal from '@/components/ConfirmationModal';
+import LanguagePickerModal from '@/components/LanguagePickerModal';
 import { ScreenWrapper } from '@/components/ScreenWrapper';
 import Header from '@/components/ui/Header';
 import { useBooksContext } from '@/context/BooksContext';
 import { Colors } from '@/globals/colors';
 import { FontFamily } from '@/globals/fonts';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { isbnService } from '@/services/ISBNService';
+import { getLanguageDisplayName } from '@/utils/languageUtils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFocusEffect, useRouter } from 'expo-router';
 import React, { useMemo, useState } from 'react';
@@ -38,7 +39,7 @@ const BookForm = ({
   onSubmit,
   headerTitle,
 }: BookFormProps) => {
-  const { control, handleSubmit, formState: { errors }, setValue, reset } = useForm<BookRequest>({
+  const { control, handleSubmit, formState: { errors }, setValue, reset, watch } = useForm<BookRequest>({
     resolver: zodResolver(schema),
     defaultValues: initialData || {
       collection: BookRequestCollectionEnum.Unread,
@@ -53,6 +54,7 @@ const BookForm = ({
   const [modalConfirmText, setModalConfirmText] = useState('OK');
   const [showCancelButton, setShowCancelButton] = useState(true);
   const [existingBookId, setExistingBookId] = useState<number | null>(null);
+  const [languagePickerVisible, setLanguagePickerVisible] = useState(false);
   const { books } = useBooksContext();
   const router = useRouter();
   
@@ -140,6 +142,12 @@ const BookForm = ({
         message={modalMessage}
         confirmText={modalConfirmText}
         showCancelButton={showCancelButton}
+      />
+      <LanguagePickerModal
+        visible={languagePickerVisible}
+        selectedLanguage={watch('language')}
+        onSelect={(languageCode) => setValue('language', languageCode)}
+        onClose={() => setLanguagePickerVisible(false)}
       />
       {isScannerVisible ? (
         <BarcodeScanner
@@ -262,15 +270,18 @@ const BookForm = ({
                   <Controller
                     control={control}
                     name="language"
-                    render={({ field: { onChange, onBlur, value } }) => (
-                      <TextInput
+                    render={({ field: { onChange, value } }) => (
+                      <TouchableOpacity
                         style={styles.input}
-                        onBlur={onBlur}
-                        onChangeText={onChange}
-                        value={value}
-                        placeholder="Language"
-                        placeholderTextColor={Colors[colorScheme ?? 'light'].icon}
-                      />
+                        onPress={() => setLanguagePickerVisible(true)}
+                      >
+                        <Text style={[
+                          styles.inputText,
+                          !value && styles.placeholderText
+                        ]}>
+                          {value ? getLanguageDisplayName(value) : 'Select Language'}
+                        </Text>
+                      </TouchableOpacity>
                     )}
                   />
                   {errors.language && <Text style={styles.error}>{errors.language.message}</Text>}
@@ -354,6 +365,14 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     marginBottom: 15,
     fontSize: 14,
     fontFamily: FontFamily.regular,
+  },
+  inputText: {
+    fontSize: 14,
+    fontFamily: FontFamily.regular,
+    color: Colors[colorScheme ?? 'light'].text,
+  },
+  placeholderText: {
+    color: Colors[colorScheme ?? 'light'].icon,
   },
   collectionCardBg: {
     backgroundColor: Colors[colorScheme ?? 'light'].card,
