@@ -1,6 +1,7 @@
 import { BookResponse } from '@/api/generated';
 import { Colors } from '@/globals/colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { getLanguageDisplayName } from '@/utils/languageUtils';
 import React, { useMemo, useState } from 'react';
 import { RefreshControl, StyleSheet, TextInput, View } from 'react-native';
 import BookList from './BookList';
@@ -22,7 +23,8 @@ const SearchableBookList: React.FC<SearchableBookListProps> = ({ books, onRefres
       book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       book.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
       book.series?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      book.language.toLowerCase().includes(searchQuery.toLowerCase())
+      book.language.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      getLanguageDisplayName(book.language).toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
