@@ -115,6 +115,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 20,
     borderRadius: 20,
+    marginHorizontal: 15,
   },
   languageOptionSelected: {
     backgroundColor: Colors.brand.green,

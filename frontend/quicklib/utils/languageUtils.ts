@@ -2,9 +2,9 @@
  * Maps language codes to their display names
  */
 export const languageMap: Record<string, string> = {
-  'en': 'English',
   'no': 'Bokmål',
   'nn': 'Nynorsk',
+  'en': 'English',
   'da': 'Dansk',
   'it': 'Italiano',
 };
