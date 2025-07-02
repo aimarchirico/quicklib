@@ -120,7 +120,6 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 5,
-    minWidth: '80%', 
   },
   fullWidth: {
     width: '100%',
@@ -145,6 +144,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     fontFamily: FontFamily.bold,
     textAlign: 'center',
     flexShrink: 0, 
+    width: '100%',
   },
   primaryText: {
     color: '#FFFFFF',
