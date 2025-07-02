@@ -14,7 +14,7 @@ export default {
     android: {
       adaptiveIcon: {
         foregroundImage: "./assets/images/adaptive-icon.png",
-        backgroundColor: "#ffffff"
+        backgroundColor: "#151718"
       },
       edgeToEdgeEnabled: true,
       package: "no.chirico.quicklib",
@@ -30,10 +30,10 @@ export default {
       [
         "expo-splash-screen",
         {
-          image: "./assets/images/icon.png",
+          image: "./assets/images/adaptive-icon.png",
           imageWidth: 200,
           resizeMode: "contain",
-          backgroundColor: "#ffffff"
+          backgroundColor: "#151718"
         }
       ]
     ],
