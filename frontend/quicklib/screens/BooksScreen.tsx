@@ -7,6 +7,7 @@ import Header from '@/components/ui/Header';
 import { useBooksContext } from '@/context/BooksContext';
 import { Colors } from '@/globals/colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { getLanguageDisplayName } from '@/utils/languageUtils';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Dimensions, StyleSheet, Text, View } from 'react-native';
@@ -84,55 +85,21 @@ const BooksScreen = () => {
   const title = useMemo(() => {
     // If navigated from BookInfo screen, just show the filter value
     if (fromBookInfo === 'true' && paramFilter && paramValue) {
-      switch (paramFilter) {
-        case 'author':
-          return paramValue; 
-        case 'series':
-          return paramValue;
-        case 'language':
-          return paramValue; 
-        case 'collection':
-          if (paramValue === BookResponseCollectionEnum.Read) return 'Read';
-          if (paramValue === BookResponseCollectionEnum.Unread) return 'Unread';
-          if (paramValue === BookResponseCollectionEnum.Wishlist) return 'Wishlist';
-          return 'Books';
-        default:
-          return 'Books';
-      }
+      if (paramFilter === 'collection') {
+        if (paramValue === BookResponseCollectionEnum.Read) return 'Read';
+        if (paramValue === BookResponseCollectionEnum.Unread) return 'Unread';
+        if (paramValue === BookResponseCollectionEnum.Wishlist) return 'Wishlist';
+      } else if (paramFilter === 'language') {
+        return getLanguageDisplayName(paramValue) || paramValue || 'Unknown Language';
+      } else { return paramValue || 'Books' }
     }
-    
-    // Standard title generation for regular navigation
-    let baseTitle = 'Books';
-    
-    // Add collection to title if filtered
-    if (collectionFilter === BookResponseCollectionEnum.Read || 
-        (paramFilter === 'collection' && paramValue === BookResponseCollectionEnum.Read)) {
-      baseTitle = 'Read';
-    } else if (collectionFilter === BookResponseCollectionEnum.Unread || 
-              (paramFilter === 'collection' && paramValue === BookResponseCollectionEnum.Unread)) {
-      baseTitle = 'Unread';
-    } else if (collectionFilter === BookResponseCollectionEnum.Wishlist || 
-              (paramFilter === 'collection' && paramValue === BookResponseCollectionEnum.Wishlist)) {
-      baseTitle = 'Wishlist';
-    }
-    
-    // Add attribute filters to title for regular navigation
-    if (paramFilter && paramValue && fromBookInfo !== 'true') {
-      switch (paramFilter) {
-        case 'author':
-          return `${paramValue}'s ${baseTitle}`;
-        case 'series':
-          return `${paramValue} Series`;
-        case 'language':
-          return `${paramValue} ${baseTitle}`;
-        case 'collection':
-          return baseTitle; // Collection is already handled above
-        default:
-          return baseTitle;
-      }
-    }
-    
-    return baseTitle;
+    else if (collectionFilter === BookResponseCollectionEnum.Read) {
+      return 'Read';
+    } else if (collectionFilter === BookResponseCollectionEnum.Unread) {
+      return 'Unread';
+    } else if (collectionFilter === BookResponseCollectionEnum.Wishlist) {
+      return 'Wishlist';
+    } else return 'Books';
   }, [paramFilter, paramValue, collectionFilter, fromBookInfo]);
 
   const toggleFilterDropdown = () => {
@@ -193,7 +160,7 @@ const BooksScreen = () => {
     return (
       <ScreenWrapper style={styles.container}>
         <Header 
-          title={title}
+          title={title || 'Books'}
           showBackButton={!!(fromBookInfo === 'true')} // Show back button when navigated from BookInfo
           rightButtons={[
             {
@@ -218,7 +185,7 @@ const BooksScreen = () => {
     return (
       <ScreenWrapper style={styles.container}>
         <Header 
-          title={title}
+          title={title || 'Books'}
           showBackButton={!!(fromBookInfo === 'true')} 
           rightButtons={[
             {
@@ -249,7 +216,7 @@ const BooksScreen = () => {
       ) : (
         <ScreenWrapper style={styles.container}>
           <Header 
-            title={title}
+            title={title || 'Books'}
             showBackButton={!!(fromBookInfo === 'true')} 
             rightButtons={[
               {
