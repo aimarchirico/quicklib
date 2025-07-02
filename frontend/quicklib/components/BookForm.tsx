@@ -8,12 +8,11 @@ import { Colors } from '@/globals/colors';
 import { FontFamily } from '@/globals/fonts';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { isbnService } from '@/services/ISBNService';
-import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFocusEffect, useRouter } from 'expo-router';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { BackHandler, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { z } from 'zod';
 
 const schema = z.object({
@@ -53,6 +52,7 @@ const BookForm = ({
   const [modalMessage, setModalMessage] = useState('');
   const [modalConfirmText, setModalConfirmText] = useState('OK');
   const [showCancelButton, setShowCancelButton] = useState(true);
+  const [existingBookId, setExistingBookId] = useState<number | null>(null);
   const { books } = useBooksContext();
   const router = useRouter();
   
@@ -130,11 +130,11 @@ const BookForm = ({
         visible={modalVisible}
         onClose={() => {
           setModalVisible(false);
-          setShowCancelButton(true); 
+          setShowCancelButton(true);
         }}
         onConfirm={() => {
           setModalVisible(false);
-          setShowCancelButton(true); 
+          setShowCancelButton(true);
         }}
         title={modalTitle}
         message={modalMessage}
@@ -176,25 +176,6 @@ const BookForm = ({
               contentInsetAdjustmentBehavior="automatic"
             >
                 <View style={styles.formContainer}>
-                  <View style={styles.isbnContainer}>
-                    <Text style={styles.label}>ISBN</Text>
-                    <Controller
-                      control={control}
-                      name="isbn"
-                      render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput
-                          style={styles.input}
-                          onBlur={onBlur}
-                          onChangeText={onChange}
-                          value={value}
-                          placeholder="Enter ISBN"
-                          placeholderTextColor={Colors[colorScheme ?? 'light'].icon}
-                          keyboardType="numeric"
-                        />
-                      )}
-                    />
-                  </View>
-
                   <Text style={styles.label}>Collection</Text>
                   <Controller
                     control={control}
@@ -373,9 +354,6 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     marginBottom: 15,
     fontSize: 14,
     fontFamily: FontFamily.regular,
-  },
-  isbnContainer: {
-    marginBottom: 15,
   },
   collectionCardBg: {
     backgroundColor: Colors[colorScheme ?? 'light'].card,
