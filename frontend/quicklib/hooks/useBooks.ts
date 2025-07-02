@@ -1,5 +1,6 @@
 import { bookApi } from '@/api/ApiClient';
 import { BookRequest, BookResponse, BookResponseCollectionEnum } from '@/api/generated';
+import { getAuth, onAuthStateChanged } from '@react-native-firebase/auth';
 import { useCallback, useEffect, useState } from 'react';
 
 export interface BooksFilter {
@@ -31,6 +32,19 @@ export const useBooks = () => {
   const [books, setBooks] = useState<BookResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [user, setUser] = useState<any>(null);
+  const [authInitialized, setAuthInitialized] = useState(false);
+
+  // Listen to auth state changes
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      console.log('Auth state changed in useBooks:', currentUser ? 'User logged in' : 'No user');
+      setUser(currentUser);
+      setAuthInitialized(true);
+    });
+    return unsubscribe;
+  }, []);
 
   // Fetch all books (no filtering on API level)
   const fetchAll = useCallback(
@@ -122,10 +136,18 @@ export const useBooks = () => {
     [fetchAll],
   );
 
-  // Initial fetch
+  // Initial fetch - only when user is authenticated
   useEffect(() => {
-    fetchAll();
-  }, [fetchAll]);
+    if (authInitialized && user) {
+      console.log('Auth initialized and user present, fetching books');
+      fetchAll();
+    } else if (authInitialized && !user) {
+      console.log('Auth initialized but no user, resetting books state');
+      setBooks([]);
+      setLoading(false);
+      setError(null);
+    }
+  }, [authInitialized, user, fetchAll]);
 
   return { books, loading, error, refetch: fetchAll, fetchAll, fetch, add, update, remove };
 };
