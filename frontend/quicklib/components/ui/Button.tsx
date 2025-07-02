@@ -3,12 +3,12 @@ import { FontFamily } from '@/globals/fonts';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import React, { ReactNode, useMemo } from 'react';
 import {
-    ActivityIndicator,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    TouchableOpacityProps,
-    View
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableOpacityProps,
+  View
 } from 'react-native';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'danger';
@@ -120,6 +120,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 5,
+    minWidth: 120, 
   },
   fullWidth: {
     width: '100%',
@@ -143,6 +144,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     fontSize: 16,
     fontFamily: FontFamily.bold,
     textAlign: 'center',
+    flexShrink: 0, 
   },
   primaryText: {
     color: '#FFFFFF',
