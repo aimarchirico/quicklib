@@ -1,6 +1,6 @@
 import { getAuth } from '@react-native-firebase/auth';
-import { BookControllerApi, Configuration, TestAuthControllerApi, UserControllerApi } from './generated';
 import axios from 'axios';
+import { BookControllerApi, Configuration, TestAuthControllerApi, UserControllerApi } from './generated';
 
 // Use environment variable for backend base URL, fallback to localhost
 const basePath = process.env.EXPO_PUBLIC_API_BASEPATH || 'http://localhost:8080';
@@ -44,7 +44,21 @@ customAxiosInstance.interceptors.request.use(async config => {
     console.error('Error setting auth header:', error);
   }
   return config;
+}, error => {
+  console.error('Request interceptor error:', error);
+  return Promise.reject(error);
 });
+
+// Add response interceptor to handle auth errors
+customAxiosInstance.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response?.status === 401 || error.response?.status === 403) {
+      console.error('Authentication error:', error.response?.status, error.response?.data);
+    }
+    return Promise.reject(error);
+  }
+);
 
 const config = new Configuration({
 });
