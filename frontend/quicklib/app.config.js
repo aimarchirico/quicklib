@@ -14,7 +14,7 @@ export default {
     android: {
       adaptiveIcon: {
         foregroundImage: "./assets/images/adaptive-icon.png",
-        backgroundColor: "#151718"
+        backgroundColor: "#ffffff"
       },
       edgeToEdgeEnabled: true,
       package: "no.chirico.quicklib",
