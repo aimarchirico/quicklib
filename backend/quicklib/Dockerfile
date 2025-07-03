@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jre
+FROM eclipse-temurin:17-jdk
 
 # Set the working directory
 WORKDIR /app
