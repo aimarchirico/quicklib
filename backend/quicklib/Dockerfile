@@ -3,7 +3,7 @@ FROM eclipse-temurin:17-jdk
 # Set the working directory
 WORKDIR /app
 
-# Copy everything from the current directory to the container's working directory
+# Copy everything from current directory to container's working directory
 COPY . .
 
 # Build the app
