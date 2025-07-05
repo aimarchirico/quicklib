@@ -1,1 +1,1 @@
-frontend/quicklib/api/generated/**/*.ts linguist-vendored
+**/*.ts linguist-vendored
