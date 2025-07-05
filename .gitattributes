@@ -1,1 +1,2 @@
+**/api/generated/**/*.ts linguist-vendored
 **/*.tsx linguist-vendored
