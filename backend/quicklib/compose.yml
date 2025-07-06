@@ -13,8 +13,6 @@ services:
     depends_on:
       - quicklib-db
     restart: always
-    networks:
-      - cloudflare-net
   quicklib-db:
     container_name: quicklib-db
     image: postgres:latest
@@ -27,10 +25,6 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     restart: always
-    networks:
-      - cloudflare-net
 volumes:
     pgdata: {}
-networks:
-  cloudflare-net:
-    external: true
+
