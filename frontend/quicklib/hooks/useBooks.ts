@@ -10,6 +10,35 @@ export interface BooksFilter {
   language?: string;
 }
 
+// Helper function to retry API calls on 502 errors
+const retryOnBadGateway = async <T>(
+  apiCall: () => Promise<T>,
+  operationName: string,
+  maxRetries: number = 3,
+  baseDelay: number = 1000
+): Promise<T> => {
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      return await apiCall();
+    } catch (e: any) {
+      const isRetryableError = e.response?.status === 502;
+      const isLastAttempt = attempt === maxRetries;
+      
+      if (isRetryableError && !isLastAttempt) {
+        // Wait before retrying with exponential backoff
+        const delay = baseDelay * Math.pow(2, attempt);
+        console.log(`Retrying ${operationName} after ${delay}ms (attempt ${attempt + 2}/${maxRetries + 1})`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+        continue;
+      }
+      
+      // If it's not retryable or this is the last attempt, throw the error
+      throw e;
+    }
+  }
+  throw new Error('Unexpected end of retry loop');
+};
+
 // Utility function to convert empty strings to null in BookRequest
 const cleanBookData = (data: BookRequest): BookRequest => {
   const cleanedData = { ...data };
@@ -52,7 +81,10 @@ export const useBooks = () => {
       try {
         setLoading(true);
         setError(null);
-        const response = await bookApi.getAllBooks();
+        const response = await retryOnBadGateway(
+          () => (bookApi.getAllBooks()),
+          'fetchAll'
+        );
         let fetchedBooks = response.data;
         // Sort by creation date (newest first)
         fetchedBooks.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
@@ -86,7 +118,10 @@ export const useBooks = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await bookApi.addBook(cleanBookData(data));
+        const response = await retryOnBadGateway(
+          () => bookApi.addBook(cleanBookData(data)),
+          'add'
+        );
         await fetchAll();
         return response.data;
       } catch (e: any) {
@@ -105,7 +140,10 @@ export const useBooks = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await bookApi.updateBook(id, cleanBookData(data));
+        const response = await retryOnBadGateway(
+          () => bookApi.updateBook(id, cleanBookData(data)),
+          'update'
+        );
         await fetchAll();
         return response.data;
       } catch (e: any) {
@@ -124,7 +162,10 @@ export const useBooks = () => {
       setLoading(true);
       setError(null);
       try {
-        await bookApi.deleteBook(id);
+        await retryOnBadGateway(
+          () => bookApi.deleteBook(id),
+          'remove'
+        );
         await fetchAll();
       } catch (e: any) {
         setError(e.message || 'Error deleting book');
