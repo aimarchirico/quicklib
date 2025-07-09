@@ -53,7 +53,7 @@ const LoginButton = () => {
 
   return (
     <Button
-        title={user ? 'Sign out' : 'Sign in'}
+        title={user ? 'Sign out' : 'Sign in with Google'}
         onPress={handlePress}
         variant={user ? 'danger' : 'primary'}
         loading={loading}
