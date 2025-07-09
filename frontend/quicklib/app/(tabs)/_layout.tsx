@@ -3,6 +3,7 @@ import React from 'react';
 
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/globals/colors';
+import { FontFamily } from '@/globals/fonts';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
 export default function TabLayout() {
@@ -17,7 +18,11 @@ export default function TabLayout() {
           borderTopWidth: 0,
         },
         tabBarActiveTintColor: Colors.brand.green, 
-        tabBarInactiveTintColor: Colors[colorScheme ?? 'light'].icon
+        tabBarInactiveTintColor: Colors[colorScheme ?? 'light'].icon,
+        tabBarLabelStyle: {
+          fontFamily: FontFamily.medium,
+          fontSize: 12,
+        },
       }}>
       <Tabs.Screen
         name="(books)"
