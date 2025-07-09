@@ -68,6 +68,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     textAlign: 'center',
     color: Colors[colorScheme ?? 'light'].icon,
     width: '100%',
+    fontFamily: FontFamily.regular,
   },
   buttonContainer: {
     width: '100%',

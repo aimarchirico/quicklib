@@ -5,6 +5,7 @@ import { getLanguageDisplayName } from '@/utils/languageUtils';
 import React, { useMemo, useState } from 'react';
 import { RefreshControl, StyleSheet, TextInput, View } from 'react-native';
 import BookList from './BookList';
+import { FontFamily } from '@/globals/fonts';
 
 interface SearchableBookListProps {
   books: BookResponse[];
@@ -55,6 +56,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     marginVertical: 16,
     borderRadius: 20,
     fontSize: 16,
+    fontFamily: FontFamily.regular,
   },
 });
 

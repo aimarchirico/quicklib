@@ -239,6 +239,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.6)',
     padding: 20,
     borderRadius: 20,
+    fontFamily: FontFamily.regular,
   },
   button: {
     backgroundColor: Colors.brand.green,
@@ -249,13 +250,15 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   },
   buttonText: {
     color: 'white',
-    fontFamily: FontFamily.bold
+    fontFamily: FontFamily.bold,
+    fontSize: 16,
   },
   text: {
     color: 'white',
     fontSize: 16,
     textAlign: 'center',
     marginTop: 20,
+    fontFamily: FontFamily.regular,
   },
 });
 

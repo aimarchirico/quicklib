@@ -148,6 +148,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     marginBottom: 10,
     textAlign: 'left',
     color: Colors[colorScheme ?? 'light'].text,
+    fontFamily: FontFamily.regular,
   },
   input: {
     width: '100%',
@@ -157,6 +158,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     fontSize: 16,
     backgroundColor: Colors[colorScheme ?? 'light'].background,
     color: Colors[colorScheme ?? 'light'].text,
+    fontFamily: FontFamily.regular,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -182,6 +184,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     marginBottom: 8,
     fontSize: 14,
     alignSelf: 'flex-start',
+    fontFamily: FontFamily.regular,
   },
 });
 

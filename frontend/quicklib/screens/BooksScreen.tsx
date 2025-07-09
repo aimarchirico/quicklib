@@ -6,6 +6,7 @@ import SearchableBookList from '@/components/SearchableBookList';
 import Header from '@/components/ui/Header';
 import { useBooksContext } from '@/context/BooksContext';
 import { Colors } from '@/globals/colors';
+import { FontFamily } from '@/globals/fonts';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { getLanguageDisplayName } from '@/utils/languageUtils';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
@@ -268,6 +269,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     textAlign: 'center',
     marginTop: 20,
     color: Colors.brand.red,
+    fontFamily: FontFamily.regular,
   }
 });
 

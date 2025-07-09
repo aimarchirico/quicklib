@@ -182,6 +182,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     fontSize: 16,
     color: Colors[colorScheme ?? 'light'].text,
     marginLeft: 12,
+    fontFamily: FontFamily.regular,
   },
   selectedOptionText: {
     color: Colors[colorScheme ?? 'light'].card,

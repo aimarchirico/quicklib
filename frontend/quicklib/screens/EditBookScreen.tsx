@@ -3,6 +3,7 @@ import BookForm from '@/components/BookForm';
 import { ScreenWrapper } from '@/components/ScreenWrapper';
 import Header from '@/components/ui/Header';
 import { Colors } from '@/globals/colors';
+import { FontFamily } from '@/globals/fonts';
 import { useBooksContext } from '@/context/BooksContext';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -108,6 +109,7 @@ const styles = StyleSheet.create({
   errorText: {
     color: Colors.brand.red,
     fontSize: 16,
+    fontFamily: FontFamily.regular,
   },
 });
 

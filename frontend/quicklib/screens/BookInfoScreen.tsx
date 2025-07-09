@@ -311,9 +311,11 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     color: Colors.brand.red,
     textAlign: 'center',
     marginTop: 20,
+    fontFamily: FontFamily.regular,
   },
   text: {
     color: Colors[colorScheme ?? 'light'].text,
+    fontFamily: FontFamily.regular,
   },
 });
 

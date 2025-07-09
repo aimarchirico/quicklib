@@ -112,7 +112,7 @@ const SettingsScreen = () => {
             <Text style={styles.sectionTitle}>About</Text>
             <View style={styles.card}>
               <Text style={styles.versionTitle}>QuickLib</Text>
-              <Text style={styles.versionText}>Version 1.0.1</Text>
+              <Text style={styles.versionText}>Version 1.0.2</Text>
             </View>
           </View>
         </ScrollView>
