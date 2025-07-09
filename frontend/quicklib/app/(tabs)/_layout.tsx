@@ -21,7 +21,7 @@ export default function TabLayout() {
         tabBarInactiveTintColor: Colors[colorScheme ?? 'light'].icon,
         tabBarLabelStyle: {
           fontFamily: FontFamily.medium,
-          fontSize: 12,
+          fontSize: 10,
         },
       }}>
       <Tabs.Screen

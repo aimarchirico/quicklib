@@ -55,7 +55,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     padding: 15,
     marginVertical: 16,
     borderRadius: 20,
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: FontFamily.regular,
   },
 });
