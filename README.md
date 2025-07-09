@@ -24,10 +24,10 @@ QuickLib is a full-stack library management application with a Kotlin/Spring Boo
 
 ## Project Structure
 
-- `[backend/quicklib/](backend/quicklib/)` - Kotlin/Spring Boot backend API
-- `[frontend/quicklib/](frontend/quicklib/)` - Expo/React Native frontend app
+- [`backend/quicklib/`](backend/quicklib/) - Kotlin/Spring Boot backend API
+- [`frontend/quicklib/`](frontend/quicklib/) - Expo/React Native frontend app
 
 ## Getting Started
 
 1. Clone the repository.
-2. See the `README.md` files in the `[backend/quicklib/](backend/quicklib/)` and `[frontend/quicklib/](frontend/quicklib/)` folders for setup instructions.
+2. See the `README.md` files in the [`backend/quicklib/`](backend/quicklib/) and [`frontend/quicklib/`](frontend/quicklib/) folders for setup instructions.
