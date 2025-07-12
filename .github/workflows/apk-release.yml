@@ -19,6 +19,17 @@ jobs:
           cache: 'npm'
           cache-dependency-path: './frontend/quicklib/package-lock.json'
 
+      - name: Create .npmrc for GitHub Packages
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ./frontend/quicklib/.npmrc
+          echo "@react-native-google-signin:registry=https://npm.pkg.github.com/" >> ./frontend/quicklib/.npmrc
+        
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ./frontend/quicklib
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -34,10 +45,6 @@ jobs:
           expo-version: latest
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
-
-      - name: Install dependencies
-        run: npm ci
-        working-directory: ./frontend/quicklib
 
       - name: Build Android app
         run: eas build --platform android --profile production --local --output ${{ github.workspace }}/app-release.apk
