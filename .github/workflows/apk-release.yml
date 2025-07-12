@@ -28,6 +28,9 @@ jobs:
           echo "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_GITHUB_TOKEN }}" > ./frontend/quicklib/.npmrc
           echo "@react-native-google-signin:registry=https://npm.pkg.github.com/" >> ./frontend/quicklib/.npmrc
         
+      - name: Create google-services.json
+        run: echo '${{ secrets.GOOGLE_SERVICES_JSON }}' | base64 -d > ./frontend/quicklib/google-services.json
+      
       - name: Install dependencies
         run: npm ci
         working-directory: ./frontend/quicklib
@@ -62,6 +65,8 @@ jobs:
       - name: Build Android app
         run: eas build --platform android --profile preview --local --output ${{ github.workspace }}/app-release.apk
         working-directory: ./frontend/quicklib
+        env:
+          GOOGLE_SERVICES_JSON: ./google-services.json
 
       - name: Get version from tag
         id: get_version
