@@ -1,9 +1,9 @@
 import { writeFileSync } from 'fs';
 
 // Create google-services.json from environment variable if it exists
-if (process.env.GOOGLE_SERVICES_JSON) {
+if (process.env.GOOGLE_SERVICES_JSON_BASE64) {
   try {
-    const content = Buffer.from(process.env.GOOGLE_SERVICES_JSON, 'base64').toString('utf-8');
+    const content = Buffer.from(process.env.GOOGLE_SERVICES_JSON_BASE64, 'base64').toString('utf-8');
     writeFileSync('./google-services.json', content);
   } catch (error) {
     console.warn('Failed to create google-services.json:', error);
@@ -14,7 +14,7 @@ export default {
   expo: {
     name: "QuickLib",
     slug: "quicklib",
-    version: "1.0.8",
+    version: "1.0.9",
     orientation: "portrait",
     icon: "./assets/images/icon.png",
     scheme: "quicklib",
@@ -30,7 +30,7 @@ export default {
       },
       edgeToEdgeEnabled: true,
       package: "no.chirico.quicklib",
-      googleServicesFile: "./google-services.json",
+      googleServicesFile: process.env.GOOGLE_SERVICES_JSON || "./google-services.json",
     },
     web: {
       bundler: "metro",

@@ -63,7 +63,7 @@ jobs:
         run: eas build --platform android --profile preview --local --output ${{ github.workspace }}/app-release.apk
         working-directory: ./frontend/quicklib
         env:
-          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+          GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON }}
 
       - name: Get version from tag
         id: get_version
