@@ -11,6 +11,7 @@ import { getAuth } from '@react-native-firebase/auth';
 import { useRouter } from 'expo-router';
 import React, { useMemo, useState } from 'react';
 import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
+import Constants from 'expo-constants';
 
 const SettingsScreen = () => {
   const colorScheme = useColorScheme();
@@ -112,7 +113,7 @@ const SettingsScreen = () => {
             <Text style={styles.sectionTitle}>About</Text>
             <View style={styles.card}>
               <Text style={styles.versionTitle}>QuickLib</Text>
-              <Text style={styles.versionText}>Version 1.0.2</Text>
+              <Text style={styles.versionText}>Version {Constants.expoConfig?.version}</Text>
             </View>
           </View>
         </ScrollView>

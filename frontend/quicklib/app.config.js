@@ -2,7 +2,7 @@ export default {
   expo: {
     name: "QuickLib",
     slug: "quicklib",
-    version: "1.0.2",
+    version: "1.0.3",
     orientation: "portrait",
     icon: "./assets/images/icon.png",
     scheme: "quicklib",
@@ -18,7 +18,7 @@ export default {
       },
       edgeToEdgeEnabled: true,
       package: "no.chirico.quicklib",
-      googleServicesFile: process.env.GOOGLE_SERVICES_JSON ?? './google-services.json'
+      googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
     },
     web: {
       bundler: "metro",
