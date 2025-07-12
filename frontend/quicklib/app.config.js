@@ -35,7 +35,9 @@ export default {
           resizeMode: "contain",
           backgroundColor: "#151718"
         }
-      ]
+      ],
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth"
     ],
     experiments: {
       typedRoutes: true
