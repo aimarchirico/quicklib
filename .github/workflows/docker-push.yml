@@ -10,7 +10,8 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  push:
+  deploy:
+    name: Deploy Backend
     runs-on: ubuntu-latest
     permissions:
       contents: read
