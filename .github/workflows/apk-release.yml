@@ -5,10 +5,6 @@ on:
     tags:
       - 'frontend-v*'
 
-permissions:
-  contents: read
-  packages: read
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,7 +21,7 @@ jobs:
 
       - name: Create .npmrc for GitHub Packages
         run: |
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ./frontend/quicklib/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_GITHUB_TOKEN }}" > ./frontend/quicklib/.npmrc
           echo "@react-native-google-signin:registry=https://npm.pkg.github.com/" >> ./frontend/quicklib/.npmrc
         
       - name: Install dependencies
