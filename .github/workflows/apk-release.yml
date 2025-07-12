@@ -60,7 +60,7 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Build Android app
-        run: eas build --platform android --profile production --local --output ${{ github.workspace }}/app-release.apk
+        run: eas build --platform android --profile preview --local --output ${{ github.workspace }}/app-release.apk
         working-directory: ./frontend/quicklib
 
       - name: Get version from tag
