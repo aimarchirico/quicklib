@@ -1,6 +1,7 @@
 services:
   quicklib-backend:
     container_name: quicklib-backend
+    image: ghcr.io/aimarchirico/quicklib:latest
     build:
         context: .
         dockerfile: Dockerfile
@@ -10,6 +11,8 @@ services:
       SPRING_DATASOURCE_URL: ${DB_URL}
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./firebase-service-account.json:/app/config/firebase-service-account.json:ro
     depends_on:
       - quicklib-db
     restart: always

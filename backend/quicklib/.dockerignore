@@ -1,0 +1,20 @@
+# Exclude sensitive files
+**/firebase-service-account.json
+
+# Exclude unnecessary files
+.git
+.gitignore
+README.md
+.env
+.gradle
+build/
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+.vscode/
+.kotlin
+*.md
+compose.yml
+scripts/
