@@ -41,6 +41,6 @@ out/
 .kotlin
 
 ### Firebase ###
-**/src/main/resources/firebase-service-account.json
+firebase-service-account.json
 
 cloudflare/
