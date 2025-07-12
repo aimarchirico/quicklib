@@ -7,6 +7,9 @@ WORKDIR /app
 COPY gradle/ gradle/
 COPY gradlew gradlew.bat build.gradle settings.gradle ./
 
+# Make gradlew executable
+RUN chmod +x ./gradlew
+
 # Copy source code
 COPY src/ src/
 
