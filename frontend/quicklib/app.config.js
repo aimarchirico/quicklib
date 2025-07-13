@@ -14,7 +14,7 @@ export default {
   expo: {
     name: "QuickLib",
     slug: "quicklib",
-    version: "1.0.10",
+    version: "1.0.11",
     orientation: "portrait",
     icon: "./assets/images/icon.png",
     scheme: "quicklib",
