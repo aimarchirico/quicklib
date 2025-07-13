@@ -1,9 +1,10 @@
 import { getAuth } from '@react-native-firebase/auth';
 import axios from 'axios';
 import { BookControllerApi, Configuration, TestAuthControllerApi, UserControllerApi } from './generated';
+import Constants from 'expo-constants';
 
-// Use environment variable for backend base URL, fallback to localhost
-const basePath = process.env.EXPO_PUBLIC_API_BASEPATH || 'http://localhost:8080';
+// Use config variables for API base path
+const basePath = Constants.expoConfig?.extra?.apiUrl;
 
 // Function to get the current access token from Firebase Auth
 const getAccessToken = async () => {

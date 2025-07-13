@@ -59,7 +59,9 @@ export default {
       router: {},
       eas: {
         projectId: "e38c6fc6-6543-439c-9856-d091310dcd2a"
-      }
+      },
+      appVersion: process.env.VERSION_NAME || "1.0.0",
+      apiUrl: process.env.API_URL || "localhost:8080"
     }
   }
 };

@@ -54,7 +54,7 @@ jobs:
         run: npx expo prebuild --platform android
         working-directory: ./frontend/quicklib
         env:
-          EXPO_PUBLIC_API_BASEPATH: ${{ vars.EXPO_PUBLIC_API_BASEPATH }}
+          API_URL: ${{ vars.API_URL }}
           GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON }}
           VERSION_NAME: ${{ steps.get_version.outputs.VERSION }}
           VERSION_CODE: ${{ github.run_number }}
