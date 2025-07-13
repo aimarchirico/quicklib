@@ -45,13 +45,19 @@ jobs:
         uses: expo/expo-github-action@v8
         with:
           expo-version: latest
-          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Get version from tag
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/frontend-v}" >> $GITHUB_OUTPUT      
 
       - name: Prebuild Expo project
         run: npx expo prebuild --platform android
         working-directory: ./frontend/quicklib
         env:
+          EXPO_PUBLIC_API_BASEPATH: ${{ vars.EXPO_PUBLIC_API_BASEPATH }}
           GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON }}
+          VERSION_NAME: ${{ steps.get_version.outputs.VERSION }}
+          VERSION_CODE: ${{ github.run_number }}
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
@@ -68,10 +74,6 @@ jobs:
 
       - name: Copy APK to workspace
         run: cp ./frontend/quicklib/android/app/build/outputs/apk/release/app-release.apk ${{ github.workspace }}/app-release.apk
-
-      - name: Get version from tag
-        id: get_version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/frontend-v}" >> $GITHUB_OUTPUT
 
       - name: Create Release
         id: create_release

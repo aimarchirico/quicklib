@@ -14,7 +14,7 @@ export default {
   expo: {
     name: "QuickLib",
     slug: "quicklib",
-    version: "1.0.12",
+    version: process.env.VERSION_NAME || "1.0.0",
     orientation: "portrait",
     icon: "./assets/images/icon.png",
     scheme: "quicklib",
@@ -31,6 +31,7 @@ export default {
       edgeToEdgeEnabled: true,
       package: "no.chirico.quicklib",
       googleServicesFile: process.env.GOOGLE_SERVICES_JSON || "./google-services.json",
+      versionCode: parseInt(process.env.VERSION_CODE || "1", 10)
     },
     web: {
       bundler: "metro",
