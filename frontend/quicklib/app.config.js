@@ -1,3 +1,15 @@
+import { writeFileSync } from 'fs';
+
+// Create google-services.json from environment variable if it exists
+if (process.env.GOOGLE_SERVICES_JSON_BASE64) {
+  try {
+    const content = Buffer.from(process.env.GOOGLE_SERVICES_JSON_BASE64, 'base64').toString('utf-8');
+    writeFileSync('./google-services.json', content);
+  } catch (error) {
+    console.warn('Failed to create google-services.json:', error);
+  }
+}
+
 export default {
   expo: {
     name: "QuickLib",

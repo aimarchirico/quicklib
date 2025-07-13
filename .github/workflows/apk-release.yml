@@ -12,6 +12,10 @@ jobs:
   deploy:
     name: Deploy Frontend
     runs-on: ubuntu-latest
+    env:
+      GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON }}
+      API_URL: ${{ vars.API_URL }}
+      RELEASE_URL: https://github.com/${{ github.repository }}/releases.atom
     steps:
       - name: Setup repo
         uses: actions/checkout@v4
