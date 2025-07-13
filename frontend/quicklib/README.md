@@ -13,11 +13,12 @@ QucikLib client application built with React Native and Expo.
 2. Buil apk file
 
    ```bash
-   eas build --platform android --profile production --local --output ./app-release.apk
+   npx expo prebuild
+   ./android/gradlew :app:assembleRelease
    ```
 
 3. Install to device
 
    ```bash
-   adb install app-release.apk
+   adb install android/app/build/outputs/apk/release/app-release.apk
    ```
