@@ -14,7 +14,7 @@ export default {
   expo: {
     name: "QuickLib",
     slug: "quicklib",
-    version: process.env.VERSION_NAME || "1.0.0",
+    version: process.env.EXPO_PUBLIC_VERSION_NAME || "1.0.0",
     orientation: "portrait",
     icon: "./assets/images/icon.png",
     scheme: "quicklib",
@@ -60,8 +60,7 @@ export default {
       eas: {
         projectId: "e38c6fc6-6543-439c-9856-d091310dcd2a"
       },
-      appVersion: process.env.VERSION_NAME || "1.0.0",
-      apiUrl: process.env.API_URL || "localhost:8080"
+      apiUrl: process.env.EXPO_PUBLIC_API_URL || "http://localhost:8080"
     }
   }
 };
