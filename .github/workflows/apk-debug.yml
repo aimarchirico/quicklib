@@ -1,0 +1,100 @@
+name: Build Debug Android APK
+
+on:
+  push:
+    tags:
+      - 'frontend-v*'
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    name: Deploy Frontend
+    runs-on: ubuntu-latest
+    env:
+      GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON }}
+      VERSION_CODE: ${{ github.run_number }}
+      API_URL: ${{ vars.API_URL }}
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v4
+      
+      - name: Setup node
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: 20.x
+          cache: 'npm'
+          cache-dependency-path: './frontend/quicklib/package-lock.json'
+
+      - name: Create .npmrc for GitHub Packages
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_GITHUB_TOKEN }}" > ./frontend/quicklib/.npmrc
+          echo "@react-native-google-signin:registry=https://npm.pkg.github.com/" >> ./frontend/quicklib/.npmrc
+      
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ./frontend/quicklib
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Setup Expo
+        uses: expo/expo-github-action@v8
+        with:
+          expo-version: latest
+
+      - name: Get version from tag
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/frontend-v}" >> $GITHUB_OUTPUT      
+
+      - name: Prebuild Expo project
+        run: npx expo prebuild --platform android
+        working-directory: ./frontend/quicklib
+        env:
+          VERSION_NAME: ${{ steps.get_version.outputs.VERSION }}
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-read-only: false
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+        working-directory: ./frontend/quicklib/android
+
+      - name: Build Android APK
+        run: ./gradlew :app:assembleDebug
+        working-directory: ./frontend/quicklib/android
+        env:
+          VERSION_NAME: ${{ steps.get_version.outputs.VERSION }}
+
+      - name: Copy APK to workspace
+        run: cp ./frontend/quicklib/android/app/build/outputs/apk/debug/app-debug.apk ${{ github.workspace }}/app-debug.apk
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: ${{ steps.get_version.outputs.VERSION }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ github.workspace }}/app-debug.apk
+          asset_name: quicklib-${{ steps.get_version.outputs.VERSION }}.apk
+          asset_content_type: application/vnd.android.package-archive
