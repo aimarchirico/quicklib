@@ -31,7 +31,6 @@ export default {
       edgeToEdgeEnabled: true,
       package: "no.chirico.quicklib",
       googleServicesFile: process.env.GOOGLE_SERVICES_JSON || "./google-services.json",
-      versionCode: parseInt(process.env.VERSION_CODE || "1", 10)
     },
     web: {
       bundler: "metro",
