@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Linking } from 'react-native';
 import Constants from 'expo-constants';
+import React, { useEffect, useState } from 'react';
+import { Linking } from 'react-native';
 import ConfirmationModal from './ConfirmationModal';
 
 interface UpdateInfo {
@@ -11,10 +11,7 @@ interface UpdateInfo {
   updated?: string;
 }
 
-interface UpdateNotificationModalProps {
-}
-
-const UpdateNotificationModal: React.FC<UpdateNotificationModalProps> = () => {
+const UpdateNotificationModal: React.FC = () => {
   const [updateInfo, setUpdateInfo] = useState<UpdateInfo>({ hasUpdate: false });
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
