@@ -41,18 +41,33 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-home-cache-cleanup: true
+
       - name: Setup Expo
         uses: expo/expo-github-action@v8
         with:
           expo-version: latest
-          eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Build Android app
-        run: eas build --platform android --profile preview --local --output ${{ github.workspace }}/app-release.apk
+      - name: Prebuild Expo project
+        run: npx expo prebuild --platform android
         working-directory: ./frontend/quicklib
         env:
           GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON }}
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+        working-directory: ./frontend/quicklib/android
+
+      - name: Build Android APK
+        run: ./gradlew :app:assembleRelease
+        working-directory: ./frontend/quicklib/android
+
+      - name: Copy APK to workspace
+        run: cp ./frontend/quicklib/android/app/build/outputs/apk/release/app-release.apk ${{ github.workspace }}/app-release.apk
 
       - name: Get version from tag
         id: get_version
