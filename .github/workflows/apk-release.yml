@@ -12,6 +12,10 @@ jobs:
   deploy:
     name: Deploy Frontend
     runs-on: ubuntu-latest
+    env:
+      GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON }}
+      VERSION_CODE: ${{ github.run_number }}
+      API_URL: ${{ vars.API_URL }}
     steps:
       - name: Setup repo
         uses: actions/checkout@v4
@@ -54,10 +58,7 @@ jobs:
         run: npx expo prebuild --platform android
         working-directory: ./frontend/quicklib
         env:
-          GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON }}
-          VERSION_CODE: ${{ github.run_number }}
-          EXPO_PUBLIC_VERSION_NAME: ${{ steps.get_version.outputs.VERSION }}
-          EXPO_PUBLIC_API_URL: ${{ vars.API_URL }}
+          VERSION_NAME: ${{ steps.get_version.outputs.VERSION }}
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
@@ -71,6 +72,8 @@ jobs:
       - name: Build Android APK
         run: ./gradlew :app:assembleRelease
         working-directory: ./frontend/quicklib/android
+        env:
+          VERSION_NAME: ${{ steps.get_version.outputs.VERSION }}
 
       - name: Copy APK to workspace
         run: cp ./frontend/quicklib/android/app/build/outputs/apk/release/app-release.apk ${{ github.workspace }}/app-release.apk
