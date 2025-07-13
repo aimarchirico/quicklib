@@ -6,6 +6,7 @@ import { Slot, SplashScreen } from 'expo-router';
 import React, { useEffect } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { BooksProvider } from '@/context/BooksContext';
+import UpdateNotificationModal from '@/components/UpdateNotificationModal';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -35,6 +36,7 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <BooksProvider>
+        <UpdateNotificationModal />
         <Slot screenOptions={{ 
           contentStyle: { 
             backgroundColor: Colors[colorScheme ?? 'light'].card,

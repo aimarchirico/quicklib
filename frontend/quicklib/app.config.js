@@ -59,7 +59,8 @@ export default {
       eas: {
         projectId: "e38c6fc6-6543-439c-9856-d091310dcd2a"
       },
-      apiUrl: process.env.API_URL || "http://localhost:8080"
+      apiUrl: process.env.API_URL || "http://localhost:8080",
+      releaseUrl: process.env.RELEASE_URL || ""
     }
   }
 };

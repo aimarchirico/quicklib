@@ -36,6 +36,8 @@
     "expo-symbols": "~0.4.5",
     "expo-system-ui": "~5.0.9",
     "expo-web-browser": "~14.2.0",
+    "jsdom": "^26.1.0",
+    "node-fetch": "^3.3.2",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-hook-form": "^7.59.0",
