@@ -14,7 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON }}
-      VERSION_CODE: ${{ github.run_number }}
       API_URL: ${{ vars.API_URL }}
     steps:
       - name: Setup repo
