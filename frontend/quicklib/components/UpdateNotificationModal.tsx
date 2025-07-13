@@ -96,7 +96,7 @@ const UpdateNotificationModal: React.FC = () => {
       onClose={handleClose}
       onConfirm={handleOpenRelease}
       title="🚀 Update Available!"
-      message={`Version ${updateInfo.latestVersion} is available. \n\nWould you like to view the release notes to dowload update?`}
+      message={`Version ${updateInfo.latestVersion} of QuickLib is available. \n\nWould you like to view the release notes to dowload update?`}
       confirmText="View Release"
       showCancelButton={true}
       loading={loading}
