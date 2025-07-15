@@ -7,7 +7,7 @@ import { Colors } from '@/globals/colors';
 import { FontFamily } from '@/globals/fonts';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import useLoginWithGoogle from '@/hooks/useLoginWithGoogle';
-import { getAuth } from '@react-native-firebase/auth';
+import { getAuth } from '@/config/firebase';
 import { useRouter } from 'expo-router';
 import React, { useMemo, useState } from 'react';
 import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, View } from 'react-native';

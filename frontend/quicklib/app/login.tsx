@@ -1,6 +1,6 @@
 import LoadingScreen from '@/components/LoadingScreen';
 import LoginScreen from '@/screens/LoginScreen';
-import { getAuth, onAuthStateChanged } from '@react-native-firebase/auth';
+import { getAuth, onAuthStateChanged } from '@/config/firebase';
 import { Redirect, useFocusEffect } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
 

@@ -1,4 +1,4 @@
-import { getAuth } from '@react-native-firebase/auth';
+import { getAuth } from '@/config/firebase';
 
 export async function testBackendAuth() {
   const user = getAuth().currentUser;

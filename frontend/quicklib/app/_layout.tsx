@@ -1,6 +1,6 @@
 import { Colors } from '@/globals/colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { getAuth } from '@react-native-firebase/auth';
+import { getAuth } from '@/config/firebase';
 import { useFonts } from 'expo-font';
 import { Slot, SplashScreen } from 'expo-router';
 import React, { useEffect } from 'react';

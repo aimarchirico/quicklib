@@ -1,6 +1,6 @@
 import { bookApi } from '@/api/ApiClient';
 import { BookRequest, BookResponse, BookResponseCollectionEnum } from '@/api/generated';
-import { getAuth, onAuthStateChanged } from '@react-native-firebase/auth';
+import { getAuth, onAuthStateChanged } from '@/config/firebase';
 import { useCallback, useEffect, useState } from 'react';
 
 export interface BooksFilter {
