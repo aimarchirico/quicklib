@@ -10,6 +10,3 @@ jpa:
   properties:
     hibernate:
       dialect: org.hibernate.dialect.PostgreSQLDialect
-
-frontend:
-  url: ${FRONTEND_URL}
