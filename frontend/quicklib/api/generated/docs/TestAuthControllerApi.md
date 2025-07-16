@@ -4,7 +4,7 @@ All URIs are relative to *http://localhost:8080*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**testAuth**](#testauth) | **GET** /api/test-auth | Test authentication and return authentication details|
+|[**testAuth**](#testauth) | **GET** /quicklib/test-auth | Test authentication and return authentication details|
 
 # **testAuth**
 > { [key: string]: object; } testAuth()

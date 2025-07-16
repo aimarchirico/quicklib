@@ -4,7 +4,7 @@ All URIs are relative to *http://localhost:8080*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**deleteUser**](#deleteuser) | **DELETE** /api/user | Delete the current user|
+|[**deleteUser**](#deleteuser) | **DELETE** /quicklib/user | Delete the current user|
 
 # **deleteUser**
 > deleteUser()

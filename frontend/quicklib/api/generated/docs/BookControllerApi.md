@@ -4,11 +4,11 @@ All URIs are relative to *http://localhost:8080*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**addBook**](#addbook) | **POST** /api/books | Add a new book|
-|[**deleteBook**](#deletebook) | **DELETE** /api/books/{id} | Delete a book by its ID|
-|[**getAllBooks**](#getallbooks) | **GET** /api/books | Get all books for the current user|
-|[**getBookById**](#getbookbyid) | **GET** /api/books/{id} | Get a book by its ID|
-|[**updateBook**](#updatebook) | **PUT** /api/books/{id} | Update a book by its ID|
+|[**addBook**](#addbook) | **POST** /quicklib/books | Add a new book|
+|[**deleteBook**](#deletebook) | **DELETE** /quicklib/books/{id} | Delete a book by its ID|
+|[**getAllBooks**](#getallbooks) | **GET** /quicklib/books | Get all books for the current user|
+|[**getBookById**](#getbookbyid) | **GET** /quicklib/books/{id} | Get a book by its ID|
+|[**updateBook**](#updatebook) | **PUT** /quicklib/books/{id} | Update a book by its ID|
 
 # **addBook**
 > BookResponse addBook(bookRequest)
