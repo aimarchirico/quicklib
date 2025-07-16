@@ -123,6 +123,8 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   },
   fullWidth: {
     width: '100%',
+    flex: 1,
+    
   },
   primaryButton: {
     backgroundColor: Colors.brand.green,

@@ -3,7 +3,7 @@ import { Colors } from '@/globals/colors';
 import { FontFamily } from '@/globals/fonts';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import React, { useMemo, useState } from 'react';
-import { Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Modal, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 interface ConfirmationModalProps {
   visible: boolean;
@@ -130,7 +130,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalView: {
-    width: '80%',
+    width: Platform.OS == 'web' ? '30%' : '80%',
     backgroundColor: Colors[colorScheme ?? 'light'].card,
     borderRadius: 20,
     padding: 24,
