@@ -2,9 +2,9 @@ spring:
   application:
     name: quicklib
   datasource:
-    url: ${DB_URL}
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://quicklib-db:5432/quicklib
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
 
 jpa:
   hibernate:
@@ -14,4 +14,4 @@ jpa:
       dialect: org.hibernate.dialect.PostgreSQLDialect
 
 frontend:
-  url: ${APP_URL}
+  url: ${FRONTEND_URL}
