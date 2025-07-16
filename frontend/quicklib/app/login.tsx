@@ -10,7 +10,7 @@ export default function Login() {
 
   useEffect(() => {
     const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser: any) => {
       console.log('Login page auth state changed:', currentUser ? 'User logged in' : 'No user');
       setUser(currentUser);
       setAuthChecked(true);

@@ -67,7 +67,7 @@ export const useBooks = () => {
   // Listen to auth state changes
   useEffect(() => {
     const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser: any) => {
       console.log('Auth state changed in useBooks:', currentUser ? 'User logged in' : 'No user');
       setUser(currentUser);
       setAuthInitialized(true);

@@ -10,7 +10,7 @@ export default function Index() {
 
   useEffect(() => {
     const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser: any) => {
       setUser(currentUser);
       setAuthChecked(true);
     });

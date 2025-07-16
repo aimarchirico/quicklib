@@ -80,7 +80,7 @@ export default function TabLayout() {
       <View style={styles.root}>
         <View style={styles.sidebar}>
           {/* Sidebar navigation icons with labels */}
-          <Pressable onPress={() => router.navigate('/(books)')} style={styles.sidebarButton}>
+          <Pressable onPress={() => router.navigate('/(books)' as any)} style={styles.sidebarButton}>
             <TabBarIcon name={'book-outline'} color={(currentTab === '(books)' || currentTab === 'bookInfo') ? Colors.brand.green : Colors[colorScheme ?? 'dark'].icon} />
             <Text style={[styles.sidebarLabel, { color: (currentTab === '(books)' || currentTab === 'bookInfo') ? Colors.brand.green : Colors[colorScheme ?? 'dark'].icon }]}>Books</Text>
           </Pressable>
