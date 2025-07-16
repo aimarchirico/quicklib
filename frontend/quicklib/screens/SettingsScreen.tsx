@@ -117,19 +117,21 @@ const SettingsScreen = () => {
             </View>
           </View>
         </ScrollView>
-
-          <Button 
-            title="Sign Out" 
-            variant="primary" 
-            onPress={handleSignout}
-            fullWidth
-          />
+        <View style={styles.actions}>
           <Button 
             title="Delete Account" 
             variant="danger" 
             onPress={handleShowDeleteModal}
             fullWidth
           />
+          <Button 
+            title="Sign Out" 
+            variant="primary" 
+            onPress={handleSignout}
+            fullWidth
+          />
+
+          </View>
       </View>
       
       {/* Confirmation Modal for Account Deletion */}
@@ -172,7 +174,9 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     marginBottom: 16,
   },
   actions: {
-    paddingVertical: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 12,
   },
   card: {
     padding: 16,
