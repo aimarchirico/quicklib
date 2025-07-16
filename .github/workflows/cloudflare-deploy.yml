@@ -57,3 +57,6 @@ jobs:
           projectName: quicklib
           branch: main
           directory: ./frontend/quicklib/dist
+
+      - name: List dist contents
+        run: ls -R ./frontend/quicklib/dist/assets
