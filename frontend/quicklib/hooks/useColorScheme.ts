@@ -1,5 +1,13 @@
+import { useEffect, useState } from 'react';
 import { useColorScheme as useNativeColorScheme } from 'react-native';
 
 export function useColorScheme() {
-  return useNativeColorScheme() ?? 'light';
+  const nativeScheme = useNativeColorScheme();
+  const [scheme, setScheme] = useState<'light' | 'dark'>('dark');
+
+  useEffect(() => {
+    setScheme(nativeScheme ?? 'dark');
+  }, [nativeScheme]);
+
+  return scheme;
 }
