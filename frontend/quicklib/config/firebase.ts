@@ -1,6 +1,7 @@
 import { Platform } from 'react-native';
 
 // Web Firebase configuration
+import firebaseConfig from '@/google-services-web.json';
 
 
 let firebaseAuth: any;
@@ -23,6 +24,7 @@ if (Platform.OS === 'web') {
     signInWithCredential 
   } = require('firebase/auth');
   
+
   // Initialize Firebase for web
   const app = initializeApp(firebaseConfig);
   firebaseAuth = getAuth(app);
