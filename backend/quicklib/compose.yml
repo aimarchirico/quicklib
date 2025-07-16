@@ -3,14 +3,12 @@ services:
     container_name: quicklib-backend
     image: ghcr.io/aimarchirico/quicklib:latest
     build:
-        context: .
-        dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
-    environment:
-      SPRING_DATASOURCE_URL: ${DB_URL}
-      SPRING_DATASOURCE_USERNAME: ${DB_USER}
-      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+    env_file:
+      - .env
     volumes:
       - ./firebase-service-account.json:/app/config/firebase-service-account.json:ro
     depends_on:
