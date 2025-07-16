@@ -20,7 +20,7 @@ const useLoginWithGoogle = () => {
         return signInResult.data;
       } else if (signInResult.type === 'noSavedCredentialFound') {
         const createResponse = await GoogleSignInService.createAccount();
-        if (createResponse.type === 'success' && signInResult.data?.idToken) {
+        if (createResponse.type === 'success' && createResponse.data?.idToken) {
           console.log('Account created successfully:', createResponse);
           const googleCredential = GoogleAuthProvider.credential(createResponse.data.idToken);
           await signInWithCredential(getAuth(), googleCredential);
