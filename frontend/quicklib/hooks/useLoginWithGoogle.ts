@@ -13,18 +13,19 @@ const useLoginWithGoogle = () => {
       await GoogleSignInService.checkPlayServices();
       
       const signInResult = await GoogleSignInService.signIn();
-      
       if (signInResult.type === 'success' && signInResult.data?.idToken) {
         console.log('Google Sign In successful:', signInResult);
         const googleCredential = GoogleAuthProvider.credential(signInResult.data.idToken);
         await signInWithCredential(getAuth(), googleCredential);
         return signInResult.data;
-      } else if (signInResult.type === 'cancelled') {
-        console.log('Google Sign In was cancelled');
-        return null;
-      } else {
-        console.error('Google Sign In failed:', signInResult.error);
-        throw new Error(signInResult.error || 'Sign in failed');
+      } else if (signInResult.type === 'noSavedCredentialFound') {
+        const createResponse = await GoogleSignInService.createAccount();
+        if (createResponse.type === 'success' && signInResult.data?.idToken) {
+          console.log('Account created successfully:', createResponse);
+          const googleCredential = GoogleAuthProvider.credential(createResponse.data.idToken);
+          await signInWithCredential(getAuth(), googleCredential);
+          return createResponse.data;
+        } 
       }
     } catch (error) {
       console.error("Google Sign In failed:", error);

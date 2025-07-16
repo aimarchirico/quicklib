@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 
 export interface GoogleSignInResult {
-  type: 'success' | 'cancelled' | 'error';
+  type: 'success' | 'cancelled' | 'error' | 'noSavedCredentialFound';
   data?: {
     idToken?: string;
     accessToken?: string;
@@ -66,7 +66,7 @@ export class GoogleSignInService {
             }
           };
         } else {
-          return { type: 'cancelled' };
+          return { type: signInResponse.type };
         }
       }
     } catch (error: any) {
@@ -98,7 +98,7 @@ export class GoogleSignInService {
             }
           };
         } else {
-          return { type: 'cancelled' };
+          return { type: createResponse.type };
         }
       } catch (error: any) {
         console.error('Mobile Google Create Account error:', error);
