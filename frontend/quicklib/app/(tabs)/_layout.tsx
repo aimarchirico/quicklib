@@ -53,7 +53,7 @@ export default function TabLayout() {
   useEffect(() => {
     async function loadAssets() {
       try {
-        // Load icon font used by TabBarIcon (Ionicons)
+        // Load icon font used by the TabBarIcon (Ionicons)
         await Font.loadAsync({
           Ionicons: require('react-native-vector-icons/Fonts/Ionicons.ttf'),
         });
