@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.security.core.Authentication
 
 @RestController
-@RequestMapping("/api/test-auth")
+@RequestMapping("/quicklib/test-auth")
 class TestAuthController {
     @Operation(summary = "Test authentication and return authentication details")
     @ApiResponse(responseCode = "200", description = "Authentication status returned successfully")
