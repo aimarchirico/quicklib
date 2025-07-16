@@ -40,7 +40,7 @@ app-example
 
 .npmrc
 
-google-services.json
+google-services*.json
 
 .env
 
