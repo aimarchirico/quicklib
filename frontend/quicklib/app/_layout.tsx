@@ -28,7 +28,12 @@ export default function RootLayout() {
     // Log the initial auth state
     const auth = getAuth();
     console.log('RootLayout initial auth state:', auth.currentUser ? 'User logged in' : 'No user');
-    
+
+    // Set document title for all screens (web only)
+    if (typeof document !== 'undefined') {
+      document.title = 'QuickLib';
+    }
+
     // Only hide the splash screen once fonts are loaded and other initialization is done
     if (fontsLoaded) {
       SplashScreen.hideAsync().catch(console.error);
