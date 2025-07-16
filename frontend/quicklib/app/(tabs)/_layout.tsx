@@ -1,7 +1,7 @@
 import { Tabs } from 'expo-router';
 import React, { useMemo, useEffect, useState } from 'react';
 
-import { View, Platform, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Platform, Text, StyleSheet, ActivityIndicator, useWindowDimensions } from 'react-native';
 import { Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSegments } from 'expo-router';
@@ -19,7 +19,7 @@ const makeStyles = (colorScheme: 'light' | 'dark') => StyleSheet.create({
       backgroundColor: Colors[colorScheme].background,
     },
     sidebar: {
-      width: '20%',
+      width: 250,
       backgroundColor: Colors[colorScheme].card,
       alignItems: 'center',
       paddingTop: 32,
@@ -49,13 +49,14 @@ export default function TabLayout() {
   const segments = useSegments();
   const currentTab = segments[segments.length - 1];
   const styles = useMemo(() => makeStyles(colorScheme), [colorScheme]);
+  const { width } = useWindowDimensions();
 
   useEffect(() => {
     async function loadAssets() {
       try {
         // Load icon font used by TabBarIcon (Ionicons)
         await Font.loadAsync({
-          Ionicons: require('@expo/vector-icons/build/vendor/Ionicons.ttf'),
+          Ionicons: require('react-native-vector-icons/Fonts/Ionicons.ttf'),
         });
         setIconsReady(true);
       } catch (e) {
@@ -73,7 +74,8 @@ export default function TabLayout() {
     );
   }
 
-  if (Platform.OS === 'web') {
+  // Show sidebar only for web and wide screens
+  if (Platform.OS === 'web' && width > 600) {
     return (
       <View style={styles.root}>
         <View style={styles.sidebar}>
