@@ -1,12 +1,13 @@
 import { Tabs } from 'expo-router';
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 
-import { View, Platform, Text, StyleSheet } from 'react-native';
+import { View, Platform, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSegments } from 'expo-router';
 
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
+import * as Font from 'expo-font';
 import { Colors } from '@/globals/colors';
 import { FontFamily } from '@/globals/fonts';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -42,11 +43,35 @@ const makeStyles = (colorScheme: 'light' | 'dark') => StyleSheet.create({
 })
 
 export default function TabLayout() {
+  const [iconsReady, setIconsReady] = useState(false);
   const colorScheme = useColorScheme();
   const router = useRouter();
   const segments = useSegments();
   const currentTab = segments[segments.length - 1];
   const styles = useMemo(() => makeStyles(colorScheme), [colorScheme]);
+
+  useEffect(() => {
+    async function loadAssets() {
+      try {
+        // Load icon font used by TabBarIcon (Ionicons)
+        await Font.loadAsync({
+          Ionicons: require('react-native-vector-icons/Fonts/Ionicons.ttf'),
+        });
+        setIconsReady(true);
+      } catch (e) {
+        setIconsReady(true); // Fallback: allow render even if font fails
+      }
+    }
+    loadAssets();
+  }, []);
+
+  if (!iconsReady) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: Colors[colorScheme].background }}>
+        <ActivityIndicator size="large" color={Colors.brand.green} />
+      </View>
+    );
+  }
 
   if (Platform.OS === 'web') {
     return (
@@ -54,8 +79,8 @@ export default function TabLayout() {
         <View style={styles.sidebar}>
           {/* Sidebar navigation icons with labels */}
           <Pressable onPress={() => router.navigate('/(books)')} style={styles.sidebarButton}>
-            <TabBarIcon name={'book-outline'} color={currentTab === '(books)' ? Colors.brand.green : Colors[colorScheme ?? 'dark'].icon} />
-            <Text style={[styles.sidebarLabel, { color: currentTab === '(books)' ? Colors.brand.green : Colors[colorScheme ?? 'dark'].icon }]}>Books</Text>
+            <TabBarIcon name={'book-outline'} color={(currentTab === '(books)' || currentTab === 'bookInfo') ? Colors.brand.green : Colors[colorScheme ?? 'dark'].icon} />
+            <Text style={[styles.sidebarLabel, { color: (currentTab === '(books)' || currentTab === 'bookInfo') ? Colors.brand.green : Colors[colorScheme ?? 'dark'].icon }]}>Books</Text>
           </Pressable>
           <Pressable onPress={() => router.navigate('/add')} style={styles.sidebarButton}>
             <TabBarIcon name={'add-circle-outline'} color={currentTab === 'add' ? Colors.brand.green : Colors[colorScheme ?? 'dark'].icon} />
