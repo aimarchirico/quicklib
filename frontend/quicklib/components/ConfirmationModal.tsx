@@ -3,7 +3,7 @@ import { Colors } from '@/globals/colors';
 import { FontFamily } from '@/globals/fonts';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import React, { useMemo, useState } from 'react';
-import { Modal, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Modal, Platform, StyleSheet, Text, TextInput, TouchableOpacity, useWindowDimensions, View, } from 'react-native';
 
 interface ConfirmationModalProps {
   visible: boolean;
@@ -33,7 +33,8 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   loading = false
 }) => {
   const colorScheme = useColorScheme();
-  const styles = useMemo(() => makeStyles(colorScheme), [colorScheme]);
+  const { width: windowWidth } = useWindowDimensions();
+  const styles = useMemo(() => makeStyles(colorScheme, windowWidth), [colorScheme, windowWidth]);
   const [inputValue, setInputValue] = useState('');
   const [error, setError] = useState('');
   
@@ -122,7 +123,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   );
 };
 
-const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
+const makeStyles = (colorScheme: 'light' | 'dark' | null, windowWidth: number) => StyleSheet.create({
   centeredView: {
     flex: 1,
     justifyContent: 'center',
@@ -130,7 +131,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalView: {
-    width: Platform.OS == 'web' ? '30%' : '80%',
+    width: windowWidth > 600 ? '40%' : '80%',
     backgroundColor: Colors[colorScheme ?? 'dark'].card,
     borderRadius: 20,
     padding: 24,
