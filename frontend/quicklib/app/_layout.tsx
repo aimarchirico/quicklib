@@ -8,6 +8,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { BooksProvider } from '@/context/BooksContext';
 import UpdateNotificationModal from '@/components/UpdateNotificationModal';
 
+import { View } from 'react-native';
+
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 
@@ -36,12 +38,14 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <BooksProvider>
-        <UpdateNotificationModal />
-        <Slot screenOptions={{ 
-          contentStyle: { 
-            backgroundColor: Colors[colorScheme ?? 'light'].card,
-          } 
-        }} />
+          <View style={{ width: '100%', flex: 1}}>
+            <UpdateNotificationModal />
+            <Slot screenOptions={{ 
+              contentStyle: { 
+                backgroundColor: Colors[colorScheme ?? 'light'].card,
+              } 
+            }} />
+          </View>
       </BooksProvider>
     </SafeAreaProvider>
   );
