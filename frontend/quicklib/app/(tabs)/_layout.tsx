@@ -55,7 +55,7 @@ export default function TabLayout() {
       try {
         // Load icon font used by TabBarIcon (Ionicons)
         await Font.loadAsync({
-          Ionicons: require('react-native-vector-icons/Fonts/Ionicons.ttf'),
+          Ionicons: require('@expo/vector-icons/build/vendor/Ionicons.ttf'),
         });
         setIconsReady(true);
       } catch (e) {
