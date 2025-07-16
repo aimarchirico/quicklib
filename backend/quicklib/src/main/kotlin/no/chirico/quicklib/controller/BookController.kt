@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/books")
+@RequestMapping("/quicklib/books")
 class BookController(private val bookService: BookService) {
     @Operation(summary = "Get all books for the current user")
     @ApiResponse(responseCode = "200", description = "List of books returned successfully")
