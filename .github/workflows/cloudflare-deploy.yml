@@ -49,6 +49,16 @@ jobs:
         env:
           VERSION_NAME: ${{ steps.get_version.outputs.VERSION }}
 
+      - name: Fix Expo node modules asset paths for Cloudflare Pages
+        working-directory: ./frontend/quicklib
+        run: |
+          if [ -d dist/assets/node_modules ]; then
+            mv dist/assets/node_modules/* dist/assets/ || true
+            rm -rf dist/assets/node_modules
+          fi
+          find dist/_expo/static/js/web/ -type f -print0 | xargs -0 sed -i 's/assets\/node_modules/assets/g'
+
+
       - name: Publish to Cloudflare Pages
         uses: cloudflare/pages-action@v1
         with:
