@@ -7,22 +7,41 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.beans.factory.annotation.Value
 
 @Configuration
 @EnableWebSecurity
 class SecurityConfig(
-    private val firebaseAuthenticationFilter: FirebaseAuthenticationFilter
+    private val firebaseAuthenticationFilter: FirebaseAuthenticationFilter,
+    
+    @Value("\${frontend.url}")
+    private val allowedOrigin: String
 ) {
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http
             .csrf { it.disable() }
+            .cors { } // Enable CORS in Spring Security, but config is provided by bean below
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .authorizeHttpRequests {
-                it.requestMatchers("/api/user/**", "/api/books/**", "/api/test-auth/**").authenticated()
+                it.requestMatchers("/quicklib/user/**", "/quicklib/books/**", "/quicklib/test-auth/**").authenticated()
                 it.anyRequest().permitAll()
             }
             .addFilterBefore(firebaseAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
         return http.build()
+    }
+
+    @Bean
+    fun corsConfigurationSource(): UrlBasedCorsConfigurationSource {
+        val configuration = CorsConfiguration()
+        configuration.allowedOrigins = listOf(allowedOrigin)
+        configuration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
+        configuration.allowedHeaders = listOf("*")
+        configuration.allowCredentials = true
+        val source = UrlBasedCorsConfigurationSource()
+        source.registerCorsConfiguration("/**", configuration)
+        return source
     }
 }
