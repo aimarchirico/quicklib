@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: quicklib
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+
+jpa:
+  hibernate:
+    ddl-auto: update
+  properties:
+    hibernate:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+
+frontend:
+  url: ${APP_URL}
