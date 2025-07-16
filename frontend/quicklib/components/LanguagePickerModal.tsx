@@ -50,7 +50,7 @@ const LanguagePickerModal: React.FC<LanguagePickerModalProps> = ({
           <View style={styles.header}>
             <Text style={styles.title}>Select Language</Text>
             <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-              <Ionicons name="close" size={24} color={Colors[colorScheme ?? 'light'].text} />
+              <Ionicons name="close" size={24} color={Colors[colorScheme ?? 'dark'].text} />
             </TouchableOpacity>
           </View>
           
@@ -88,7 +88,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     justifyContent: 'flex-end',
   },
   modalContainer: {
-    backgroundColor: Colors[colorScheme ?? 'light'].background,
+    backgroundColor: Colors[colorScheme ?? 'dark'].background,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     maxHeight: '50%',
@@ -103,7 +103,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   title: {
     fontSize: 18,
     fontFamily: FontFamily.bold,
-    color: Colors[colorScheme ?? 'light'].text,
+    color: Colors[colorScheme ?? 'dark'].text,
   },
   closeButton: {
     padding: 4,
@@ -124,7 +124,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   languageText: {
     fontSize: 16,
     fontFamily: FontFamily.regular,
-    color: Colors[colorScheme ?? 'light'].text,
+    color: Colors[colorScheme ?? 'dark'].text,
   },
   languageTextSelected: {
     color: 'white',

@@ -1,32 +1,30 @@
 import { userApi } from '@/api/ApiClient';
-import { GoogleAuthProvider, signOut as firebaseSignOut, getAuth, signInWithCredential } from '@react-native-firebase/auth';
-import {
-  GoogleOneTapSignIn,
-} from "@react-native-google-signin/google-signin";
+import { GoogleSignInService } from '@/services/GoogleSignInService';
+import { getAuth, signInWithCredential, signOut as firebaseSignOut, GoogleAuthProvider } from '@/config/firebase';
 
 const useLoginWithGoogle = () => {
 
   const signIn = async () => {
     try {
-      GoogleOneTapSignIn.configure({
+      await GoogleSignInService.configure({
         webClientId: 'autoDetect'
       });
 
-      await GoogleOneTapSignIn.checkPlayServices();
-      const signInResponse = await GoogleOneTapSignIn.signIn();
-      if (signInResponse.type === 'success') {
-        console.log('Google Sign In successful:', signInResponse);
-        const googleCredential = GoogleAuthProvider.credential(signInResponse.data.idToken);
+      await GoogleSignInService.checkPlayServices();
+      
+      const signInResult = await GoogleSignInService.signIn();
+      
+      if (signInResult.type === 'success' && signInResult.data?.idToken) {
+        console.log('Google Sign In successful:', signInResult);
+        const googleCredential = GoogleAuthProvider.credential(signInResult.data.idToken);
         await signInWithCredential(getAuth(), googleCredential);
-        return signInResponse.data;
-      } else if (signInResponse.type === 'noSavedCredentialFound') {
-        const createResponse = await GoogleOneTapSignIn.createAccount();
-        if (createResponse.type === 'success') {
-          console.log('Account created successfully:', createResponse);
-          const googleCredential = GoogleAuthProvider.credential(createResponse.data.idToken);
-          await signInWithCredential(getAuth(), googleCredential);
-          return createResponse.data;
-        }
+        return signInResult.data;
+      } else if (signInResult.type === 'cancelled') {
+        console.log('Google Sign In was cancelled');
+        return null;
+      } else {
+        console.error('Google Sign In failed:', signInResult.error);
+        throw new Error(signInResult.error || 'Sign in failed');
       }
     } catch (error) {
       console.error("Google Sign In failed:", error);
@@ -38,7 +36,7 @@ const useLoginWithGoogle = () => {
     try {
       const auth = getAuth();
       await firebaseSignOut(auth);
-      await GoogleOneTapSignIn.signOut();
+      await GoogleSignInService.signOut();
     } catch (error) {
       console.error("Sign out error:", error);
       throw error;
@@ -47,8 +45,8 @@ const useLoginWithGoogle = () => {
 
   const deleteAccount = async (): Promise<void> => {
     try {
-      // 1. First revoke Google One Tap access
-      await GoogleOneTapSignIn.revokeAccess("");
+      // 1. First revoke Google access
+      await GoogleSignInService.revokeAccess();
       
       // 2. Delete user from backend 
       await userApi.deleteUser()

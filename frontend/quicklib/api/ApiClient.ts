@@ -1,4 +1,4 @@
-import { getAuth } from '@react-native-firebase/auth';
+import { getAuth } from '@/config/firebase';
 import axios from 'axios';
 import { BookControllerApi, Configuration, TestAuthControllerApi, UserControllerApi } from './generated';
 import Constants from 'expo-constants';

@@ -68,7 +68,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
               <Ionicons 
                 name="book-outline" 
                 size={24} 
-                color={collectionFilter === null ? Colors[colorScheme ?? 'light'].card : Colors.brand.red}
+                color={collectionFilter === null ? Colors[colorScheme ?? 'dark'].card : Colors.brand.red}
               />
               <Text style={[
                 styles.filterOptionText,
@@ -85,7 +85,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
               <Ionicons 
                 name="checkmark-done-outline" 
                 size={24} 
-                color={collectionFilter === BookResponseCollectionEnum.Read ? Colors[colorScheme ?? 'light'].card : Colors.brand.red}
+                color={collectionFilter === BookResponseCollectionEnum.Read ? Colors[colorScheme ?? 'dark'].card : Colors.brand.red}
               />
               <Text style={[
                 styles.filterOptionText,
@@ -102,7 +102,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
               <Ionicons 
                 name="book-outline" 
                 size={24} 
-                color={collectionFilter === BookResponseCollectionEnum.Unread ? Colors[colorScheme ?? 'light'].card : Colors.brand.red}
+                color={collectionFilter === BookResponseCollectionEnum.Unread ? Colors[colorScheme ?? 'dark'].card : Colors.brand.red}
               />
               <Text style={[
                 styles.filterOptionText,
@@ -119,7 +119,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
               <Ionicons 
                 name="heart-outline" 
                 size={24} 
-                color={collectionFilter === BookResponseCollectionEnum.Wishlist ? Colors[colorScheme ?? 'light'].card : Colors.brand.red}
+                color={collectionFilter === BookResponseCollectionEnum.Wishlist ? Colors[colorScheme ?? 'dark'].card : Colors.brand.red}
               />
               <Text style={[
                 styles.filterOptionText,
@@ -152,11 +152,11 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     borderBottomWidth: 7,
     borderLeftColor: 'transparent',
     borderRightColor: 'transparent',
-    borderBottomColor: Colors[colorScheme ?? 'light'].card,
+    borderBottomColor: Colors[colorScheme ?? 'dark'].card,
     marginRight: 16,
   },
   dropdownContent: {
-    backgroundColor: Colors[colorScheme ?? 'light'].card,
+    backgroundColor: Colors[colorScheme ?? 'dark'].card,
     borderRadius: 20,
     width: '100%',
     padding: 16,
@@ -164,7 +164,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   dropdownTitle: {
     fontSize: 16,
     fontFamily: FontFamily.bold,
-    color: Colors[colorScheme ?? 'light'].text,
+    color: Colors[colorScheme ?? 'dark'].text,
     marginBottom: 12,
   },
   filterOption: {
@@ -180,12 +180,12 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   },
   filterOptionText: {
     fontSize: 16,
-    color: Colors[colorScheme ?? 'light'].text,
+    color: Colors[colorScheme ?? 'dark'].text,
     marginLeft: 12,
     fontFamily: FontFamily.regular,
   },
   selectedOptionText: {
-    color: Colors[colorScheme ?? 'light'].card,
+    color: Colors[colorScheme ?? 'dark'].card,
     fontFamily: FontFamily.bold,
   },
 });

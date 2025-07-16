@@ -168,7 +168,7 @@ export const BookControllerApiAxiosParamCreator = function (configuration?: Conf
         addBook: async (bookRequest: BookRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'bookRequest' is not null or undefined
             assertParamExists('addBook', 'bookRequest', bookRequest)
-            const localVarPath = `/api/books`;
+            const localVarPath = `/quicklib/books`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -204,7 +204,7 @@ export const BookControllerApiAxiosParamCreator = function (configuration?: Conf
         deleteBook: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deleteBook', 'id', id)
-            const localVarPath = `/api/books/{id}`
+            const localVarPath = `/quicklib/books/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -235,7 +235,7 @@ export const BookControllerApiAxiosParamCreator = function (configuration?: Conf
          * @throws {RequiredError}
          */
         getAllBooks: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/books`;
+            const localVarPath = `/quicklib/books`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -268,7 +268,7 @@ export const BookControllerApiAxiosParamCreator = function (configuration?: Conf
         getBookById: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getBookById', 'id', id)
-            const localVarPath = `/api/books/{id}`
+            const localVarPath = `/quicklib/books/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -305,7 +305,7 @@ export const BookControllerApiAxiosParamCreator = function (configuration?: Conf
             assertParamExists('updateBook', 'id', id)
             // verify required parameter 'bookRequest' is not null or undefined
             assertParamExists('updateBook', 'bookRequest', bookRequest)
-            const localVarPath = `/api/books/{id}`
+            const localVarPath = `/quicklib/books/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -553,7 +553,7 @@ export const TestAuthControllerApiAxiosParamCreator = function (configuration?: 
          * @throws {RequiredError}
          */
         testAuth: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/test-auth`;
+            const localVarPath = `/quicklib/test-auth`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -654,7 +654,7 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
          * @throws {RequiredError}
          */
         deleteUser: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/user`;
+            const localVarPath = `/quicklib/user`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;

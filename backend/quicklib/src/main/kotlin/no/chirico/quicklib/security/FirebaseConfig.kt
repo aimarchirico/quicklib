@@ -10,11 +10,15 @@ import java.io.FileInputStream
 
 @Configuration
 class FirebaseConfig {
+    companion object {
+        private const val SERVICE_ACCOUNT_PATH = "/app/config/firebase-service-account.json"
+    }
+
     @Bean
     fun firebaseApp(): FirebaseApp {
         // Firebase JSON is mounted from host via Docker volume
-        val serviceAccount = FileInputStream("/app/config/firebase-service-account.json")
-        
+        val serviceAccount = FileInputStream(SERVICE_ACCOUNT_PATH)
+
         val options = FirebaseOptions.builder()
             .setCredentials(GoogleCredentials.fromStream(serviceAccount))
             .build()

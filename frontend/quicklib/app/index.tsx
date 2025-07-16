@@ -1,6 +1,29 @@
+
 import { Redirect } from "expo-router";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import LoadingScreen from '@/components/LoadingScreen';
+import { getAuth, onAuthStateChanged } from '@/config/firebase';
 
 export default function Index() {
+  const [user, setUser] = useState<any>(null);
+  const [authChecked, setAuthChecked] = useState(false);
+
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setAuthChecked(true);
+    });
+    return unsubscribe;
+  }, []);
+
+  if (!authChecked) {
+    return <LoadingScreen />;
+  }
+
+  if (user) {
+    return <Redirect href="./(tabs)" />;
+  }
+
   return <Redirect href="/login" />;
 }

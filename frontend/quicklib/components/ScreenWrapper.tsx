@@ -3,6 +3,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import React, { ReactNode } from 'react';
 import { StyleSheet, ViewStyle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Platform } from 'react-native';
 
 interface ScreenWrapperProps {
   children: ReactNode;
@@ -24,7 +25,7 @@ export const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
       style={[
         styles.container,
         {
-          backgroundColor: Colors[colorScheme ?? 'light'].background,
+          backgroundColor: Colors[colorScheme ?? 'dark'].background,
           paddingHorizontal: 16,
         },
         style,
@@ -38,6 +39,6 @@ export const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginBottom: -25,
+    marginBottom: Platform.OS !== 'web' ? -25 : 0,
   }
 });

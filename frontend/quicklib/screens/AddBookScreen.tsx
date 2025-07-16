@@ -96,7 +96,7 @@ const AddBookScreen = () => {
 const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors[colorScheme ?? 'light'].background,
+    backgroundColor: Colors[colorScheme ?? 'dark'].background,
   },
   loadingContainer: {
     flex: 1,
@@ -104,7 +104,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     alignItems: 'center',
   },
   loadingText: {
-    color: Colors[colorScheme ?? 'light'].text,
+    color: Colors[colorScheme ?? 'dark'].text,
     fontSize: 16,
     fontFamily: FontFamily.regular,
     marginTop: 16,

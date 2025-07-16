@@ -1,12 +1,14 @@
 import { Colors } from '@/globals/colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { getAuth } from '@react-native-firebase/auth';
+import { getAuth } from '@/config/firebase';
 import { useFonts } from 'expo-font';
 import { Slot, SplashScreen } from 'expo-router';
 import React, { useEffect } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { BooksProvider } from '@/context/BooksContext';
 import UpdateNotificationModal from '@/components/UpdateNotificationModal';
+
+import { View } from 'react-native';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -33,15 +35,18 @@ export default function RootLayout() {
     }
   }, [fontsLoaded]);
 
+  
   return (
     <SafeAreaProvider>
       <BooksProvider>
-        <UpdateNotificationModal />
-        <Slot screenOptions={{ 
-          contentStyle: { 
-            backgroundColor: Colors[colorScheme ?? 'light'].card,
-          } 
-        }} />
+          <View style={{ width: '100%', flex: 1}}>
+            <UpdateNotificationModal />
+            <Slot screenOptions={{ 
+              contentStyle: { 
+                backgroundColor: Colors[colorScheme ?? 'dark'].card,
+              } 
+            }} />
+          </View>
       </BooksProvider>
     </SafeAreaProvider>
   );

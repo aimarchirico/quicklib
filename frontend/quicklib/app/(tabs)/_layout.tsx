@@ -1,24 +1,123 @@
 import { Tabs } from 'expo-router';
-import React from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
+
+import { View, Platform, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { Pressable } from 'react-native';
+import { useRouter } from 'expo-router';
+import { useSegments } from 'expo-router';
 
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
+import * as Font from 'expo-font';
 import { Colors } from '@/globals/colors';
 import { FontFamily } from '@/globals/fonts';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+const makeStyles = (colorScheme: 'light' | 'dark') => StyleSheet.create({
+    root: {
+      flex: 1,
+      flexDirection: 'row',
+      backgroundColor: Colors[colorScheme].background,
+    },
+    sidebar: {
+      width: '20%',
+      backgroundColor: Colors[colorScheme].card,
+      alignItems: 'center',
+      paddingTop: 32,
+    },
+    sidebarButton: {
+      paddingLeft: 20,
+      marginBottom: 50,
+      alignItems: 'center',
+      flexDirection: 'row',
+      width: '90%',
+      justifyContent: 'flex-start',
+    },
+    sidebarLabel: {
+      marginLeft: 16,
+      fontFamily: FontFamily.medium,
+      fontSize: 16,
+    },
+    content: {
+      flex: 1,
+    },
+})
 
+export default function TabLayout() {
+  const [iconsReady, setIconsReady] = useState(false);
+  const colorScheme = useColorScheme();
+  const router = useRouter();
+  const segments = useSegments();
+  const currentTab = segments[segments.length - 1];
+  const styles = useMemo(() => makeStyles(colorScheme), [colorScheme]);
+
+  useEffect(() => {
+    async function loadAssets() {
+      try {
+        // Load icon font used by TabBarIcon (Ionicons)
+        await Font.loadAsync({
+          Ionicons: require('react-native-vector-icons/Fonts/Ionicons.ttf'),
+        });
+        setIconsReady(true);
+      } catch (e) {
+        setIconsReady(true); // Fallback: allow render even if font fails
+      }
+    }
+    loadAssets();
+  }, []);
+
+  if (!iconsReady) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: Colors[colorScheme].background }}>
+        <ActivityIndicator size="large" color={Colors.brand.green} />
+      </View>
+    );
+  }
+
+  if (Platform.OS === 'web') {
+    return (
+      <View style={styles.root}>
+        <View style={styles.sidebar}>
+          {/* Sidebar navigation icons with labels */}
+          <Pressable onPress={() => router.navigate('/(books)')} style={styles.sidebarButton}>
+            <TabBarIcon name={'book-outline'} color={(currentTab === '(books)' || currentTab === 'bookInfo') ? Colors.brand.green : Colors[colorScheme ?? 'dark'].icon} />
+            <Text style={[styles.sidebarLabel, { color: (currentTab === '(books)' || currentTab === 'bookInfo') ? Colors.brand.green : Colors[colorScheme ?? 'dark'].icon }]}>Books</Text>
+          </Pressable>
+          <Pressable onPress={() => router.navigate('/add')} style={styles.sidebarButton}>
+            <TabBarIcon name={'add-circle-outline'} color={currentTab === 'add' ? Colors.brand.green : Colors[colorScheme ?? 'dark'].icon} />
+            <Text style={[styles.sidebarLabel, { color: currentTab === 'add' ? Colors.brand.green : Colors[colorScheme ?? 'dark'].icon }]}>Add</Text>
+          </Pressable>
+          <Pressable onPress={() => router.navigate('/settings')} style={styles.sidebarButton}>
+            <TabBarIcon name={'settings-outline'} color={currentTab === 'settings' ? Colors.brand.green : Colors[colorScheme ?? 'dark'].icon} />
+            <Text style={[styles.sidebarLabel, { color: currentTab === 'settings' ? Colors.brand.green : Colors[colorScheme ?? 'dark'].icon }]}>Settings</Text>
+          </Pressable>
+        </View>
+        <View style={styles.content}>
+          {/* Render tab content */}
+          <Tabs
+            screenOptions={{
+              headerShown: false,
+              tabBarStyle: { display: 'none' }, // Hide bottom bar
+            }}
+          >
+            <Tabs.Screen name="(books)" />
+            <Tabs.Screen name="add" />
+            <Tabs.Screen name="settings" />
+          </Tabs>
+        </View>
+      </View>
+    );
+  }
+  // Mobile: keep bottom bar
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: Colors[colorScheme ?? 'light'].card,
+          backgroundColor: Colors[colorScheme ?? 'dark'].card,
           borderTopWidth: 0,
         },
         tabBarActiveTintColor: Colors.brand.green, 
-        tabBarInactiveTintColor: Colors[colorScheme ?? 'light'].icon,
+        tabBarInactiveTintColor: Colors[colorScheme ?? 'dark'].icon,
         tabBarLabelStyle: {
           fontFamily: FontFamily.medium,
           fontSize: 10,

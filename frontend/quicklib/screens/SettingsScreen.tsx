@@ -7,7 +7,7 @@ import { Colors } from '@/globals/colors';
 import { FontFamily } from '@/globals/fonts';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import useLoginWithGoogle from '@/hooks/useLoginWithGoogle';
-import { getAuth } from '@react-native-firebase/auth';
+import { getAuth } from '@/config/firebase';
 import { useRouter } from 'expo-router';
 import React, { useMemo, useState } from 'react';
 import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -117,19 +117,21 @@ const SettingsScreen = () => {
             </View>
           </View>
         </ScrollView>
-
-          <Button 
-            title="Sign Out" 
-            variant="primary" 
-            onPress={handleSignout}
-            fullWidth
-          />
+        <View style={styles.actions}>
           <Button 
             title="Delete Account" 
             variant="danger" 
             onPress={handleShowDeleteModal}
             fullWidth
           />
+          <Button 
+            title="Sign Out" 
+            variant="primary" 
+            onPress={handleSignout}
+            fullWidth
+          />
+
+          </View>
       </View>
       
       {/* Confirmation Modal for Account Deletion */}
@@ -151,7 +153,7 @@ const SettingsScreen = () => {
 const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors[colorScheme ?? 'light'].background,
+    backgroundColor: Colors[colorScheme ?? 'dark'].background,
     paddingBottom: 10, 
   },
   contentContainer: {
@@ -168,32 +170,34 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
     fontFamily: FontFamily.bold,
-    color: Colors[colorScheme ?? 'light'].text,
+    color: Colors[colorScheme ?? 'dark'].text,
     marginBottom: 16,
   },
   actions: {
-    paddingVertical: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 12,
   },
   card: {
     padding: 16,
-    backgroundColor: Colors[colorScheme ?? 'light'].card,
+    backgroundColor: Colors[colorScheme ?? 'dark'].card,
     borderRadius: 20,
   },
   userEmail: {
     fontSize: 16,
     fontFamily: FontFamily.bold,
-    color: Colors[colorScheme ?? 'light'].text,
+    color: Colors[colorScheme ?? 'dark'].text,
     marginBottom: 4,
   },
   userName: {
     fontSize: 14,
     fontFamily: FontFamily.regular,
-    color: Colors[colorScheme ?? 'light'].icon,
+    color: Colors[colorScheme ?? 'dark'].icon,
   },
   versionTitle: {
     fontSize: 16,
     fontFamily: FontFamily.bold,
-    color: Colors[colorScheme ?? 'light'].text,
+    color: Colors[colorScheme ?? 'dark'].text,
     marginBottom: 6,
   },
   versionText: {
@@ -205,12 +209,12 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   versionDescription: {
     fontSize: 14,
     fontFamily: FontFamily.regular,
-    color: Colors[colorScheme ?? 'light'].icon,
+    color: Colors[colorScheme ?? 'dark'].icon,
   },
   statsText: {
     fontSize: 16,
     fontFamily: FontFamily.bold,
-    color: Colors[colorScheme ?? 'light'].text,
+    color: Colors[colorScheme ?? 'dark'].text,
     marginBottom: 4,
   },
 });
