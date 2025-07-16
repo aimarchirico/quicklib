@@ -1,8 +1,7 @@
 import { Platform } from 'react-native';
 
 // Web Firebase configuration
-import firebaseConfig from '@/google-services-web.json';
-
+import webConfig from '@/google-services-web';
 
 let firebaseAuth: any;
 let firebaseGoogleProvider: any;
@@ -26,7 +25,7 @@ if (Platform.OS === 'web') {
   
 
   // Initialize Firebase for web
-  const app = initializeApp(firebaseConfig);
+  const app = initializeApp(webConfig);
   firebaseAuth = getAuth(app);
   
   // Create Google provider for web
@@ -67,4 +66,4 @@ export const signInWithPopup = firebaseSignInWithPopup;
 export const signInWithCredential = firebaseSignInWithCredential;
 export const signOut = firebaseSignOut;
 export const onAuthStateChanged = firebaseOnAuthStateChanged;
-export { firebaseConfig };
+export { webConfig };
