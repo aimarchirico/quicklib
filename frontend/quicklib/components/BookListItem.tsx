@@ -45,18 +45,18 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     padding: 16,
     marginVertical: 5,
     borderRadius: 20,
-    backgroundColor: Colors[colorScheme ?? 'light'].card,
+    backgroundColor: Colors[colorScheme ?? 'dark'].card,
   },
   title: {
     fontSize: 16,
     fontFamily: FontFamily.bold,
-    color: Colors[colorScheme ?? 'light'].text,
+    color: Colors[colorScheme ?? 'dark'].text,
   },
   author: {
     fontSize: 14,
     marginTop: 4,
     fontFamily: FontFamily.regular,
-    color: Colors[colorScheme ?? 'light'].icon,
+    color: Colors[colorScheme ?? 'dark'].icon,
   },
 });
 

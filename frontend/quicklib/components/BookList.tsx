@@ -30,7 +30,7 @@ const BookList: React.FC<BookListProps> = ({ books, refreshControl }) => {
 const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   list: {
     flex: 1,
-    backgroundColor: Colors[colorScheme ?? 'light'].background,
+    backgroundColor: Colors[colorScheme ?? 'dark'].background,
   },
   contentContainer: {
     paddingVertical: 0,

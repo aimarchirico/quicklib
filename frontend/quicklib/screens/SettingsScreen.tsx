@@ -153,7 +153,7 @@ const SettingsScreen = () => {
 const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors[colorScheme ?? 'light'].background,
+    backgroundColor: Colors[colorScheme ?? 'dark'].background,
     paddingBottom: 10, 
   },
   contentContainer: {
@@ -170,7 +170,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
     fontFamily: FontFamily.bold,
-    color: Colors[colorScheme ?? 'light'].text,
+    color: Colors[colorScheme ?? 'dark'].text,
     marginBottom: 16,
   },
   actions: {
@@ -180,24 +180,24 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   },
   card: {
     padding: 16,
-    backgroundColor: Colors[colorScheme ?? 'light'].card,
+    backgroundColor: Colors[colorScheme ?? 'dark'].card,
     borderRadius: 20,
   },
   userEmail: {
     fontSize: 16,
     fontFamily: FontFamily.bold,
-    color: Colors[colorScheme ?? 'light'].text,
+    color: Colors[colorScheme ?? 'dark'].text,
     marginBottom: 4,
   },
   userName: {
     fontSize: 14,
     fontFamily: FontFamily.regular,
-    color: Colors[colorScheme ?? 'light'].icon,
+    color: Colors[colorScheme ?? 'dark'].icon,
   },
   versionTitle: {
     fontSize: 16,
     fontFamily: FontFamily.bold,
-    color: Colors[colorScheme ?? 'light'].text,
+    color: Colors[colorScheme ?? 'dark'].text,
     marginBottom: 6,
   },
   versionText: {
@@ -209,12 +209,12 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   versionDescription: {
     fontSize: 14,
     fontFamily: FontFamily.regular,
-    color: Colors[colorScheme ?? 'light'].icon,
+    color: Colors[colorScheme ?? 'dark'].icon,
   },
   statsText: {
     fontSize: 16,
     fontFamily: FontFamily.bold,
-    color: Colors[colorScheme ?? 'light'].text,
+    color: Colors[colorScheme ?? 'dark'].text,
     marginBottom: 4,
   },
 });

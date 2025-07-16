@@ -25,7 +25,7 @@ export const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
       style={[
         styles.container,
         {
-          backgroundColor: Colors[colorScheme ?? 'light'].background,
+          backgroundColor: Colors[colorScheme ?? 'dark'].background,
           paddingHorizontal: 16,
         },
         style,

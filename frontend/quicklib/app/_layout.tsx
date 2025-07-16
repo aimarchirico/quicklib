@@ -35,6 +35,7 @@ export default function RootLayout() {
     }
   }, [fontsLoaded]);
 
+  
   return (
     <SafeAreaProvider>
       <BooksProvider>
@@ -42,7 +43,7 @@ export default function RootLayout() {
             <UpdateNotificationModal />
             <Slot screenOptions={{ 
               contentStyle: { 
-                backgroundColor: Colors[colorScheme ?? 'light'].card,
+                backgroundColor: Colors[colorScheme ?? 'dark'].card,
               } 
             }} />
           </View>

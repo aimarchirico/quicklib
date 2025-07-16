@@ -11,7 +11,7 @@ export default function BooksStack() {
       screenOptions={{ 
         headerShown: false,
         contentStyle: { 
-          backgroundColor: Colors[colorScheme ?? 'light'].background 
+          backgroundColor: Colors[colorScheme ?? 'dark'].background 
         },
         animation: 'fade',
       }}

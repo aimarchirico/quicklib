@@ -87,7 +87,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
                   setError('');
                 }}
                 placeholder={confirmationPlaceholder || 'Confirm'}
-                placeholderTextColor={Colors[colorScheme ?? 'light'].icon}
+                placeholderTextColor={Colors[colorScheme ?? 'dark'].icon}
                 autoCapitalize="none"
               />
               {error ? <Text style={styles.error}>{error}</Text> : null}
@@ -131,7 +131,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   },
   modalView: {
     width: Platform.OS == 'web' ? '30%' : '80%',
-    backgroundColor: Colors[colorScheme ?? 'light'].card,
+    backgroundColor: Colors[colorScheme ?? 'dark'].card,
     borderRadius: 20,
     padding: 24,
     alignItems: 'center',
@@ -141,13 +141,13 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     fontFamily: FontFamily.bold,
     marginBottom: 12,
     textAlign: 'center',
-    color: Colors[colorScheme ?? 'light'].text,
+    color: Colors[colorScheme ?? 'dark'].text,
   },
   message: {
     fontSize: 16,
     marginBottom: 10,
     textAlign: 'left',
-    color: Colors[colorScheme ?? 'light'].text,
+    color: Colors[colorScheme ?? 'dark'].text,
     fontFamily: FontFamily.regular,
   },
   input: {
@@ -156,8 +156,8 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     padding: 12,
     marginBottom: 8,
     fontSize: 16,
-    backgroundColor: Colors[colorScheme ?? 'light'].background,
-    color: Colors[colorScheme ?? 'light'].text,
+    backgroundColor: Colors[colorScheme ?? 'dark'].background,
+    color: Colors[colorScheme ?? 'dark'].text,
     fontFamily: FontFamily.regular,
   },
   buttonContainer: {

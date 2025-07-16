@@ -95,7 +95,7 @@ const BookInfoScreen = () => {
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <TouchableOpacity
               onPress={() => setDeleteModalVisible(true)}
-              style={{ marginRight: 8, padding: 8, borderRadius: 30, backgroundColor: Colors[colorScheme ?? 'light'].card }}
+              style={{ marginRight: 8, padding: 8, borderRadius: 30, backgroundColor: Colors[colorScheme ?? 'dark'].card }}
               disabled={deleting}
             >
               {deleting ? (
@@ -106,7 +106,7 @@ const BookInfoScreen = () => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => router.push({ pathname: '/(tabs)/(books)/editBook', params: { id: book.id } })}
-              style={{ padding: 8, borderRadius: 30, backgroundColor: Colors[colorScheme ?? 'light'].card }}
+              style={{ padding: 8, borderRadius: 30, backgroundColor: Colors[colorScheme ?? 'dark'].card }}
               disabled={deleting}
             >
               <Ionicons name="create-outline" size={24} color={Colors.brand.red} />
@@ -122,12 +122,12 @@ const BookInfoScreen = () => {
               style={styles.infoRow}
               onPress={() => navigateToFilteredBooks('author', book.author)}
             >
-              <Ionicons name="person-outline" size={20} color={Colors[colorScheme ?? 'light'].icon} />
+              <Ionicons name="person-outline" size={20} color={Colors[colorScheme ?? 'dark'].icon} />
               <View style={styles.infoTextContainer}>
                 <Text style={styles.infoLabel}>Author</Text>
                 <Text style={[styles.infoValue, styles.clickable]}>{book.author}</Text>
               </View>
-              <Ionicons name="chevron-forward" size={20} color={Colors[colorScheme ?? 'light'].icon} />
+              <Ionicons name="chevron-forward" size={20} color={Colors[colorScheme ?? 'dark'].icon} />
             </TouchableOpacity>
             
             {book.series && (
@@ -135,14 +135,14 @@ const BookInfoScreen = () => {
                 style={styles.infoRow}
                 onPress={() => navigateToFilteredBooks('series', book.series!)}
               >
-                <Ionicons name="bookmarks-outline" size={20} color={Colors[colorScheme ?? 'light'].icon} />
+                <Ionicons name="bookmarks-outline" size={20} color={Colors[colorScheme ?? 'dark'].icon} />
                 <View style={styles.infoTextContainer}>
                   <Text style={styles.infoLabel}>Series</Text>
                   <Text style={[styles.infoValue, styles.clickable]}>
                     {book.series}{book.sequenceNumber ? ` (#${book.sequenceNumber})` : ''}
                   </Text>
                 </View>
-                <Ionicons name="chevron-forward" size={20} color={Colors[colorScheme ?? 'light'].icon} />
+                <Ionicons name="chevron-forward" size={20} color={Colors[colorScheme ?? 'dark'].icon} />
               </TouchableOpacity>
             )}
             
@@ -150,12 +150,12 @@ const BookInfoScreen = () => {
               style={styles.infoRow}
               onPress={() => navigateToFilteredBooks('language', book.language)}
             >
-              <Ionicons name="globe-outline" size={20} color={Colors[colorScheme ?? 'light'].icon} />
+              <Ionicons name="globe-outline" size={20} color={Colors[colorScheme ?? 'dark'].icon} />
               <View style={styles.infoTextContainer}>
                 <Text style={styles.infoLabel}>Language</Text>
                 <Text style={[styles.infoValue, styles.clickable]}>{getLanguageDisplayName(book.language)}</Text>
               </View>
-              <Ionicons name="chevron-forward" size={20} color={Colors[colorScheme ?? 'light'].icon} />
+              <Ionicons name="chevron-forward" size={20} color={Colors[colorScheme ?? 'dark'].icon} />
             </TouchableOpacity>
             
             <TouchableOpacity 
@@ -171,14 +171,14 @@ const BookInfoScreen = () => {
                     : 'heart-outline'
                 }
                 size={20} 
-                color={Colors[colorScheme ?? 'light'].icon} 
+                color={Colors[colorScheme ?? 'dark'].icon} 
               />
               <View style={styles.infoTextContainer}>
                 <Text style={styles.infoLabel}>Collection</Text>
                 <Text style={[
                   styles.infoValue, 
                   styles.clickable,
-                  { color: Colors[colorScheme ?? 'light'].text }
+                  { color: Colors[colorScheme ?? 'dark'].text }
                 ]}>
                   {book.collection === 'READ'
                     ? 'Read'
@@ -187,12 +187,12 @@ const BookInfoScreen = () => {
                     : 'Wishlist'}
                 </Text>
               </View>
-              <Ionicons name="chevron-forward" size={20} color={Colors[colorScheme ?? 'light'].icon} />
+              <Ionicons name="chevron-forward" size={20} color={Colors[colorScheme ?? 'dark'].icon} />
             </TouchableOpacity>
             
             {book.isbn && (
               <View style={styles.infoRow}>
-                <Ionicons name="barcode-outline" size={20} color={Colors[colorScheme ?? 'light'].icon} />
+                <Ionicons name="barcode-outline" size={20} color={Colors[colorScheme ?? 'dark'].icon} />
                 <View style={styles.infoTextContainer}>
                   <Text style={styles.infoLabel}>ISBN</Text>
                   <Text style={styles.infoValue}>{book.isbn}</Text>
@@ -201,7 +201,7 @@ const BookInfoScreen = () => {
             )}
             
             <View style={styles.infoRow}>
-              <Ionicons name="calendar-outline" size={20} color={Colors[colorScheme ?? 'light'].icon} />
+              <Ionicons name="calendar-outline" size={20} color={Colors[colorScheme ?? 'dark'].icon} />
               <View style={styles.infoTextContainer}>
                 <Text style={styles.infoLabel}>Added on</Text>
                 <Text style={styles.infoValue}>{formattedDate}</Text>
@@ -238,7 +238,7 @@ const BookInfoScreen = () => {
 const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors[colorScheme ?? 'light'].background,
+    backgroundColor: Colors[colorScheme ?? 'dark'].background,
   },
   contentContainer: {
     flex: 1,
@@ -276,7 +276,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     fontSize: 12,
   },
   card: {
-    backgroundColor: Colors[colorScheme ?? 'light'].card,
+    backgroundColor: Colors[colorScheme ?? 'dark'].card,
     borderRadius: 20,
     padding: 20,
     marginBottom: 24,
@@ -292,17 +292,17 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   },
   infoLabel: {
     fontSize: 14,
-    color: Colors[colorScheme ?? 'light'].icon,
+    color: Colors[colorScheme ?? 'dark'].icon,
     marginBottom: 2,
     fontFamily: FontFamily.regular,
   },
   infoValue: {
     fontSize: 16,
-    color: Colors[colorScheme ?? 'light'].text,
+    color: Colors[colorScheme ?? 'dark'].text,
     fontFamily: FontFamily.bold,
   },
   clickable: {
-    color: Colors[colorScheme ?? 'light'].text,
+    color: Colors[colorScheme ?? 'dark'].text,
   },
   actions: {
     paddingVertical: 16,
@@ -314,7 +314,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     fontFamily: FontFamily.regular,
   },
   text: {
-    color: Colors[colorScheme ?? 'light'].text,
+    color: Colors[colorScheme ?? 'dark'].text,
     fontFamily: FontFamily.regular,
   },
 });

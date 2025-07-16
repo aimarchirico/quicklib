@@ -33,7 +33,7 @@ const SearchableBookList: React.FC<SearchableBookListProps> = ({ books, onRefres
       <TextInput
         style={styles.searchInput}
         placeholder="Search by title, author, series, or language"
-        placeholderTextColor={Colors[colorScheme ?? 'light'].icon}
+        placeholderTextColor={Colors[colorScheme ?? 'dark'].icon}
         value={searchQuery}
         onChangeText={setSearchQuery}
       />
@@ -47,11 +47,11 @@ const SearchableBookList: React.FC<SearchableBookListProps> = ({ books, onRefres
 const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors[colorScheme ?? 'light'].background,
+    backgroundColor: Colors[colorScheme ?? 'dark'].background,
   },
   searchInput: {
-    backgroundColor: Colors[colorScheme ?? 'light'].card,
-    color: Colors[colorScheme ?? 'light'].text,
+    backgroundColor: Colors[colorScheme ?? 'dark'].card,
+    color: Colors[colorScheme ?? 'dark'].text,
     padding: 15,
     marginVertical: 16,
     borderRadius: 20,

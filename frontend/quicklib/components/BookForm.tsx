@@ -243,7 +243,7 @@ const BookForm = ({
                         onChangeText={onChange}
                         value={value}
                         placeholder="Book Title"
-                        placeholderTextColor={Colors[colorScheme ?? 'light'].icon}
+                        placeholderTextColor={Colors[colorScheme ?? 'dark'].icon}
                       />
                     )}
                   />
@@ -260,7 +260,7 @@ const BookForm = ({
                         onChangeText={onChange}
                         value={value}
                         placeholder="Author Name"
-                        placeholderTextColor={Colors[colorScheme ?? 'light'].icon}
+                        placeholderTextColor={Colors[colorScheme ?? 'dark'].icon}
                       />
                     )}
                   />
@@ -297,7 +297,7 @@ const BookForm = ({
                         onChangeText={onChange}
                         value={value}
                         placeholder="Series Name"
-                        placeholderTextColor={Colors[colorScheme ?? 'light'].icon}
+                        placeholderTextColor={Colors[colorScheme ?? 'dark'].icon}
                       />
                     )}
                   />
@@ -313,7 +313,7 @@ const BookForm = ({
                         onChangeText={(text) => onChange(text ? Number(text) : undefined)}
                         value={value !== undefined && value != null ? String(value) : ''}
                         placeholder="1, 2, 3, etc."
-                        placeholderTextColor={Colors[colorScheme ?? 'light'].icon}
+                        placeholderTextColor={Colors[colorScheme ?? 'dark'].icon}
                         keyboardType="numeric"
                       />
                     )}
@@ -334,7 +334,7 @@ const BookForm = ({
 const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors[colorScheme ?? 'light'].background,
+    backgroundColor: Colors[colorScheme ?? 'dark'].background,
   },
   contentContainer: {
     flex: 1,
@@ -351,15 +351,15 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     paddingBottom: 16,
   },
   label: {
-    color: Colors[colorScheme ?? 'light'].text,
+    color: Colors[colorScheme ?? 'dark'].text,
     marginBottom: 15,
     marginTop: 10,
     fontFamily: FontFamily.bold,
     fontSize: 16,
   },
   input: {
-    backgroundColor: Colors[colorScheme ?? 'light'].card,
-    color: Colors[colorScheme ?? 'light'].text,
+    backgroundColor: Colors[colorScheme ?? 'dark'].card,
+    color: Colors[colorScheme ?? 'dark'].text,
     padding: 20,
     borderRadius: 20,
     marginBottom: 15,
@@ -369,13 +369,13 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   inputText: {
     fontSize: 14,
     fontFamily: FontFamily.regular,
-    color: Colors[colorScheme ?? 'light'].text,
+    color: Colors[colorScheme ?? 'dark'].text,
   },
   placeholderText: {
-    color: Colors[colorScheme ?? 'light'].icon,
+    color: Colors[colorScheme ?? 'dark'].icon,
   },
   collectionCardBg: {
-    backgroundColor: Colors[colorScheme ?? 'light'].card,
+    backgroundColor: Colors[colorScheme ?? 'dark'].card,
     borderRadius: 20,
     marginBottom: 15,
   },
@@ -395,7 +395,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     backgroundColor: Colors.brand.green,
   },
   collectionButtonText: {
-    color: Colors[colorScheme ?? 'light'].text,
+    color: Colors[colorScheme ?? 'dark'].text,
     fontFamily: FontFamily.bold,
     fontSize: 14,
   },

@@ -54,16 +54,16 @@ export default function TabLayout() {
         <View style={styles.sidebar}>
           {/* Sidebar navigation icons with labels */}
           <Pressable onPress={() => router.navigate('/(books)')} style={styles.sidebarButton}>
-            <TabBarIcon name={'book-outline'} color={currentTab === '(books)' ? Colors.brand.green : Colors[colorScheme ?? 'light'].icon} />
-            <Text style={[styles.sidebarLabel, { color: currentTab === '(books)' ? Colors.brand.green : Colors[colorScheme ?? 'light'].icon }]}>Books</Text>
+            <TabBarIcon name={'book-outline'} color={currentTab === '(books)' ? Colors.brand.green : Colors[colorScheme ?? 'dark'].icon} />
+            <Text style={[styles.sidebarLabel, { color: currentTab === '(books)' ? Colors.brand.green : Colors[colorScheme ?? 'dark'].icon }]}>Books</Text>
           </Pressable>
           <Pressable onPress={() => router.navigate('/add')} style={styles.sidebarButton}>
-            <TabBarIcon name={'add-circle-outline'} color={currentTab === 'add' ? Colors.brand.green : Colors[colorScheme ?? 'light'].icon} />
-            <Text style={[styles.sidebarLabel, { color: currentTab === 'add' ? Colors.brand.green : Colors[colorScheme ?? 'light'].icon }]}>Add</Text>
+            <TabBarIcon name={'add-circle-outline'} color={currentTab === 'add' ? Colors.brand.green : Colors[colorScheme ?? 'dark'].icon} />
+            <Text style={[styles.sidebarLabel, { color: currentTab === 'add' ? Colors.brand.green : Colors[colorScheme ?? 'dark'].icon }]}>Add</Text>
           </Pressable>
           <Pressable onPress={() => router.navigate('/settings')} style={styles.sidebarButton}>
-            <TabBarIcon name={'settings-outline'} color={currentTab === 'settings' ? Colors.brand.green : Colors[colorScheme ?? 'light'].icon} />
-            <Text style={[styles.sidebarLabel, { color: currentTab === 'settings' ? Colors.brand.green : Colors[colorScheme ?? 'light'].icon }]}>Settings</Text>
+            <TabBarIcon name={'settings-outline'} color={currentTab === 'settings' ? Colors.brand.green : Colors[colorScheme ?? 'dark'].icon} />
+            <Text style={[styles.sidebarLabel, { color: currentTab === 'settings' ? Colors.brand.green : Colors[colorScheme ?? 'dark'].icon }]}>Settings</Text>
           </Pressable>
         </View>
         <View style={styles.content}>
@@ -88,11 +88,11 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: Colors[colorScheme ?? 'light'].card,
+          backgroundColor: Colors[colorScheme ?? 'dark'].card,
           borderTopWidth: 0,
         },
         tabBarActiveTintColor: Colors.brand.green, 
-        tabBarInactiveTintColor: Colors[colorScheme ?? 'light'].icon,
+        tabBarInactiveTintColor: Colors[colorScheme ?? 'dark'].icon,
         tabBarLabelStyle: {
           fontFamily: FontFamily.medium,
           fontSize: 10,

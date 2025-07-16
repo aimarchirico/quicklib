@@ -38,7 +38,7 @@ const LoginScreen = () => {
 const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors[colorScheme ?? 'light'].background,
+    backgroundColor: Colors[colorScheme ?? 'dark'].background,
   },
   content: {
     flex: 1,
@@ -58,7 +58,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     fontSize: 28,
     fontFamily: FontFamily.bold,
     marginBottom: 8,
-    color: Colors[colorScheme ?? 'light'].text,
+    color: Colors[colorScheme ?? 'dark'].text,
     width: '100%', 
     textAlign: 'center', 
   },
@@ -66,7 +66,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     fontSize: 16,
     marginBottom: 40,
     textAlign: 'center',
-    color: Colors[colorScheme ?? 'light'].icon,
+    color: Colors[colorScheme ?? 'dark'].icon,
     width: '100%',
     fontFamily: FontFamily.regular,
   },

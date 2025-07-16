@@ -9,7 +9,7 @@ const LoadingScreen = () => {
   
   return (
     <ScreenWrapper>
-      <View style={[styles.container, { backgroundColor: Colors[colorScheme ?? 'light'].background }]}>
+      <View style={[styles.container, { backgroundColor: Colors[colorScheme ?? 'dark'].background }]}>
         <ActivityIndicator size="large" color={Colors.brand.green} />
       </View>
     </ScreenWrapper>

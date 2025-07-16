@@ -112,7 +112,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: 12,
-    backgroundColor: Colors[colorScheme ?? 'light'].background,
+    backgroundColor: Colors[colorScheme ?? 'dark'].background,
   },
   leftSection: {
     flexDirection: 'row',
@@ -124,12 +124,12 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     padding: 8,
     marginRight: 8,
     borderRadius: 30,
-    backgroundColor: Colors[colorScheme ?? 'light'].card,
+    backgroundColor: Colors[colorScheme ?? 'dark'].card,
   },
   title: {
     fontSize: 24,
     fontFamily: FontFamily.bold,
-    color: Colors[colorScheme ?? 'light'].text,
+    color: Colors[colorScheme ?? 'dark'].text,
     flex: 1,
   },
   rightSection: {
@@ -139,7 +139,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   iconButton: {
     padding: 8,
     borderRadius: 30,
-    backgroundColor: Colors[colorScheme ?? 'light'].card,
+    backgroundColor: Colors[colorScheme ?? 'dark'].card,
   },
   iconButtonSpacing: {
     marginLeft: 8,

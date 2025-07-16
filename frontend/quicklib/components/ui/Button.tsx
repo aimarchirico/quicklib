@@ -99,7 +99,7 @@ const Button: React.FC<ButtonProps> = ({
       <View style={styles.contentContainer}>
         {loading ? (
           <ActivityIndicator 
-            color={variant === 'primary' ? '#fff' : Colors[colorScheme ?? 'light'].text} 
+            color={variant === 'primary' ? '#fff' : Colors[colorScheme ?? 'dark'].text} 
             size="small" 
           />
         ) : (
@@ -130,10 +130,10 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     backgroundColor: Colors.brand.green,
   },
   secondaryButton: {
-    backgroundColor: Colors[colorScheme ?? 'light'].card,
+    backgroundColor: Colors[colorScheme ?? 'dark'].card,
   },
   tertiaryButton: {
-    backgroundColor: Colors[colorScheme ?? 'light'].background,
+    backgroundColor: Colors[colorScheme ?? 'dark'].background,
   },
   dangerButton: {
     backgroundColor: Colors.brand.red,
@@ -152,7 +152,7 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     color: '#FFFFFF',
   },
   secondaryText: {
-    color: Colors[colorScheme ?? 'light'].text,
+    color: Colors[colorScheme ?? 'dark'].text,
   },
   dangerText: {
     color: '#FFFFFF',
