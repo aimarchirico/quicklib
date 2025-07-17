@@ -13,7 +13,7 @@ QucikLib client application built with React Native and Expo.
 2. Buil apk file
 
    ```bash
-           run: eas build --platform android --profile preview --local --output app-release.apk
+   eas build --platform android --profile preview --local --output app-release.apk
    ```
 
 3. Install to device
