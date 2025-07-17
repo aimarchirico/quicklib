@@ -1,8 +1,6 @@
 spring:
   application:
     name: quicklib
-  datasource:
-    url: jdbc:postgresql://quicklib-db:5432/quicklib
 
 jpa:
   hibernate:

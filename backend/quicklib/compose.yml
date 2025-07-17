@@ -8,6 +8,7 @@ services:
     ports:
       - "8080:8080"
     environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://quicklib-db:5432/quicklib
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
       FRONTEND_URL: ${FRONTEND_URL}
