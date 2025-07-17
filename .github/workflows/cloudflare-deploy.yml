@@ -59,7 +59,18 @@ jobs:
           find dist/_expo/static/js/web/ -type f -print0 | xargs -0 sed -i 's/assets\/node_modules/assets/g'
 
 
+
+      - name: Create GitHub Deployment
+        id: deployment
+        uses: bobheadxi/deployments@v1
+        with:
+          step: start
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: production
+          ref: ${{ github.ref }}
+
       - name: Publish to Cloudflare Pages
+        id: cloudflare_deploy
         uses: cloudflare/pages-action@v1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -67,6 +78,29 @@ jobs:
           projectName: quicklib
           branch: main
           directory: ./frontend/quicklib/dist
+
+      - name: Update GitHub Deployment Status (success)
+        if: success()
+        uses: bobheadxi/deployments@v1
+        with:
+          step: finish
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: production
+          status: success
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          ref: ${{ github.ref }}
+          env_url: ${{ steps.cloudflare_deploy.outputs.url || '' }}
+
+      - name: Update GitHub Deployment Status (failure)
+        if: failure()
+        uses: bobheadxi/deployments@v1
+        with:
+          step: finish
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: production
+          status: failure
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          ref: ${{ github.ref }}
 
       - name: List dist contents
         run: ls -R ./frontend/quicklib/dist/assets
