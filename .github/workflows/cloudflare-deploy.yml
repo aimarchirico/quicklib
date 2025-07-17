@@ -16,6 +16,7 @@ jobs:
     env:
       GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON }}
       API_URL: ${{ vars.API_URL }}
+      APP_URL: ${{ vars.APP_URL }}
       RELEASE_URL: https://github.com/${{ github.repository }}/releases.atom
 
     steps:
@@ -91,7 +92,7 @@ jobs:
           status: success
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
           ref: ${{ github.ref }}
-          env_url: ${{ steps.cloudflare_deploy.outputs.url || '' }}
+          env_url: ${{ env.APP_URL }}
 
       - name: Update GitHub Deployment Status (failure)
         if: failure()
