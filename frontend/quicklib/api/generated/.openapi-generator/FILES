@@ -1,0 +1,14 @@
+.gitignore
+.npmignore
+.openapi-generator-ignore
+api.ts
+base.ts
+common.ts
+configuration.ts
+docs/BookControllerApi.md
+docs/BookRequest.md
+docs/BookResponse.md
+docs/TestAuthControllerApi.md
+docs/UserControllerApi.md
+git_push.sh
+index.ts
