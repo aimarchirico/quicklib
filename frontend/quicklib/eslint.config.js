@@ -52,11 +52,6 @@ module.exports = defineConfig([
               from: './src/features',
               except: ['./manage-book'],
             },
-            {
-              target: './src/features/scan-book',
-              from: './src/features',
-              except: ['./scan-book'],
-            },
           ],
         },
       ],
