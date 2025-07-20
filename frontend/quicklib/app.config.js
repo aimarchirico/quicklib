@@ -1,10 +1,11 @@
 import { writeFileSync } from 'fs';
+import { Buffer } from 'buffer';
 
 // Create google-services.json from environment variable if it exists
 if (process.env.GOOGLE_SERVICES_JSON_BASE64) {
   try {
     const content = Buffer.from(process.env.GOOGLE_SERVICES_JSON_BASE64, 'base64').toString('utf-8');
-    writeFileSync('./google-services.json', content);
+    writeFileSync('./src/assets/google-services.json', content);
   } catch (error) {
     console.warn('Failed to create google-services.json:', error);
   }
@@ -16,7 +17,7 @@ export default {
     slug: "quicklib",
     version: process.env.VERSION_NAME || "1.0.0",
     orientation: "portrait",
-    icon: "./assets/images/icon.png",
+    icon: "./src/assets/images/icon.png",
     scheme: "quicklib",
     userInterfaceStyle: "automatic",
     newArchEnabled: true,
@@ -25,24 +26,24 @@ export default {
     },
     android: {
       adaptiveIcon: {
-        foregroundImage: "./assets/images/adaptive-icon.png",
+        foregroundImage: "./src/assets/images/adaptive-icon.png",
         backgroundColor: "#ffffff"
       },
       edgeToEdgeEnabled: true,
       package: "no.chirico.quicklib",
-      googleServicesFile: process.env.GOOGLE_SERVICES_JSON || "./google-services.json",
+      googleServicesFile: process.env.GOOGLE_SERVICES_JSON || "./src/assets/google-services.json",
     },
     web: {
       bundler: "metro",
       output: "static",
-      favicon: "./assets/images/icon.png"
+      favicon: "./src/assets/images/icon.png"
     },
     plugins: [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          image: "./assets/images/adaptive-icon.png",
+          image: "./src/assets/images/adaptive-icon.png",
           imageWidth: 200,
           resizeMode: "contain",
           backgroundColor: "#151718"
