@@ -1,7 +1,7 @@
-package no.chirico.quicklib.repository
+package no.chirico.quicklib.books
 
-import no.chirico.quicklib.entity.BookEntity
-import no.chirico.quicklib.entity.UserEntity
+import no.chirico.quicklib.books.BookEntity
+import no.chirico.quicklib.users.UserEntity
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface BookRepository : JpaRepository<BookEntity, Long> {

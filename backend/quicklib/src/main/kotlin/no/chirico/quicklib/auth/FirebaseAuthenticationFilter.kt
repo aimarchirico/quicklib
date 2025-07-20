@@ -1,4 +1,4 @@
-package no.chirico.quicklib.security
+package no.chirico.quicklib.auth
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseToken

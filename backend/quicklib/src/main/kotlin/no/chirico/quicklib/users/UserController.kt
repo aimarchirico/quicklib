@@ -1,9 +1,9 @@
-package no.chirico.quicklib.controller
+package no.chirico.quicklib.users
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
-import no.chirico.quicklib.service.UserService
+import no.chirico.quicklib.users.UserService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 

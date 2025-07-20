@@ -1,9 +1,9 @@
-package no.chirico.quicklib.service
+package no.chirico.quicklib.users
 
-import no.chirico.quicklib.dto.UserResponse
-import no.chirico.quicklib.entity.UserEntity
-import no.chirico.quicklib.mapper.UserMapper
-import no.chirico.quicklib.repository.UserRepository
+import no.chirico.quicklib.users.UserResponse
+import no.chirico.quicklib.users.UserEntity
+import no.chirico.quicklib.users.UserMapper
+import no.chirico.quicklib.users.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.security.core.context.SecurityContextHolder
 

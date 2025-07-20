@@ -1,4 +1,4 @@
-package no.chirico.quicklib.dto
+package no.chirico.quicklib.users
 
 import java.time.Instant
 

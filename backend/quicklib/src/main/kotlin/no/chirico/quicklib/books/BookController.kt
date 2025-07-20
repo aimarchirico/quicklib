@@ -1,11 +1,11 @@
-package no.chirico.quicklib.controller
+package no.chirico.quicklib.books
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
-import no.chirico.quicklib.dto.BookRequest
-import no.chirico.quicklib.dto.BookResponse
-import no.chirico.quicklib.service.BookService
+import no.chirico.quicklib.books.BookRequest
+import no.chirico.quicklib.books.BookResponse
+import no.chirico.quicklib.books.BookService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 

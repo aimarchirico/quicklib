@@ -1,4 +1,4 @@
-package no.chirico.quicklib.entity
+package no.chirico.quicklib.users
 
 import jakarta.persistence.*
 import java.time.Instant

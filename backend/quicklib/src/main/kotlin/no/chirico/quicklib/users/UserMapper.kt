@@ -1,8 +1,8 @@
-package no.chirico.quicklib.mapper
+package no.chirico.quicklib.users
 
-import no.chirico.quicklib.dto.UserRequest
-import no.chirico.quicklib.dto.UserResponse
-import no.chirico.quicklib.entity.UserEntity
+import no.chirico.quicklib.users.UserRequest
+import no.chirico.quicklib.users.UserResponse
+import no.chirico.quicklib.users.UserEntity
 import org.mapstruct.Mapper
 import org.mapstruct.MappingTarget
 

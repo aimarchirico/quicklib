@@ -1,10 +1,11 @@
-package no.chirico.quicklib.service
+package no.chirico.quicklib.books
 
-import no.chirico.quicklib.dto.BookRequest
-import no.chirico.quicklib.dto.BookResponse
-import no.chirico.quicklib.entity.BookEntity
-import no.chirico.quicklib.mapper.BookMapper
-import no.chirico.quicklib.repository.BookRepository
+import no.chirico.quicklib.books.BookRequest
+import no.chirico.quicklib.books.BookResponse
+import no.chirico.quicklib.books.BookEntity
+import no.chirico.quicklib.books.BookMapper
+import no.chirico.quicklib.books.BookRepository
+import no.chirico.quicklib.users.UserService
 import org.springframework.stereotype.Service
 import java.time.Instant
 

@@ -1,6 +1,6 @@
-package no.chirico.quicklib.dto
+package no.chirico.quicklib.books
 
-import no.chirico.quicklib.entity.BookCollection
+import no.chirico.quicklib.books.BookCollection
 import java.time.Instant
 
 // Request DTO for creating/updating a book

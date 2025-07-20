@@ -1,8 +1,8 @@
-package no.chirico.quicklib.mapper
+package no.chirico.quicklib.books
 
-import no.chirico.quicklib.dto.BookRequest
-import no.chirico.quicklib.dto.BookResponse
-import no.chirico.quicklib.entity.BookEntity
+import no.chirico.quicklib.books.BookRequest
+import no.chirico.quicklib.books.BookResponse
+import no.chirico.quicklib.books.BookEntity
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import org.mapstruct.MappingTarget

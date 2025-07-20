@@ -1,8 +1,8 @@
-package no.chirico.quicklib.entity
+package no.chirico.quicklib.books
 
 import jakarta.persistence.*
 import java.time.Instant
-import no.chirico.quicklib.entity.UserEntity
+import no.chirico.quicklib.users.UserEntity
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
