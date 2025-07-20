@@ -10,6 +10,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.beans.factory.annotation.Value
+import no.chirico.quicklib.auth.FirebaseAuthenticationFilter
 
 @Configuration
 @EnableWebSecurity
@@ -26,7 +27,7 @@ class SecurityConfig(
             .cors { } // Enable CORS in Spring Security, but config is provided by bean below
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .authorizeHttpRequests {
-                it.requestMatchers("/quicklib/user/**", "/quicklib/books/**", "/quicklib/test-auth/**").authenticated()
+                it.requestMatchers("/quicklib/user/**", "/quicklib/books/**").authenticated()
                 it.anyRequest().permitAll()
             }
             .addFilterBefore(firebaseAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
