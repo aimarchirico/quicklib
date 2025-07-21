@@ -1,9 +1,9 @@
 import { BookResponseCollectionEnum } from '@/api/generated';
-import BarcodeScanner from '@/components/barcode-scanner';
-import FilterDropdown from '@/features/book-list/components/filter-dropdown';
+import { BarcodeScanner } from '@/components/barcode-scanner';
+import { FilterDropdown } from '@/features/book-list/components/filter-dropdown';
 import { ScreenWrapper } from '@/components/ui/screen-wrapper';
-import SearchableBookList from '@/features/book-list/components/searchable-book-list';
-import Header from '@/components/ui/header';
+import { SearchableBookList } from '@/features/book-list/components/searchable-book-list';
+import { Header } from '@/components/ui/header';
 import { useBooksContext } from '@/context/books-context';
 import { Colors } from '@/styles/colors';
 import { FontFamily } from '@/styles/fonts';
