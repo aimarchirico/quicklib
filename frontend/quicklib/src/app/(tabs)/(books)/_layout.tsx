@@ -16,7 +16,7 @@ export default function BooksStack() {
         animation: 'fade',
       }}
     >
-      <Stack.Screen name="index" />
+      <Stack.Screen name="(books)" />
       <Stack.Screen name="info/index" />
       <Stack.Screen name="edit/index" />
     </Stack>
