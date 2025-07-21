@@ -24,7 +24,7 @@ export const SignInButton = () => {
     try {
       if (user) {
         await signOut();
-        router.replace('/login');
+        router.replace('/signin');
       } else {
         await signIn();
         
