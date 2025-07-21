@@ -1,7 +1,7 @@
 
 import { Redirect } from "expo-router";
 import React, { useEffect, useState } from "react";
-import LoadingScreen from '@/components/loading-screen';
+import { LoadingScreen } from '@/components/loading-screen';
 import { getAuth, onAuthStateChanged } from '@/config/firebase';
 
 const HomeScreen = () => {
@@ -25,7 +25,7 @@ const HomeScreen = () => {
     return <Redirect href="./(tabs)" />;
   }
 
-  return <Redirect href="./login" />;
+  return <Redirect href="./signin" />;
 }
 
 export default HomeScreen;
