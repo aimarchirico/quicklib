@@ -1,7 +1,7 @@
 import { BookRequest, BookRequestCollectionEnum } from '@/api/generated';
-import BookForm from '@/features/manage-book/book-form';
+import { BookForm } from '@/features/manage-book/book-form';
 import { ScreenWrapper } from '@/components/ui/screen-wrapper';
-import Header from '@/components/ui/header';
+import { Header } from '@/components/ui/header';
 import { useBooksContext } from '@/context/books-context';
 import { Colors } from '@/styles/colors';
 import { FontFamily } from '@/styles/fonts';
