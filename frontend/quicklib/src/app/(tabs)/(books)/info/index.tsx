@@ -1,7 +1,7 @@
 import { BookResponse } from '@/api/generated';
-import ConfirmationModal from '@/components/ui/confirmation-modal';
+import { ConfirmationModal } from '@/components/ui/confirmation-modal';
 import { ScreenWrapper } from '@/components/ui/screen-wrapper';
-import Header from '@/components/ui/header';
+import { Header } from '@/components/ui/header';
 import { useBooksContext } from '@/context/books-context';
 import { Colors } from '@/styles/colors';
 import { FontFamily } from '@/styles/fonts';
@@ -10,7 +10,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import BookDetailsCard from '@/features/book-info/components/book-details-card';
+import { BookDetailsCard } from '@/features/book-info/components/book-details-card';
 
 const InfoScreen = () => {
   const { id } = useLocalSearchParams();
