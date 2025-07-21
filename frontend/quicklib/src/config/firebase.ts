@@ -1,5 +1,5 @@
 import { Platform } from 'react-native';
-import webConfig from '@/config/google-services-web';
+import { webConfig } from '@/config/google-services-web';
 
 // Web Firebase imports
 import { initializeApp } from 'firebase/app';
