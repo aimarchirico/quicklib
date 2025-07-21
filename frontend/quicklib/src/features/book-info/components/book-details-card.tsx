@@ -11,7 +11,7 @@ export interface BookDetailsCardProps {
   navigateToFilteredBooks: (filterType: string, filterValue: string) => void;
 }
 
-const BookDetailsCard: React.FC<BookDetailsCardProps> = ({ book, colorScheme, styles, navigateToFilteredBooks }) => {
+export const BookDetailsCard: React.FC<BookDetailsCardProps> = ({ book, colorScheme, styles, navigateToFilteredBooks }) => {
   const formattedDate = book.createdAt 
     ? new Date(book.createdAt).toLocaleDateString(undefined, {
         year: 'numeric',
@@ -109,5 +109,3 @@ const BookDetailsCard: React.FC<BookDetailsCardProps> = ({ book, colorScheme, st
     </View>
   );
 };
-
-export default BookDetailsCard;
