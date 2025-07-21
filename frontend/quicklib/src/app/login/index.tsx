@@ -1,11 +1,11 @@
-import LoadingScreen from '@/components/loading-screen';
+import { LoadingScreen } from '@/components/loading-screen';
 import { getAuth, onAuthStateChanged } from '@/config/firebase';
 import { Redirect, useFocusEffect } from 'expo-router';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { ScreenWrapper } from '@/components/ui/screen-wrapper';
 import { Image, StyleSheet, Text, View } from 'react-native';
-import SignInButton from '@/features/google-sign-in/components/sign-in-button';
+import { SignInButton } from '@/features/google-sign-in/components/sign-in-button';
 import { Colors } from '@/styles/colors';
 import { FontFamily } from '@/styles/fonts';
 
