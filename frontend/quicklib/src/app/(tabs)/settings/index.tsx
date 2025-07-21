@@ -31,11 +31,11 @@ const SettingsScreen = () => {
     try {
       console.log('Attempting to sign out from settings');
       await signOut();
-      console.log('Successfully signed out, redirecting to login');
+      console.log('Successfully signed out, redirecting to sign-in');
       
-      // Explicitly navigate to login screen after signing out
+      // Explicitly navigate to sign-in screen after signing out
       setTimeout(() => {
-        router.replace('/login');
+        router.replace('/signin');
       }, 100);
     } catch (error) {
       Alert.alert('Error', 'Failed to sign out');
@@ -52,11 +52,11 @@ const SettingsScreen = () => {
       console.log('Attempting to delete account');
       // Delete account from backend and Firebase Auth
       await deleteAccount();
-      console.log('Account deleted successfully, redirecting to login');
-      
+      console.log('Account deleted successfully, redirecting to sign-in');
+
       setIsDeleteModalVisible(false);
       
-      router.replace('/login');
+      router.replace('/signin');
     } catch (error) {
       Alert.alert('Error', 'Failed to delete account');
       console.error(error);
