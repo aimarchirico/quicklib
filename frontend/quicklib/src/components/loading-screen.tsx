@@ -4,7 +4,7 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 import React from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
-const LoadingScreen = () => {
+export const LoadingScreen = () => {
   const colorScheme = useColorScheme();
   
   return (
@@ -24,4 +24,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoadingScreen;

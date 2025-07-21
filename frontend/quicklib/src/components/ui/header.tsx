@@ -23,7 +23,7 @@ interface HeaderProps {
   rightButtons?: HeaderRightButton[];
 }
 
-const Header: React.FC<HeaderProps> = ({ 
+export const Header: React.FC<HeaderProps> = ({ 
   title, 
   showBackButton = false, 
   onBackPress, 
@@ -145,5 +145,3 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     marginLeft: 8,
   },
 });
-
-export default Header;

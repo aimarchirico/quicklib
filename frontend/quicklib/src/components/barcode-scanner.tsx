@@ -11,7 +11,7 @@ interface BarcodeScannerProps {
   onClose: () => void;
 }
 
-const BarcodeScanner: React.FC<BarcodeScannerProps> = ({ onBarCodeScanned, onClose }) => {
+export const BarcodeScanner: React.FC<BarcodeScannerProps> = ({ onBarCodeScanned, onClose }) => {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [scanning, setScanning] = useState(true);
   const [flashOn, setFlashOn] = useState(false);
@@ -262,4 +262,3 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   },
 });
 
-export default BarcodeScanner;

@@ -21,7 +21,7 @@ interface ButtonProps extends TouchableOpacityProps {
   fullWidth?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({
+export const Button: React.FC<ButtonProps> = ({
   title,
   variant = 'primary',
   loading = false,
@@ -170,4 +170,3 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   },
 });
 
-export default Button;

@@ -1,4 +1,4 @@
-import Button from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { Colors } from '@/styles/colors';
 import { FontFamily } from '@/styles/fonts';
 import { useColorScheme } from '@/hooks/use-color-scheme';
@@ -19,7 +19,7 @@ interface ConfirmationModalProps {
   loading?: boolean;
 }
 
-const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
+export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   visible,
   onClose,
   onConfirm,
@@ -188,5 +188,3 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null, windowWidth: number) =
     fontFamily: FontFamily.regular,
   },
 });
-
-export default ConfirmationModal;
