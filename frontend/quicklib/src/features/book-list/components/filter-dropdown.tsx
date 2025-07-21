@@ -14,7 +14,7 @@ interface FilterDropdownProps {
   onSelectFilter: (collection: BookResponseCollectionEnum | null) => void;
 }
 
-const FilterDropdown: React.FC<FilterDropdownProps> = ({
+export const FilterDropdown: React.FC<FilterDropdownProps> = ({
   visible,
   collectionFilter,
   position,
@@ -189,5 +189,3 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     fontFamily: FontFamily.bold,
   },
 });
-
-export default FilterDropdown;

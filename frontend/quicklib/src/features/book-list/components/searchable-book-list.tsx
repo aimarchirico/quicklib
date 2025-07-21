@@ -4,7 +4,7 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 import { getLanguageDisplayName } from '@/utils/language-utils';
 import React, { useMemo, useState } from 'react';
 import { RefreshControl, StyleSheet, TextInput, View } from 'react-native';
-import BookList from './book-list';
+import { BookList } from './book-list';
 import { FontFamily } from '@/styles/fonts';
 
 interface SearchableBookListProps {
@@ -14,7 +14,7 @@ interface SearchableBookListProps {
   title?: string; 
 }
 
-const SearchableBookList: React.FC<SearchableBookListProps> = ({ books, onRefresh, refreshing }) => {
+export const SearchableBookList: React.FC<SearchableBookListProps> = ({ books, onRefresh, refreshing }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const colorScheme = useColorScheme();
   const styles = useMemo(() => makeStyles(colorScheme), [colorScheme]);
@@ -60,4 +60,3 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   },
 });
 
-export default SearchableBookList;

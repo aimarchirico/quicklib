@@ -10,7 +10,7 @@ interface BookListItemProps {
   book: BookResponse;
 }
 
-const BookListItem: React.FC<BookListItemProps> = ({ book }) => {
+export const BookListItem: React.FC<BookListItemProps> = ({ book }) => {
   const colorScheme = useColorScheme();
   const router = useRouter();
   
@@ -59,5 +59,3 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     color: Colors[colorScheme ?? 'dark'].icon,
   },
 });
-
-export default BookListItem;

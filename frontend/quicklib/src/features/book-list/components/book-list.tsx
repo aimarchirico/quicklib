@@ -1,5 +1,5 @@
 import { BookResponse } from '@/api/generated';
-import BookListItem from '@/features/book-list/components/book-list-item';
+import { BookListItem } from '@/features/book-list/components/book-list-item';
 import { Colors } from '@/styles/colors';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import React, { useMemo } from 'react';
@@ -10,7 +10,7 @@ interface BookListProps {
   refreshControl?: React.ReactElement<RefreshControlProps>;
 }
 
-const BookList: React.FC<BookListProps> = ({ books, refreshControl }) => {
+export const BookList: React.FC<BookListProps> = ({ books, refreshControl }) => {
   const colorScheme = useColorScheme();
   const styles = useMemo(() => makeStyles(colorScheme), [colorScheme]);
   
@@ -36,5 +36,3 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     paddingVertical: 0,
   }
 });
-
-export default BookList;
