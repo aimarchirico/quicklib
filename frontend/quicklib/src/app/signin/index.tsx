@@ -9,7 +9,7 @@ import { SignInButton } from '@/features/google-sign-in/components/sign-in-butto
 import { Colors } from '@/styles/colors';
 import { FontFamily } from '@/styles/fonts';
 
-const LoginScreen = () => {
+const SignInScreen = () => {
   const [user, setUser] = useState<any>(null);
   const [authChecked, setAuthChecked] = useState(false);
   const colorScheme = useColorScheme();
@@ -111,4 +111,4 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default SignInScreen;
