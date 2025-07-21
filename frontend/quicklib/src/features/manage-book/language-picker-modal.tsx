@@ -13,7 +13,7 @@ interface LanguagePickerModalProps {
   onClose: () => void;
 }
 
-const LanguagePickerModal: React.FC<LanguagePickerModalProps> = ({
+export const LanguagePickerModal: React.FC<LanguagePickerModalProps> = ({
   visible,
   selectedLanguage,
   onSelect,
@@ -131,5 +131,3 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     fontFamily: FontFamily.bold,
   },
 });
-
-export default LanguagePickerModal;

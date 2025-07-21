@@ -1,9 +1,9 @@
 import { BookRequest, BookRequestCollectionEnum } from '@/api/generated';
-import BarcodeScanner from '@/components/barcode-scanner';
-import ConfirmationModal from '@/components/ui/confirmation-modal';
-import LanguagePickerModal from '@/features/manage-book/language-picker-modal';
+import { BarcodeScanner } from '@/components/barcode-scanner';
+import { ConfirmationModal } from '@/components/ui/confirmation-modal';
+import { LanguagePickerModal } from '@/features/manage-book/language-picker-modal';
 import { ScreenWrapper } from '@/components/ui/screen-wrapper';
-import Header from '@/components/ui/header';
+import { Header } from '@/components/ui/header';
 import { useBooksContext } from '@/context/books-context';
 import { Colors } from '@/styles/colors';
 import { FontFamily } from '@/styles/fonts';
@@ -33,7 +33,7 @@ interface BookFormProps {
   headerTitle: string;
 }
 
-const BookForm = ({
+export const BookForm = ({
   initialData,
   isEditing,
   onSubmit,
@@ -426,5 +426,3 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     fontSize: 16,
   },
 });
-
-export default BookForm;
