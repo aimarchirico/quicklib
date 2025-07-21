@@ -1,10 +1,10 @@
 import { getAuth, onAuthStateChanged } from '@/config/firebase';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import useGoogleSignIn from '@/features/google-sign-in/hooks/use-google-sign-in';
-import Button from '@/components/ui/button';
+import { useGoogleSignIn } from '@/features/google-sign-in/hooks/use-google-sign-in';
+import { Button } from '@/components/ui/button';
 
-const SignInButton = () => {
+export const SignInButton = () => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<any>(null);
   const { signIn, signOut } = useGoogleSignIn();
@@ -54,5 +54,3 @@ const SignInButton = () => {
       />
   );
 };
-
-export default SignInButton;

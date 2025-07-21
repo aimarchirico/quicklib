@@ -2,10 +2,10 @@ import { useColorScheme } from "@/hooks/use-color-scheme";
 import React, { useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
-import useGoogleSignIn from '@/features/google-sign-in/hooks/use-google-sign-in';
-import Button from '@/components/ui/button';
+import { useGoogleSignIn } from '@/features/google-sign-in/hooks/use-google-sign-in';
+import { Button } from '@/components/ui/button';
 
-const RevokeAccessButton = () => {
+export const RevokeAccessButton = () => {
   const { deleteAccount } = useGoogleSignIn();
   const [loading, setLoading] = useState(false);
   const colorScheme = useColorScheme();
@@ -38,5 +38,3 @@ const makeStyles = (colorScheme: 'light' | 'dark' | null) => StyleSheet.create({
     marginTop: 8,
   },
 });
-
-export default RevokeAccessButton;

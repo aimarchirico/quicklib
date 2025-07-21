@@ -2,7 +2,7 @@ import { userApi } from '@/api/api-client';
 import { GoogleSignInService } from '@/features/google-sign-in/services/google-sign-in-service';
 import { getAuth, signInWithCredential, signOut as firebaseSignOut, GoogleAuthProvider } from '@/config/firebase';
 
-const useGoogleSignIn = () => {
+export const useGoogleSignIn = () => {
 
   const signIn = async () => {
     try {
@@ -71,5 +71,3 @@ const useGoogleSignIn = () => {
   };
 
 }
-
-export default useGoogleSignIn;
