@@ -18,7 +18,7 @@ const SignInScreen = () => {
   useEffect(() => {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (currentUser: any) => {
-      console.log('Login page auth state changed:', currentUser ? 'User logged in' : 'No user');
+      console.log('Sign-in page auth state changed:', currentUser ? 'User logged in' : 'No user');
       setUser(currentUser);
       setAuthChecked(true);
     });
@@ -28,7 +28,7 @@ const SignInScreen = () => {
   useFocusEffect(
     useCallback(() => {    
       const auth = getAuth();
-      console.log('Login page focused, current user:', auth.currentUser ? 'logged in' : 'not logged in');
+      console.log('Sign-in page focused, current user:', auth.currentUser ? 'logged in' : 'not logged in');
       setUser(auth.currentUser);
       setAuthChecked(true);
     }, [])
@@ -45,7 +45,7 @@ const SignInScreen = () => {
     return <Redirect href="./(tabs)" />;
   }
   
-  console.log('No user, showing login screen');
+  console.log('No user, showing sign-in screen');
   return (
     <ScreenWrapper>
       <View style={styles.container}>

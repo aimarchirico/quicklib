@@ -6,7 +6,7 @@ import { Slot, SplashScreen } from 'expo-router';
 import React, { useEffect } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { BooksProvider } from '@/context/books-context';
-import UpdateNotificationModal from '@/components/update-notification-modal';
+import { UpdateNotificationModal } from '@/components/update-notification-modal';
 
 import { View } from 'react-native';
 
