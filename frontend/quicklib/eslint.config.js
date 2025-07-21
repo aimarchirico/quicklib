@@ -1,12 +1,23 @@
 // https://docs.expo.dev/guides/using-eslint/
 const { defineConfig } = require('eslint/config');
 const expoConfig = require('eslint-config-expo/flat');
+const checkFile = require('eslint-plugin-check-file');
 
 module.exports = defineConfig([
   expoConfig,
   {
-    ignores: ['./dist/*', './src/api/*'],
+    files: ['src/**/*.{js,ts,jsx,tsx}'],
+    ignores: ['src/api/**'],
+    plugins: {
+      'check-file': checkFile,
+    },
     rules: {
+      'check-file/filename-naming-convention': [
+        'error',
+        {
+          'src/**/!(_layout).{js,ts,jsx,tsx}': 'KEBAB_CASE',
+        },
+      ],
       'import/no-restricted-paths': [
         'error',
         {
@@ -55,6 +66,15 @@ module.exports = defineConfig([
           ],
         },
       ],
+      // Disallow default export
+      'import/no-default-export': ['error'],
+    },
+  },
+  {
+    // Allow default export in src/app
+    files: ['src/app/**/*.{js,ts,jsx,tsx}'],
+    rules: {
+      'import/no-default-export': 'off',
     },
   },
 ]);
