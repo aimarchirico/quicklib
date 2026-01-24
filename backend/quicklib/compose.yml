@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "8081:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://quicklib-db:5432/quicklib
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
@@ -19,9 +19,9 @@ services:
     restart: always
   quicklib-db:
     container_name: quicklib-db
-    image: postgres:latest
+    image: postgres:17
     ports:
-      - "5432:5432"
+      - "5433:5432"
     environment:
       POSTGRES_DB: quicklib
       POSTGRES_USER: ${DB_USER}
