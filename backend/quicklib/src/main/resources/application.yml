@@ -1,6 +1,14 @@
 server:
   servlet:
     context-path: ${CONTEXT_PATH:/}
+  forward-headers-strategy: framework
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    url: ../v3/api-docs
+  api-docs:
+    path: /v3/api-docs
 
 spring:
   application:
