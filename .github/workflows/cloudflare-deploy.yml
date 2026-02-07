@@ -15,7 +15,7 @@ jobs:
     name: Deploy Frontend
     env:
       GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON }}
-      API_URL: ${{ vars.API_URL }}
+      PROXY_API_URL: ${{ vars.PROXY_API_URL }}
       APP_URL: ${{ vars.APP_URL }}
       RELEASE_URL: https://github.com/${{ github.repository }}/releases.atom
 
@@ -63,6 +63,12 @@ jobs:
           fi
           find dist/_expo/static/js/web/ -type f -print0 | xargs -0 sed -i 's/assets\/node_modules/assets/g'
 
+      - name: Copy Cloudflare Functions to dist
+        run: cp -r ./frontend/quicklib/functions ./frontend/quicklib/dist/functions
+
+      - name: Copy Cloudflare routes config
+        run: cp ./frontend/quicklib/public/_routes.json ./frontend/quicklib/dist/_routes.json
+
       - name: Create GitHub Deployment
         id: deployment
         uses: bobheadxi/deployments@v1
@@ -74,13 +80,11 @@ jobs:
 
       - name: Publish to Cloudflare Pages
         id: cloudflare_deploy
-        uses: cloudflare/pages-action@v1
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: quicklib
-          branch: main
-          directory: ./frontend/quicklib/dist
+        working-directory: ./frontend/quicklib
+        run: npx wrangler pages deploy ./dist --project-name=quicklib --branch=main
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
       - name: Update GitHub Deployment Status (success)
         if: success()
