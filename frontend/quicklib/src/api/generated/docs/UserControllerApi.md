@@ -1,10 +1,10 @@
 # UserControllerApi
 
-All URIs are relative to *http://localhost:8080*
+All URIs are relative to *http://api.chirico.no/quicklib*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**deleteUser**](#deleteuser) | **DELETE** /quicklib/user | Delete the current user|
+|[**deleteUser**](#deleteuser) | **DELETE** /user | Delete the current user|
 
 # **deleteUser**
 > deleteUser()

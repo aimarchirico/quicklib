@@ -8,7 +8,6 @@ configuration.ts
 docs/BookControllerApi.md
 docs/BookRequest.md
 docs/BookResponse.md
-docs/TestAuthControllerApi.md
 docs/UserControllerApi.md
 git_push.sh
 index.ts

@@ -1,14 +1,14 @@
 # BookControllerApi
 
-All URIs are relative to *http://localhost:8080*
+All URIs are relative to *http://api.chirico.no/quicklib*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**addBook**](#addbook) | **POST** /quicklib/books | Add a new book|
-|[**deleteBook**](#deletebook) | **DELETE** /quicklib/books/{id} | Delete a book by its ID|
-|[**getAllBooks**](#getallbooks) | **GET** /quicklib/books | Get all books for the current user|
-|[**getBookById**](#getbookbyid) | **GET** /quicklib/books/{id} | Get a book by its ID|
-|[**updateBook**](#updatebook) | **PUT** /quicklib/books/{id} | Update a book by its ID|
+|[**addBook**](#addbook) | **POST** /books | Add a new book|
+|[**deleteBook**](#deletebook) | **DELETE** /books/{id} | Delete a book by its ID|
+|[**getAllBooks**](#getallbooks) | **GET** /books | Get all books for the current user|
+|[**getBookById**](#getbookbyid) | **GET** /books/{id} | Get a book by its ID|
+|[**updateBook**](#updatebook) | **PUT** /books/{id} | Update a book by its ID|
 
 # **addBook**
 > BookResponse addBook(bookRequest)

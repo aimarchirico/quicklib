@@ -168,7 +168,7 @@ export const BookControllerApiAxiosParamCreator = function (configuration?: Conf
         addBook: async (bookRequest: BookRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'bookRequest' is not null or undefined
             assertParamExists('addBook', 'bookRequest', bookRequest)
-            const localVarPath = `/quicklib/books`;
+            const localVarPath = `/books`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -204,7 +204,7 @@ export const BookControllerApiAxiosParamCreator = function (configuration?: Conf
         deleteBook: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deleteBook', 'id', id)
-            const localVarPath = `/quicklib/books/{id}`
+            const localVarPath = `/books/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -235,7 +235,7 @@ export const BookControllerApiAxiosParamCreator = function (configuration?: Conf
          * @throws {RequiredError}
          */
         getAllBooks: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/quicklib/books`;
+            const localVarPath = `/books`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -268,7 +268,7 @@ export const BookControllerApiAxiosParamCreator = function (configuration?: Conf
         getBookById: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getBookById', 'id', id)
-            const localVarPath = `/quicklib/books/{id}`
+            const localVarPath = `/books/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -305,7 +305,7 @@ export const BookControllerApiAxiosParamCreator = function (configuration?: Conf
             assertParamExists('updateBook', 'id', id)
             // verify required parameter 'bookRequest' is not null or undefined
             assertParamExists('updateBook', 'bookRequest', bookRequest)
-            const localVarPath = `/quicklib/books/{id}`
+            const localVarPath = `/books/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -541,107 +541,6 @@ export class BookControllerApi extends BaseAPI {
 
 
 /**
- * TestAuthControllerApi - axios parameter creator
- * @export
- */
-export const TestAuthControllerApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @summary Test authentication and return authentication details
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        testAuth: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/quicklib/test-auth`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * TestAuthControllerApi - functional programming interface
- * @export
- */
-export const TestAuthControllerApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = TestAuthControllerApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * 
-         * @summary Test authentication and return authentication details
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async testAuth(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: object; }>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.testAuth(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TestAuthControllerApi.testAuth']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-    }
-};
-
-/**
- * TestAuthControllerApi - factory interface
- * @export
- */
-export const TestAuthControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = TestAuthControllerApiFp(configuration)
-    return {
-        /**
-         * 
-         * @summary Test authentication and return authentication details
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        testAuth(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: object; }> {
-            return localVarFp.testAuth(options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * TestAuthControllerApi - object-oriented interface
- * @export
- * @class TestAuthControllerApi
- * @extends {BaseAPI}
- */
-export class TestAuthControllerApi extends BaseAPI {
-    /**
-     * 
-     * @summary Test authentication and return authentication details
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof TestAuthControllerApi
-     */
-    public testAuth(options?: RawAxiosRequestConfig) {
-        return TestAuthControllerApiFp(this.configuration).testAuth(options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-
-/**
  * UserControllerApi - axios parameter creator
  * @export
  */
@@ -654,7 +553,7 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
          * @throws {RequiredError}
          */
         deleteUser: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/quicklib/user`;
+            const localVarPath = `/user`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
