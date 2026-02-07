@@ -1,6 +1,6 @@
 # BookControllerApi
 
-All URIs are relative to *http://api.chirico.no/quicklib*
+All URIs are relative to *https://quicklib.chirico.no/api*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
