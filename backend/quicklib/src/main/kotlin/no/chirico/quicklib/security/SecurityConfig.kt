@@ -27,7 +27,7 @@ class SecurityConfig(
             .cors { } // Enable CORS in Spring Security, but config is provided by bean below
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .authorizeHttpRequests {
-                it.requestMatchers("/quicklib/user/**", "/quicklib/books/**").authenticated()
+                it.requestMatchers("/user/**", "/books/**").authenticated()
                 it.anyRequest().permitAll()
             }
             .addFilterBefore(firebaseAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
