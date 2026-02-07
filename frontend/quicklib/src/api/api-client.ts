@@ -1,6 +1,6 @@
 import { getAuth } from '@/config/firebase';
 import axios from 'axios';
-import { BookControllerApi, Configuration, TestAuthControllerApi, UserControllerApi } from './generated';
+import { BookControllerApi, Configuration, UserControllerApi } from './generated';
 import Constants from 'expo-constants';
 
 // Use config variables for API base path
@@ -67,5 +67,4 @@ const config = new Configuration({
 // Create API instances with our custom axios instance
 export const bookApi = new BookControllerApi(config, basePath, customAxiosInstance);
 export const userApi = new UserControllerApi(config, basePath, customAxiosInstance);
-export const testAuthApi = new TestAuthControllerApi(config, basePath, customAxiosInstance);
 
