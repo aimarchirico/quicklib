@@ -6,7 +6,6 @@ server:
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
-    url: ../v3/api-docs
   api-docs:
     path: /v3/api-docs
 
@@ -21,6 +20,7 @@ jpa:
     hibernate:
       dialect: org.hibernate.dialect.PostgreSQLDialect
 
-# CORS configuration
-frontend:
-  url: ${APP_URL}
+# Client configuration properties
+client:
+  url: ${CLIENT_URL}
+  proxy-secret: ${PROXY_SECRET:}

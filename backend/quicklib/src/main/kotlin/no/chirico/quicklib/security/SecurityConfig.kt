@@ -17,7 +17,7 @@ import no.chirico.quicklib.auth.FirebaseAuthenticationFilter
 class SecurityConfig(
     private val firebaseAuthenticationFilter: FirebaseAuthenticationFilter,
     
-    @Value("\${frontend.url}")
+    @Value("\${client.url}")
     private val allowedOrigin: String
 ) {
     @Bean

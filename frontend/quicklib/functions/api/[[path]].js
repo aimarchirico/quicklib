@@ -1,14 +1,3 @@
-/**
- * Cloudflare Pages Function - API Proxy
- * 
- * Proxies requests from /api/* to the backend API.
- * This allows the frontend to use /api as the base URL while
- * keeping the backend on a separate domain/tunnel.
- * 
- * Environment variables (set in Cloudflare Pages dashboard):
- * - API_URL: The backend URL
- */
-
 export async function onRequest(context) {
   const apiUrl = context.env.API_URL;
   
@@ -25,6 +14,11 @@ export async function onRequest(context) {
   // Clone headers but remove host (will be set by fetch)
   const headers = new Headers(context.request.headers);
   headers.delete('host');
+
+  headers.set('X-Forwarded-Prefix', '/api');
+  headers.set('X-Forwarded-Host', url.host);
+  headers.set('X-Forwarded-Proto', url.protocol.replace(':', ''));
+  headers.set('X-Proxy-Secret', context.env.PROXY_SECRET);
 
   // Forward the request to the backend
   const response = await fetch(backendUrl, {
