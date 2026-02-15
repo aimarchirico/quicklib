@@ -1,4 +1,4 @@
-name: Build and Deploy to Cloudflare Pages
+name: Frontend - Web
 
 on:
   push:
@@ -12,49 +12,45 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    name: Deploy Frontend
-    env:
-      GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON }}
-      PROXY_API_URL: ${{ vars.PROXY_API_URL }}
-      APP_URL: ${{ vars.APP_URL }}
-      RELEASE_URL: https://github.com/${{ github.repository }}/releases.atom
-
+    name: Build and Deploy to Cloudflare Pages
     steps:
-      - name: Setup repo
+      - name: Setup Repo
         uses: actions/checkout@v4
       
-      - name: Setup node
+      - name: Setup Node
         uses: actions/setup-node@v4.0.2
         with:
           node-version: 20.x
           cache: 'npm'
           cache-dependency-path: './frontend/quicklib/package-lock.json'
 
-      - name: Create .npmrc for GitHub Packages
+      - name: Setup .npmrc for GitHub Packages
         run: |
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_GITHUB_TOKEN }}" > ./frontend/quicklib/.npmrc
-          echo "@react-native-google-signin:registry=https://npm.pkg.github.com/" >> ./frontend/quicklib/.npmrc
+          cd frontend/quicklib
+          npm run setup
+        env:
+          GITHUB_NPM_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
       
-      - name: Install dependencies
+      - name: Install Dependencies
         run: npm ci
         working-directory: ./frontend/quicklib
+        env:
+          API_URL: ${{ vars.API_URL }}
 
-      - name: Create .npmrc for GitHub Packages
-        run: |
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_GITHUB_TOKEN }}" > ./frontend/quicklib/.npmrc
-          echo "@react-native-google-signin:registry=https://npm.pkg.github.com/" >> ./frontend/quicklib/.npmrc
-
-      - name: Get version from tag
+      - name: Get Version from Tag
         id: get_version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/frontend-v}" >> $GITHUB_OUTPUT      
+        run: echo "VERSION_NAME=${GITHUB_REF#refs/tags/frontend-v}" >> $GITHUB_OUTPUT      
 
-      - name: Build Expo web app
+      - name: Build Expo Web App
         working-directory: ./frontend/quicklib
         run: npx expo export --platform web
         env:
-          VERSION_NAME: ${{ steps.get_version.outputs.VERSION }}
+          GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
+          API_URL: ${{ vars.API_URL }}
+          RELEASE_URL: https://github.com/${{ github.repository }}/releases
+          VERSION_NAME: ${{ steps.get_version.outputs.VERSION_NAME}}
 
-      - name: Fix Expo node modules asset paths for Cloudflare Pages
+      - name: Fix Node Modules Asset Paths for Cloudflare Pages
         working-directory: ./frontend/quicklib
         run: |
           if [ -d dist/assets/node_modules ]; then
@@ -63,10 +59,10 @@ jobs:
           fi
           find dist/_expo/static/js/web/ -type f -print0 | xargs -0 sed -i 's/assets\/node_modules/assets/g'
 
-      - name: Copy Cloudflare Functions to dist
+      - name: Copy Cloudflare Functions to Dist
         run: cp -r ./frontend/quicklib/functions ./frontend/quicklib/dist/functions
 
-      - name: Copy Cloudflare routes config
+      - name: Copy Cloudflare Routes Config
         run: cp ./frontend/quicklib/public/_routes.json ./frontend/quicklib/dist/_routes.json
 
       - name: Create GitHub Deployment
@@ -86,7 +82,7 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
-      - name: Update GitHub Deployment Status (success)
+      - name: Update GitHub Deployment Status (Success)
         if: success()
         uses: bobheadxi/deployments@v1
         with:
@@ -96,9 +92,9 @@ jobs:
           status: success
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
           ref: ${{ github.ref }}
-          env_url: ${{ env.APP_URL }}
+          env_url: ${{ vars.CLIENT_URL }}
 
-      - name: Update GitHub Deployment Status (failure)
+      - name: Update GitHub Deployment Status (Failure)
         if: failure()
         uses: bobheadxi/deployments@v1
         with:
@@ -108,6 +104,3 @@ jobs:
           status: failure
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
           ref: ${{ github.ref }}
-
-      - name: List dist contents
-        run: ls -R ./frontend/quicklib/dist/assets

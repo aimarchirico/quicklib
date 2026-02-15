@@ -1,4 +1,4 @@
-name: Build and Release Android APK
+name: Frontend - Android
 
 on:
   push:
@@ -10,31 +10,31 @@ permissions:
 
 jobs:
   deploy:
-    name: Deploy Frontend
+    name: Build and Release Android APK
     runs-on: ubuntu-latest
-    env:
-      GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON }}
-      PROXY_API_URL: ${{ vars.PROXY_API_URL }}
-      RELEASE_URL: https://github.com/${{ github.repository }}/releases.atom
     steps:
-      - name: Setup repo
+      - name: Setup Repo
         uses: actions/checkout@v4
       
-      - name: Setup node
+      - name: Setup Node
         uses: actions/setup-node@v4.0.2
         with:
           node-version: 20.x
           cache: 'npm'
           cache-dependency-path: './frontend/quicklib/package-lock.json'
 
-      - name: Create .npmrc for GitHub Packages
+      - name: Setup .npmrc for GitHub Packages
         run: |
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_GITHUB_TOKEN }}" > ./frontend/quicklib/.npmrc
-          echo "@react-native-google-signin:registry=https://npm.pkg.github.com/" >> ./frontend/quicklib/.npmrc
-      
-      - name: Install dependencies
-        run: npm ci
-        working-directory: ./frontend/quicklib
+          cd frontend/quicklib
+          npm run setup
+        env:
+          GITHUB_NPM_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
       - name: Setup Expo
         uses: expo/expo-github-action@v8
@@ -43,15 +43,18 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Get version from tag
+      - name: Get Version from Tag
         id: get_version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/frontend-v}" >> $GITHUB_OUTPUT      
+        run: echo "VERSION_NAME=${GITHUB_REF#refs/tags/frontend-v}" >> $GITHUB_OUTPUT      
 
-      - name: Build Android app
+      - name: Build Android App
         run: eas build --platform android --profile preview --local --output ${{ github.workspace }}/app-release.apk
         working-directory: ./frontend/quicklib
         env:
-          VERSION_NAME: ${{ steps.get_version.outputs.VERSION }}
+          VERSION_NAME: ${{ steps.get_version.outputs.VERSION_NAME}}
+          API_URL: ${{ vars.API_URL }}
+          RELEASE_URL: https://github.com/${{ github.repository }}/releases
+          GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
 
       - name: Create Release
         id: create_release
@@ -60,7 +63,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref_name }}
-          release_name: ${{ steps.get_version.outputs.VERSION }}
+          release_name: ${{ steps.get_version.outputs.VERSION_NAME}}
           draft: false
           prerelease: false
 
@@ -71,5 +74,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ${{ github.workspace }}/app-release.apk
-          asset_name: quicklib-${{ steps.get_version.outputs.VERSION }}.apk
+          asset_name: quicklib-${{ steps.get_version.outputs.VERSION_NAME}}.apk
           asset_content_type: application/vnd.android.package-archive

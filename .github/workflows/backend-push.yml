@@ -1,4 +1,4 @@
-name: Build and Push Docker Image
+name: Backend - Push
 
 on:
   push:
@@ -11,14 +11,14 @@ env:
 
 jobs:
   deploy:
-    name: Deploy Backend
+    name: Build and Push Docker Image
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
 
     steps:
-    - name: Checkout repository
+    - name: Setup Repo
       uses: actions/checkout@v4
 
     - name: Log in to Container Registry
@@ -28,7 +28,7 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Extract metadata and create tags
+    - name: Extract Metadata and Create Tags
       id: meta
       uses: docker/metadata-action@v5
       with:
@@ -40,11 +40,16 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
-    - name: Build and push Docker image
+    - name: Get Version from Tag
+      id: version
+      run: echo "VERSION_NAME=${GITHUB_REF_NAME#backend-v}" >> $GITHUB_OUTPUT
+
+    - name: Build and Push Docker Image
       uses: docker/build-push-action@v5
       with:
         context: ./backend/quicklib
         push: true
-        platforms: linux/amd64,linux/arm/v7,linux/arm64
+        platforms: linux/amd64,linux/arm64
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
+        build-args: VERSION_NAME=${{ steps.version.outputs.VERSION_NAME }}
