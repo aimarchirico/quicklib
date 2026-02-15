@@ -12,7 +12,9 @@
     "web:proxy": "node dev-proxy-server.js",
     "web:dev": "concurrently \"npm run web:proxy\" \"npm run web\"",
     "lint": "expo lint",
-    "api:generate": "rm -rf src/api/generated && npx openapi-generator-cli generate -i http://localhost:8080/quicklib/v3/api-docs -g typescript-axios -o ./src/api/generated"
+    "api:generate": "node ./scripts/generate-api.js",
+    "postinstall": "node ./scripts/postinstall.js",
+    "setup": "node ./scripts/setup-npm.js"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
