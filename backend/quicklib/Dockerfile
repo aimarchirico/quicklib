@@ -1,5 +1,5 @@
 # Build stage - use native architecture for building
-FROM --platform=$BUILDPLATFORM eclipse-temurin:17-jdk AS builder
+FROM --platform=$BUILDPLATFORM eclipse-temurin:21-jdk AS builder
 
 # Set the working directory
 WORKDIR /app
@@ -18,7 +18,10 @@ COPY src/ src/
 RUN ./gradlew clean build -x test
 
 # Runtime stage - use target architecture
-FROM eclipse-temurin:17-jre
+FROM eclipse-temurin:21-jre
+
+ARG VERSION_NAME=unknown
+ENV VERSION_NAME=${VERSION_NAME}
 
 WORKDIR /app
 

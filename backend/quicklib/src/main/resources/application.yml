@@ -6,19 +6,31 @@ server:
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
-  api-docs:
+  api-docs: 
     path: /v3/api-docs
 
 spring:
   application:
     name: quicklib
 
-jpa:
-  hibernate:
-    ddl-auto: update
-  properties:
+  jpa:
     hibernate:
-      dialect: org.hibernate.dialect.PostgreSQLDialect
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+management:
+  info:
+    env:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+info:
+  version: ${VERSION_NAME:unknown}
 
 # Client configuration properties
 client:
