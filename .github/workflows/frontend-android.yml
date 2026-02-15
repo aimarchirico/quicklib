@@ -30,6 +30,12 @@ jobs:
         env:
           GITHUB_NPM_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
 
+      - name: Install Dependencies
+        run: npm ci
+        working-directory: ./frontend/quicklib
+        env:
+          API_URL: ${{ vars.API_URL }}
+
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
