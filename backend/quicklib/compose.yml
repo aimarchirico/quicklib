@@ -12,7 +12,8 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://quicklib-db:5432/quicklib
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
-      APP_URL: ${APP_URL}
+      CLIENT_URL: ${CLIENT_URL}
+      PROXY_SECRET: ${PROXY_SECRET}
     volumes:
       - ./firebase-service-account.json:/app/config/firebase-service-account.json:ro
     depends_on:
