@@ -31,7 +31,7 @@ export default {
       },
       edgeToEdgeEnabled: true,
       package: "no.chirico.quicklib",
-      googleServicesFile: process.env.GOOGLE_SERVICES_JSON || "./src/assets/google-services.json",
+      googleServicesFile: "./src/assets/google-services.json",
     },
     web: {
       bundler: "metro",
@@ -60,7 +60,7 @@ export default {
       eas: {
         projectId: "e38c6fc6-6543-439c-9856-d091310dcd2a"
       },
-      apiUrl: process.env.PROXY_API_URL || process.env.API_URL || "http://localhost:8080",
+      apiUrl: process.env.API_URL,
       releaseUrl: process.env.RELEASE_URL || ""
     }
   }
