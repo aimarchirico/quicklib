@@ -1,6 +1,6 @@
 services:
-  quicklib-backend:
-    container_name: quicklib-backend
+  quicklib-api:
+    container_name: quicklib-api
     image: ghcr.io/aimarchirico/quicklib:latest
     build:
       context: .
